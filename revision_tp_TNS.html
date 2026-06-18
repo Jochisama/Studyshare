@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNS — Révision Complète Examen</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0d0f12;
+    --bg2: #13161c;
+    --bg3: #1a1e27;
+    --card: #1e2330;
+    --border: #2a3040;
+    --accent: #4fc3f7;
+    --accent2: #81c784;
+    --accent3: #ffb74d;
+    --accent4: #f06292;
+    --accent5: #ce93d8;
+    --text: #e8ecf0;
+    --text2: #9ba8b8;
+    --text3: #5c6880;
+    --danger: #ef5350;
+    --success: #66bb6a;
+    --warn: #ffa726;
+    --code-bg: #0a0d10;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent5) 50%, var(--accent4) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .hero p { color: var(--text2); font-size: 15px; }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,15,18,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  nav a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--text3);
+    text-decoration: none;
+    padding: 0.85rem 1rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  section { margin-bottom: 4rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(79,195,247,0.1);
+    border: 1px solid rgba(79,195,247,0.3);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .section-header h2 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .tp-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+  }
+  .tp1 { background: rgba(79,195,247,0.15); color: var(--accent); border: 1px solid rgba(79,195,247,0.3); }
+  .tp2 { background: rgba(129,199,132,0.15); color: var(--accent2); border: 1px solid rgba(129,199,132,0.3); }
+  .tp3 { background: rgba(255,183,77,0.15); color: var(--accent3); border: 1px solid rgba(255,183,77,0.3); }
+  .tp4 { background: rgba(206,147,216,0.15); color: var(--accent5); border: 1px solid rgba(206,147,216,0.3); }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.8rem 0 0.8rem;
+  }
+
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent3);
+    font-family: var(--mono);
+    margin: 1.2rem 0 0.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  p { color: var(--text2); margin-bottom: 0.7rem; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .highlight-box {
+    border-left: 3px solid var(--accent);
+    background: rgba(79,195,247,0.05);
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+  }
+  .highlight-box.warn { border-color: var(--accent3); background: rgba(255,183,77,0.05); }
+  .highlight-box.danger { border-color: var(--danger); background: rgba(239,83,80,0.05); }
+  .highlight-box.success { border-color: var(--accent2); background: rgba(129,199,132,0.05); }
+
+  code, .mono {
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+    overflow-x: auto;
+    margin: 0.8rem 0 1.2rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .st { color: #c3e88d; }
+  .cm { color: var(--text3); font-style: italic; }
+  .nm { color: var(--accent3); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 1rem 0 1.5rem;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    background: var(--bg3);
+    color: var(--text2);
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .formula {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: var(--accent);
+    margin: 2px 0;
+  }
+
+  .formula-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  ul { list-style: none; padding: 0; }
+  ul li {
+    padding: 3px 0 3px 1.2rem;
+    color: var(--text2);
+    position: relative;
+  }
+  ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px;
+  }
+  .tag-blue { background: rgba(79,195,247,0.15); color: var(--accent); }
+  .tag-green { background: rgba(129,199,132,0.15); color: var(--accent2); }
+  .tag-orange { background: rgba(255,183,77,0.15); color: var(--accent3); }
+  .tag-red { background: rgba(239,83,80,0.15); color: var(--danger); }
+
+  .exercise {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .exercise-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .exercise-title {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .exercise-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .difficulty {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .diff-med { background: rgba(255,183,77,0.15); color: var(--accent3); border: 1px solid rgba(255,183,77,0.3); }
+  .diff-hard { background: rgba(239,83,80,0.15); color: var(--danger); border: 1px solid rgba(239,83,80,0.3); }
+  .diff-expert { background: rgba(206,147,216,0.15); color: var(--accent5); border: 1px solid rgba(206,147,216,0.3); }
+
+  .chevron {
+    color: var(--text3);
+    font-size: 18px;
+    transition: transform 0.3s;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  .exercise-body { padding: 1.5rem; display: none; }
+  .exercise-body.open { display: block; }
+
+  .question {
+    counter-increment: q;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--bg3);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent3);
+  }
+
+  .question p { color: var(--text); margin: 0; }
+  .question .hint { color: var(--text3); font-size: 12px; font-family: var(--mono); margin-top: 4px; }
+
+  .answer-block {
+    background: rgba(129,199,132,0.05);
+    border: 1px solid rgba(129,199,132,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.8rem;
+    display: none;
+  }
+  .answer-block.show { display: block; }
+  .answer-block p { color: var(--text); }
+
+  .show-answer-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .show-answer-btn:hover { color: var(--accent2); border-color: var(--accent2); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  .tip {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: rgba(79,195,247,0.05);
+    border: 1px solid rgba(79,195,247,0.15);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+  }
+  .tip-icon { color: var(--accent); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+  .tip p { margin: 0; color: var(--text2); font-size: 13.5px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0.3rem 0;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  .compare-row { display: flex; gap: 4px; margin: 4px 0; }
+  .compare-label { font-family: var(--mono); font-size: 11px; color: var(--text3); min-width: 100px; }
+  .compare-val { font-family: var(--mono); font-size: 11px; color: var(--text); }
+
+  .cheat-sheet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 640px) { .cheat-sheet { grid-template-columns: 1fr; } }
+
+  .cs-item {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+  }
+  .cs-item .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .cs-item .value {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 200;
+  }
+  .scroll-top.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">M1 ST · Traitement Numérique du Signal · 2025/2026</div>
+  <h1>Révision Complète<br>Examen TP TNS</h1>
+  <p>Tout ce qu'il faut maîtriser — TP1 · TP2 · TP3 · TP4 + Questions de cours + Exercices niveau difficile</p>
+</div>
+
+<nav>
+  <a href="#tp1">TP1 — TFD & Filtrage</a>
+  <a href="#tp2">TP2 — RIF</a>
+  <a href="#tp3">TP3 — RII Bilinéaire</a>
+  <a href="#tp4">TP4 — Multicadence</a>
+  <a href="#cours">Questions de Cours</a>
+  <a href="#exos">Exercices d'Examen</a>
+  <a href="#cheat">Cheat Sheet</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== TP1 ===== -->
+<section id="tp1">
+  <div class="section-header">
+    <span class="section-num">TP 01</span>
+    <h2>TFD & Filtrage Numérique de Base <span class="tp-badge tp1">TP1</span></h2>
+  </div>
+
+  <h3>1. Lecture et écoute d'un signal audio</h3>
+  <pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> scipy.signal <span class="kw">as</span> sp
+<span class="kw">import</span> scipy.io.wavfile <span class="kw">as</span> wav
+<span class="kw">import</span> sounddevice <span class="kw">as</span> snd
+
+fe, x = wav.<span class="fn">read</span>(<span class="st">'signal.wav'</span>)   <span class="cm"># fe = fréquence éch., x = échantillons</span>
+snd.<span class="fn">play</span>(x, fe); snd.<span class="fn">wait</span>()</pre>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Paramètres clés</div>
+      <ul>
+        <li><code>fe</code> = fréquence d'échantillonnage (Hz)</li>
+        <li><code>Te = 1/fe</code> = période d'échantillonnage</li>
+        <li><code>N = len(x)</code> = nombre d'échantillons</li>
+        <li><code>t = np.arange(0,N)*Te</code> = vecteur temps</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--accent3)">Types de données audio</div>
+      <ul>
+        <li><code>int16</code> → entre −32768 et +32767</li>
+        <li><code>uint8</code> → entre 0 et 255</li>
+        <li>Toujours convertir en float pour les calculs</li>
+        <li>Reconvertir avant lecture/écriture</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2. TFD (Transformée de Fourier Discrète)</h3>
+
+  <div class="highlight-box">
+    <p style="color:var(--text); margin:0"><strong>Formule fondamentale :</strong> <span class="formula">X[k] = Σ x[n]·e^(-j2πkn/N)</span> pour k = 0, 1, ..., N-1</p>
+  </div>
+
+  <pre><span class="cm"># TFD centrée (spectre bilatéral de -fe/2 à +fe/2)</span>
+NF = N                                      <span class="cm"># nb points fréquentiels</span>
+TFx = np.fft.<span class="fn">fft</span>(x, NF) / N               <span class="cm"># FFT normalisée</span>
+TFx = np.fft.<span class="fn">fftshift</span>(TFx)                <span class="cm"># centrage autour de 0 Hz</span>
+TFxm = np.<span class="fn">abs</span>(TFx)                         <span class="cm"># module (spectre amplitude)</span>
+TFxdB = <span class="nm">20</span> * np.<span class="fn">log10</span>(TFxm + <span class="nm">1e-12</span>)       <span class="cm"># en dB (+ epsilon anti-log(0))</span>
+f = np.<span class="fn">arange</span>(-NF/<span class="nm">2</span>, NF/<span class="nm">2</span>) * fe / NF     <span class="cm"># vecteur fréquence centré</span></pre>
+
+  <div class="tip">
+    <span class="tip-icon">⚠</span>
+    <p><strong>Pourquoi diviser par N ?</strong> Pour normaliser l'amplitude — sans ça, l'amplitude du spectre dépend du nombre de points. Avec /N, un signal sinusoïdal d'amplitude A donne un pic spectral d'amplitude A/2.</p>
+  </div>
+
+  <div class="tip">
+    <span class="tip-icon">⚠</span>
+    <p><strong>Pourquoi +1e-12 dans log10 ?</strong> Pour éviter log10(0) = -∞ qui fait planter le programme. C'est un epsilon mathématique négligeable.</p>
+  </div>
+
+  <h3>3. Filtre numérique — Pôles, Zéros, Réponses</h3>
+
+  <div class="two-col">
+    <div>
+      <h4>Passe-bas du 2ème ordre</h4>
+      <div class="formula-block">H(z) = (z²+2z+1) / (z²−(√2/2)z+1/2)</div>
+      <pre>b = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">1</span>]
+a = [<span class="nm">1</span>, -<span class="nm">0.5</span>*np.sqrt(<span class="nm">2</span>), <span class="nm">0.5</span>]</pre>
+      <p>Zéros en z = −1 (double) → atténuation à f = fe/2</p>
+    </div>
+    <div>
+      <h4>Passe-haut du 2ème ordre</h4>
+      <div class="formula-block">H(z) = (z²−2z+1) / (z²−(√2/2)z+1/2)</div>
+      <pre>b = [<span class="nm">1</span>, -<span class="nm">2</span>, <span class="nm">1</span>]
+a = [<span class="nm">1</span>, -<span class="nm">0.5</span>*np.sqrt(<span class="nm">2</span>), <span class="nm">0.5</span>]</pre>
+      <p>Zéros en z = +1 → atténuation à f = 0 Hz</p>
+    </div>
+  </div>
+
+  <pre><span class="cm"># Réponse impulsionnelle (filtrer une impulsion de Dirac)</span>
+Lh = <span class="nm">50</span>
+Dirac = np.<span class="fn">zeros</span>(Lh); Dirac[<span class="nm">0</span>] = <span class="nm">1</span>
+h = sp.<span class="fn">lfilter</span>(b, a, Dirac)
+
+<span class="cm"># Réponse fréquentielle</span>
+freq, Hf = sp.<span class="fn">freqz</span>(b, a, <span class="nm">256</span>, fs=fe)   <span class="cm"># 256 = résolution</span>
+
+<span class="cm"># Pôles et zéros</span>
+z, p = <span class="fn">zplane</span>(b, a)                       <span class="cm"># de plot_zplane.py</span></pre>
+
+  <h3>4. Filtrage et formatage</h3>
+
+  <pre><span class="cm"># Filtrage</span>
+y = sp.<span class="fn">lfilter</span>(b, a, x)
+
+<span class="cm"># Formatage int16</span>
+n16 = <span class="nm">2</span>**<span class="nm">16</span>
+yf = np.<span class="fn">int16</span>((y - <span class="fn">min</span>(y)) * (n16-<span class="nm">1</span>) / (<span class="fn">max</span>(y) - <span class="fn">min</span>(y)) - n16//<span class="nm">2</span>)
+
+<span class="cm"># Formatage uint8</span>
+n8 = <span class="nm">2</span>**<span class="nm">8</span>
+yf = np.<span class="fn">uint8</span>((y - <span class="fn">min</span>(y)) * (n8-<span class="nm">1</span>) / (<span class="fn">max</span>(y) - <span class="fn">min</span>(y)))</pre>
+
+  <div class="highlight-box warn">
+    <p style="color:var(--text); margin:0"><strong>Observation TP1 :</strong> Le filtre passe-bas donne un son "sourd/grave", le passe-haut donne un son "aigu/métallique". On entend clairement la différence car les bandes fréquentielles éliminées correspondent à des composantes perceptibles.</p>
+  </div>
+</section>
+
+<!-- ===== TP2 ===== -->
+<section id="tp2">
+  <div class="section-header">
+    <span class="section-num">TP 02</span>
+    <h2>Synthèse de Filtres Numériques RIF <span class="tp-badge tp2">TP2</span></h2>
+  </div>
+
+  <h3>1. Théorie — Filtre RIF</h3>
+  <div class="highlight-box">
+    <p style="color:var(--text); margin:0">Un filtre RIF (Réponse Impulsionnelle Finie) a <strong>A(z) = 1</strong> → pas de pôles (sauf à z=0) → <strong>toujours stable</strong>. Sa réponse impulsionnelle est exactement les coefficients b[n].</p>
+  </div>
+
+  <div class="formula-block">H(z) = b₀ + b₁z⁻¹ + ... + bₙz⁻ᴺ</div>
+
+  <h3>2. Gabarit et spécifications</h3>
+
+  <table>
+    <tr>
+      <th>Paramètre</th>
+      <th>Symbole</th>
+      <th>Définition</th>
+    </tr>
+    <tr>
+      <td>Fréquence passante</td>
+      <td><code>fp</code></td>
+      <td>Limite de la bande passante</td>
+    </tr>
+    <tr>
+      <td>Fréquence atténuée</td>
+      <td><code>fa</code></td>
+      <td>Début de la bande atténuée</td>
+    </tr>
+    <tr>
+      <td>Bande de transition</td>
+      <td><code>Δf = fa − fp</code></td>
+      <td>Zone entre passant et atténué</td>
+    </tr>
+    <tr>
+      <td>Fréquence de coupure</td>
+      <td><code>fc = (fa + fp) / 2</code></td>
+      <td>Milieu de la bande de transition</td>
+    </tr>
+    <tr>
+      <td>Atténuation passante</td>
+      <td><code>Ap = −20·log(1−δp)</code></td>
+      <td>Ondulation en bande passante</td>
+    </tr>
+    <tr>
+      <td>Atténuation minimale</td>
+      <td><code>Aa = −20·log(δa)</code></td>
+      <td>Att. en bande atténuée</td>
+    </tr>
+  </table>
+
+  <h3>3. Table des fenêtres — À mémoriser !</h3>
+
+  <table>
+    <tr>
+      <th>Fenêtre</th>
+      <th>Δfw/Fe</th>
+      <th>Aa (dB)</th>
+      <th>Formule N (approx.)</th>
+    </tr>
+    <tr>
+      <td>Rectangulaire</td>
+      <td>1.8/N</td>
+      <td>21 dB</td>
+      <td>N ≈ 1.8·Fe/Δf</td>
+    </tr>
+    <tr>
+      <td>Bartlett</td>
+      <td>2/N</td>
+      <td>25 dB</td>
+      <td>N ≈ 2·Fe/Δf</td>
+    </tr>
+    <tr>
+      <td>Hanning</td>
+      <td>6.2/N</td>
+      <td>44 dB</td>
+      <td>N ≈ 6.2·Fe/Δf</td>
+    </tr>
+    <tr>
+      <td><strong>Hamming</strong></td>
+      <td><strong>6.6/N</strong></td>
+      <td><strong>53 dB</strong></td>
+      <td><strong>N ≈ 6.6·Fe/Δf</strong></td>
+    </tr>
+    <tr>
+      <td>Blackman</td>
+      <td>11/N</td>
+      <td>74 dB</td>
+      <td>N ≈ 11·Fe/Δf</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <span class="tip-icon">💡</span>
+    <p><strong>Règle d'or :</strong> Si Aa > 50 dB → fenêtre de <strong>Hamming</strong>. Si Aa > 74 dB → <strong>Blackman</strong>. L'examen fixe souvent Aa > 50 dB donc Hamming est la réponse.</p>
+  </div>
+
+  <h3>4. Méthode des fenêtres — Les 4 étapes</h3>
+
+  <div class="card">
+    <div style="display:grid; gap:0.8rem;">
+      <div style="display:flex; gap:1rem; align-items:flex-start">
+        <span style="background:rgba(79,195,247,0.2); color:var(--accent); font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:4px; flex-shrink:0">ÉTAPE 1</span>
+        <div>
+          <p style="color:var(--text); margin:0"><strong>Spécifications :</strong> Fixer fp, fa, Aa, Ap, Fe. Calculer fc = (fp+fa)/2, Δf = fa−fp</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start">
+        <span style="background:rgba(79,195,247,0.2); color:var(--accent); font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:4px; flex-shrink:0">ÉTAPE 2</span>
+        <div>
+          <p style="color:var(--text); margin:0"><strong>Choix fenêtre :</strong> Selon Aa requis, consulter la table. Aa > 50 → Hamming</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start">
+        <span style="background:rgba(79,195,247,0.2); color:var(--accent); font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:4px; flex-shrink:0">ÉTAPE 3</span>
+        <div>
+          <p style="color:var(--text); margin:0"><strong>Ordre du filtre :</strong> N ≈ K·Fe/Δf (K depuis table), choisir N impair → Ncoef = N</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:1rem; align-items:flex-start">
+        <span style="background:rgba(79,195,247,0.2); color:var(--accent); font-family:var(--mono); font-size:12px; padding:3px 10px; border-radius:4px; flex-shrink:0">ÉTAPE 4</span>
+        <div>
+          <p style="color:var(--text); margin:0"><strong>Calcul h(n) :</strong> ĥ(n) = h(n − (N−1)/2) · w(n) où h(n) = 2fc·sinc(2fc·n)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5. Code complet TP2</h3>
+
+  <pre><span class="cm"># ==== BRUIT : 3 sinusoïdes ====</span>
+A = <span class="nm">50</span>
+f1, f2, f3 = <span class="nm">1500</span>, <span class="nm">2000</span>, <span class="nm">3000</span>
+bruit = A * (np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*f1*t) + np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*f2*t) + np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*f3*t))
+x_bruite = x.<span class="fn">astype</span>(np.float64) + bruit
+
+<span class="cm"># ==== CONCEPTION FILTRE RIF ====</span>
+fc = <span class="nm">1200</span>                    <span class="cm"># Hz — à adapter selon le signal</span>
+fcn = fc / fe                 <span class="cm"># fréquence normalisée [0, 0.5]</span>
+delta_f = fe / <span class="nm">100</span>           <span class="cm"># bande de transition (Δf ≤ fe/100)</span>
+
+<span class="cm"># Hamming → K = 6.6</span>
+N_ordre = <span class="fn">int</span>(np.<span class="fn">ceil</span>(<span class="nm">6.6</span> * fe / delta_f))
+<span class="kw">if</span> N_ordre % <span class="nm">2</span> == <span class="nm">0</span>: N_ordre += <span class="nm">1</span>   <span class="cm"># N impair obligatoire</span>
+
+b = sp.<span class="fn">firwin</span>(N_ordre, fcn, window=<span class="st">'hamming'</span>, pass_zero=<span class="st">'lowpass'</span>)
+a = [<span class="nm">1</span>]
+
+<span class="cm"># ==== FILTRAGE ====</span>
+y = sp.<span class="fn">lfilter</span>(b, a, x_bruite)</pre>
+
+  <div class="highlight-box success">
+    <p style="color:var(--text); margin:0"><strong>Résultat attendu :</strong> Après filtrage, les pics spectraux à 1500, 2000 et 3000 Hz disparaissent. Le signal filtré est quasi identique au signal original. Le délai de groupe = (N−1)/2 échantillons.</p>
+  </div>
+</section>
+
+<!-- ===== TP3 ===== -->
+<section id="tp3">
+  <div class="section-header">
+    <span class="section-num">TP 03</span>
+    <h2>Synthèse de Filtres RII — Méthode Bilinéaire <span class="tp-badge tp3">TP3</span></h2>
+  </div>
+
+  <h3>1. Filtre RII vs RIF</h3>
+
+  <div class="card-grid">
+    <div class="card" style="border-color:rgba(129,199,132,0.3)">
+      <div class="card-title" style="color:var(--accent2)">Filtre RIF</div>
+      <ul>
+        <li>A(z) = 1, uniquement des zéros</li>
+        <li>Toujours stable (pas de pôles)</li>
+        <li>Phase linéaire possible</li>
+        <li>Ordre élevé (centaines de coeff.)</li>
+        <li>Méthode : fenêtres, firwin()</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:rgba(255,183,77,0.3)">
+      <div class="card-title" style="color:var(--accent3)">Filtre RII</div>
+      <ul>
+        <li>A(z) ≠ 1, pôles et zéros</li>
+        <li>Stable si |pôles| &lt; 1</li>
+        <li>Phase non linéaire en général</li>
+        <li>Ordre faible (ex: ordre 3–8)</li>
+        <li>Méthode : transformation bilinéaire</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2. Transformation bilinéaire</h3>
+
+  <div class="formula-block">p = (2/Te) · (1 − z⁻¹) / (1 + z⁻¹) = 2·Fe · (1 − z⁻¹) / (1 + z⁻¹)</div>
+
+  <p>Cette substitution convertit un filtre analogique H(p) en filtre numérique H(z). Elle préserve la stabilité et les bandes passantes/atténuées.</p>
+
+  <div class="card">
+    <div class="card-title" style="color:var(--accent3)">Pipeline de synthèse RII</div>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px;">
+      <span class="tag tag-blue">Specs numériques fp,fa,Ap,Aa</span>
+      <span style="color:var(--text3)">→</span>
+      <span class="tag tag-orange">Specs analogiques fpa,faa</span>
+      <span style="color:var(--text3)">→</span>
+      <span class="tag tag-green">Filtre prototype</span>
+      <span style="color:var(--text3)">→</span>
+      <span class="tag tag-blue">Dénormalisation</span>
+      <span style="color:var(--text3)">→</span>
+      <span class="tag tag-orange">H(z) par p→z</span>
+    </div>
+    <div class="formula-block" style="margin-top:1rem">
+      fp_analogique = Fe · tan(π·fp/Fe) &nbsp;&nbsp; | &nbsp;&nbsp; fa_analogique = Fe · tan(π·fa/Fe)
+    </div>
+  </div>
+
+  <h3>3. Les 3 filtres — Code Python</h3>
+
+  <pre><span class="cm"># Spécifications communes</span>
+Aa, Ap = <span class="nm">50</span>, <span class="nm">2</span>             <span class="cm"># dB</span>
+delta_f = fe / <span class="nm">50</span>
+fc = <span class="nm">1200</span>                  <span class="cm"># fréquence de coupure (Hz)</span>
+fp = fc - delta_f/<span class="nm">2</span>
+fa = fc + delta_f/<span class="nm">2</span>
+
+<span class="cm"># ---- Butterworth ----</span>
+N_but, fc_but = sp.<span class="fn">buttord</span>(fp, fa, Ap, Aa, analog=<span class="kw">False</span>, fs=fe)
+b_but, a_but = sp.<span class="fn">butter</span>(N_but, fc_but, <span class="st">'low'</span>, <span class="kw">False</span>, <span class="st">'ba'</span>, fe)
+
+<span class="cm"># ---- Chebyshev type 1 ----</span>
+N_c1, fc_c1 = sp.<span class="fn">cheb1ord</span>(fp, fa, Ap, Aa, analog=<span class="kw">False</span>, fs=fe)
+b_c1, a_c1 = sp.<span class="fn">cheby1</span>(N_c1, Ap, fc_c1, <span class="st">'low'</span>, <span class="kw">False</span>, <span class="st">'ba'</span>, fs=fe)
+
+<span class="cm"># ---- Chebyshev type 2 ----</span>
+N_c2, fc_c2 = sp.<span class="fn">cheb2ord</span>(fp, fa, Ap, Aa, analog=<span class="kw">False</span>, fs=fe)
+b_c2, a_c2 = sp.<span class="fn">cheby2</span>(N_c2, Aa, fc_c2, <span class="st">'low'</span>, <span class="kw">False</span>, <span class="st">'ba'</span>, fs=fe)
+
+<span class="cm"># ---- Vérification stabilité ----</span>
+poles = sp.<span class="fn">tf2zpk</span>(b_but, a_but)[<span class="nm">1</span>]
+stable = np.<span class="fn">all</span>(np.<span class="fn">abs</span>(poles) < <span class="nm">1</span>)
+<span class="fn">print</span>(<span class="st">f"Stable: {stable}"</span>)</pre>
+
+  <h3>4. Comparaison des filtres analogiques</h3>
+
+  <table>
+    <tr>
+      <th>Filtre</th>
+      <th>Bande passante</th>
+      <th>Bande atténuée</th>
+      <th>Ordre N typique</th>
+      <th>Avantage</th>
+    </tr>
+    <tr>
+      <td><strong>Butterworth</strong></td>
+      <td>Monotone (pas d'ondulations)</td>
+      <td>Monotone</td>
+      <td>Le plus élevé</td>
+      <td>Réponse la plus plate en BP</td>
+    </tr>
+    <tr>
+      <td><strong>Chebyshev 1</strong></td>
+      <td>Ondulations (ripple) ≤ Ap</td>
+      <td>Monotone</td>
+      <td>Moyen</td>
+      <td>Transition plus raide que Butter.</td>
+    </tr>
+    <tr>
+      <td><strong>Chebyshev 2</strong></td>
+      <td>Monotone</td>
+      <td>Ondulations ≤ Aa</td>
+      <td>Moyen</td>
+      <td>BP propre, atténuation garantie</td>
+    </tr>
+    <tr>
+      <td><strong>Elliptique</strong></td>
+      <td>Ondulations</td>
+      <td>Ondulations</td>
+      <td>Le plus faible</td>
+      <td>Ordre minimal pour specs données</td>
+    </tr>
+  </table>
+
+  <div class="highlight-box success">
+    <p style="color:var(--text); margin:0"><strong>Réponse à "lequel est le plus adéquat ?" :</strong> Le filtre elliptique (Cauer) donne l'ordre le plus faible pour des spécifications données, donc moins de calculs. Si la phase est critique → Butterworth. Pour un compromis ordre/ondulations → Chebyshev 2 (BP propre).</p>
+  </div>
+</section>
+
+<!-- ===== TP4 ===== -->
+<section id="tp4">
+  <div class="section-header">
+    <span class="section-num">TP 04</span>
+    <h2>Filtrage Multicadence <span class="tp-badge tp4">TP4</span></h2>
+  </div>
+
+  <h3>1. Sous-échantillonnage (Décimation)</h3>
+
+  <div class="highlight-box danger">
+    <p style="color:var(--text); margin:0"><strong>Théorème de Shannon :</strong> Pour éviter le repliement (aliasing), il faut que fe ≥ 2·fmax. Si on décime par D, la nouvelle fe = fe/D doit rester ≥ 2·fmax.</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h4>Sans filtrage (direct)</h4>
+      <pre>D = <span class="nm">2</span>
+x_dec = x[::<span class="nm">2</span>]     <span class="cm"># prendre 1 sur 2</span>
+fe_new = fe // D</pre>
+      <p>Produit du repliement spectral (aliasing) si D trop grand.</p>
+    </div>
+    <div>
+      <h4>Avec filtrage (sp.decimate)</h4>
+      <pre>x_dec = sp.<span class="fn">decimate</span>(x, D)</pre>
+      <p>Applique un filtre anti-repliement <strong>Chebyshev ordre 8</strong> (par défaut) avant de sous-échantillonner. Pas d'aliasing.</p>
+    </div>
+  </div>
+
+  <h3>2. Sur-échantillonnage (Interpolation)</h3>
+
+  <div class="two-col">
+    <div>
+      <h4>Insertion de zéros (sans filtre)</h4>
+      <pre>D = <span class="nm">4</span>
+x_up = np.<span class="fn">zeros</span>(D*<span class="fn">len</span>(x))
+x_up[::<span class="nm">4</span>] = x
+fe_up = fe * D</pre>
+      <p>Crée des images spectrales. Le signal a l'air correct mais le spectre contient des copies non désirées.</p>
+    </div>
+    <div>
+      <h4>Avec filtrage (sp.resample)</h4>
+      <pre>x_up = sp.<span class="fn">resample</span>(x, D*<span class="fn">len</span>(x))</pre>
+      <p>Interpolation propre par transformée de Fourier + filtrage passe-bas. Élimine les images spectrales.</p>
+    </div>
+  </div>
+
+  <h3>3. Changement de fréquence rationnel (L/M)</h3>
+
+  <p>Pour passer de fe à 1.5·fe (facteur 3/2) :</p>
+
+  <pre><span class="cm"># Solution 1 : Sur-échantillonner par 3, sous-échantillonner par 2</span>
+x_rat1 = sp.<span class="fn">resample</span>(x, <span class="nm">3</span>*<span class="fn">len</span>(x))[::<span class="nm">2</span>]
+
+<span class="cm"># Solution 2 : resample direct (meilleure — conserve les valeurs originales)</span>
+x_rat2 = sp.<span class="fn">resample</span>(x, <span class="fn">int</span>(<span class="fn">len</span>(x) * <span class="nm">1.5</span>))</pre>
+
+  <h3>4. Résumé des effets à l'écoute</h3>
+
+  <table>
+    <tr><th>Action</th><th>fe utilisée pour lecture</th><th>Effet entendu</th></tr>
+    <tr>
+      <td>Décimation D=2, lecture à fe</td>
+      <td>fe original (trop rapide)</td>
+      <td>Son accéléré, grave coupé</td>
+    </tr>
+    <tr>
+      <td>Décimation D=2, lecture à fe/2</td>
+      <td>fe/2 (correct)</td>
+      <td>Durée normale, aliasing possible si sans filtre</td>
+    </tr>
+    <tr>
+      <td>Sur-éch. D=4, insertion zéros, lecture à 4·fe</td>
+      <td>4·fe</td>
+      <td>Son correct mais bruit d'images spectrales</td>
+    </tr>
+    <tr>
+      <td>Sur-éch. D=4, sp.resample, lecture à 4·fe</td>
+      <td>4·fe</td>
+      <td>Son propre, qualité préservée</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <span class="tip-icon">💡</span>
+    <p><strong>Jusqu'à quel D peut-on décimer sans déformation ?</strong> Tant que fe_new = fe/D ≥ 2·fmax du signal. Si fmax ≈ 4000 Hz et fe = 22050 Hz → D_max = floor(22050 / (2×4000)) ≈ 2. Au-delà, repliement audible.</p>
+  </div>
+</section>
+
+<!-- ===== COURS ===== -->
+<section id="cours">
+  <div class="section-header">
+    <span class="section-num">COURS</span>
+    <h2>Questions de Cours Essentielles</h2>
+  </div>
+
+  <h3>Théorème de Shannon-Nyquist</h3>
+  <div class="card">
+    <p style="color:var(--text)"><strong>Énoncé :</strong> Pour reconstruire parfaitement un signal analogique depuis ses échantillons, la fréquence d'échantillonnage doit satisfaire :</p>
+    <div class="formula-block">fe ≥ 2 · fmax</div>
+    <p>Si cette condition n'est pas respectée → <strong>repliement spectral (aliasing)</strong> : des fréquences hautes semblent être des fréquences basses, le signal est irrémédiablement corrompu.</p>
+  </div>
+
+  <h3>Stabilité d'un filtre numérique</h3>
+  <div class="card">
+    <p style="color:var(--text)">Un filtre RII est stable si et seulement si <strong>tous ses pôles sont à l'intérieur du cercle unité</strong> :</p>
+    <div class="formula-block">|pᵢ| &lt; 1  pour tout pôle pᵢ</div>
+    <p>En Python : <code>np.all(np.abs(sp.tf2zpk(b,a)[1]) &lt; 1)</code></p>
+    <p>Un filtre RIF (A(z)=1) est toujours stable car il n'a pas de pôles.</p>
+  </div>
+
+  <h3>Réponse impulsionnelle vs fréquentielle</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">Réponse impulsionnelle h(n)</div>
+      <p>Réponse du filtre à une impulsion de Dirac δ(n). C'est la <strong>transformée en z inverse</strong> de H(z). Pour un filtre RIF, h(n) = b[n] directement.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--accent2)">Réponse fréquentielle H(f)</div>
+      <p>Gain du filtre à chaque fréquence. Obtenu en évaluant H(z) sur le cercle unité (z = e^(j2πf/fe)). En Python : <code>sp.freqz(b, a)</code></p>
+    </div>
+  </div>
+
+  <h3>Diagramme pôles-zéros</h3>
+  <div class="card">
+    <ul>
+      <li>Zéro en z₀ → H(z₀) = 0 → atténuation totale à la fréquence f₀ = Fe/(2π)·angle(z₀)</li>
+      <li>Zéro en z = +1 (angle 0) → atténuation à f = 0 Hz (passe-haut)</li>
+      <li>Zéro en z = −1 (angle π) → atténuation à f = fe/2 (passe-bas)</li>
+      <li>Pôle proche du cercle unité → pic de résonance à la fréquence correspondante</li>
+      <li>Cercle unité : stabilité (pôles intérieurs = stable)</li>
+    </ul>
+  </div>
+
+  <h3>Délai de groupe d'un filtre RIF</h3>
+  <div class="card">
+    <p>Un filtre RIF à phase linéaire introduit un délai constant de <span class="formula">(N−1)/2</span> échantillons. C'est pourquoi le signal filtré est décalé dans le temps.</p>
+  </div>
+
+  <h3>Aliasing / Repliement spectral</h3>
+  <div class="card">
+    <p>Si fe &lt; 2·fmax, les fréquences au-dessus de fe/2 se "replient" et apparaissent à des fréquences plus basses : faliasée = |f − k·fe| pour l'entier k le plus proche. Ce phénomène est <strong>irréversible</strong>. Solution : filtrer passe-bas AVANT de sous-échantillonner (filtre anti-repliement).</p>
+  </div>
+
+  <h3>Normalisation des fréquences</h3>
+  <div class="card">
+    <div class="formula-block">fcn = fc / fe  ∈ [0, 0.5]   (normalisée par rapport à fe)</div>
+    <p>Les fonctions Python comme <code>firwin()</code> attendent des fréquences normalisées entre 0 et 0.5 (ou 0 et 1 selon la convention). Toujours vérifier la documentation.</p>
+  </div>
+</section>
+
+<!-- ===== EXERCICES ===== -->
+<section id="exos">
+  <div class="section-header">
+    <span class="section-num">EXOS</span>
+    <h2>Exercices d'Examen — Niveau Difficile</h2>
+  </div>
+
+  <p style="color:var(--text2); margin-bottom:1.5rem">Cliquer sur chaque exercice pour voir les questions. Cliquer sur "Voir corrigé" pour la réponse.</p>
+
+  <!-- EX 1 -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 1 — TFD : Analyse spectrale d'un signal composite</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">TP1 · Analyse fréquentielle</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-hard">DIFFICILE</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <div class="question">
+        <p><strong>Q1.</strong> On dispose d'un signal x(t) = 3·cos(2π·500t) + 1.5·sin(2π·1200t) + 2·cos(2π·3000t) échantillonné à fe = 8000 Hz. On calcule sa TFD sur N = 8000 points. À quels indices k apparaissent les composantes fréquentielles dans le spectre (avant fftshift) ?</p>
+        <div class="hint">Rappel : k = f·N/fe. Pour la fréquence négative : k = N − k_positif</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Pour 500 Hz :</strong> k = 500 × 8000 / 8000 = <strong>500</strong> et k = 8000 − 500 = <strong>7500</strong></p>
+          <p><strong>Pour 1200 Hz :</strong> k = 1200 × 8000 / 8000 = <strong>1200</strong> et k = <strong>6800</strong></p>
+          <p><strong>Pour 3000 Hz :</strong> k = 3000 × 8000 / 8000 = <strong>3000</strong> et k = <strong>5000</strong></p>
+          <p>Après fftshift, ces indices se déplacent : k_centré = k − N/2. Les amplitudes spectrales sont A/2 (le signal étant réel, chaque fréquence apparaît deux fois).</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q2.</strong> Écrire le code Python qui génère ce signal, calcule sa TFD, et trace son spectre d'amplitude en dB entre −fe/2 et +fe/2. Pourquoi doit-on ajouter 1e-12 avant le log ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <pre style="margin:0"><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+fe, N = <span class="nm">8000</span>, <span class="nm">8000</span>
+t = np.<span class="fn">arange</span>(N) / fe
+x = (<span class="nm">3</span>*np.<span class="fn">cos</span>(<span class="nm">2</span>*np.pi*<span class="nm">500</span>*t) + <span class="nm">1.5</span>*np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*<span class="nm">1200</span>*t)
+     + <span class="nm">2</span>*np.<span class="fn">cos</span>(<span class="nm">2</span>*np.pi*<span class="nm">3000</span>*t))
+
+TFx = np.fft.<span class="fn">fftshift</span>(np.fft.<span class="fn">fft</span>(x, N) / N)
+TFxdB = <span class="nm">20</span>*np.<span class="fn">log10</span>(np.<span class="fn">abs</span>(TFx) + <span class="nm">1e-12</span>)
+f = np.<span class="fn">arange</span>(-N/<span class="nm">2</span>, N/<span class="nm">2</span>) * fe / N
+
+plt.<span class="fn">plot</span>(f, TFxdB); plt.<span class="fn">grid</span>(); plt.<span class="fn">show</span>()</pre>
+          <p style="margin-top:8px"><strong>+1e-12 :</strong> Sans ça, là où TFx = 0, on calcule log10(0) = −∞, ce qui provoque une erreur ou des valeurs invalides dans le tracé.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q3.</strong> Si on augmente N (nombre de points FFT) sans changer le signal, qu'arrive-t-il à la résolution fréquentielle ? Est-ce que ça améliore la précision des amplitudes ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Résolution fréquentielle :</strong> Δf = fe/N. Augmenter N améliore la résolution (Δf diminue) → les pics sont plus fins.</p>
+          <p><strong>Amplitudes :</strong> Si on calcule N plus grand que la longueur du signal (zero-padding), la résolution augmente mais pas la précision réelle — on interpole le spectre existant. Si N = longueur réelle du signal, plus de points → meilleure précision. La normalisation par N garde les amplitudes cohérentes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 2 — Conception d'un filtre RIF passe-bas</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">TP2 · Méthode des fenêtres</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-hard">DIFFICILE</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <p style="color:var(--text2); margin-bottom:1rem">Données : fe = 16 000 Hz, fp = 2000 Hz, fa = 2400 Hz, Aa &gt; 50 dB</p>
+      <div class="question">
+        <p><strong>Q1.</strong> Déterminer la fenêtre appropriée, la fréquence de coupure fc, la bande de transition Δf, et l'ordre du filtre N.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Fenêtre :</strong> Aa &gt; 50 dB → table : Hamming (Aa = 53 dB ≥ 50 dB) ✓</p>
+          <p><strong>Δf :</strong> fa − fp = 2400 − 2000 = 400 Hz</p>
+          <p><strong>fc :</strong> (fp + fa)/2 = (2000 + 2400)/2 = 2200 Hz</p>
+          <p><strong>N :</strong> K × Fe/Δf = 6.6 × 16000/400 = 264 → arrondir au suivant impair = <strong>265</strong></p>
+          <p><strong>fcn :</strong> fc/fe = 2200/16000 = 0.1375</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q2.</strong> Écrire le code Python pour concevoir ce filtre et filtrer un signal bruité x_b.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <pre style="margin:0">fe = <span class="nm">16000</span>
+fp, fa, Aa = <span class="nm">2000</span>, <span class="nm">2400</span>, <span class="nm">50</span>
+fc = (fp + fa) / <span class="nm">2</span>      <span class="cm"># 2200 Hz</span>
+fcn = fc / fe           <span class="cm"># 0.1375</span>
+delta_f = fa - fp       <span class="cm"># 400 Hz</span>
+N = <span class="fn">int</span>(np.<span class="fn">ceil</span>(<span class="nm">6.6</span> * fe / delta_f))
+<span class="kw">if</span> N % <span class="nm">2</span> == <span class="nm">0</span>: N += <span class="nm">1</span>   <span class="cm"># N = 265</span>
+
+b = sp.<span class="fn">firwin</span>(N, fcn, window=<span class="st">'hamming'</span>, pass_zero=<span class="st">'lowpass'</span>)
+a = [<span class="nm">1</span>]
+y = sp.<span class="fn">lfilter</span>(b, a, x_b)</pre>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q3.</strong> Quel est le délai introduit par ce filtre ? Comment le compenser dans le tracé ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Délai :</strong> τ = (N−1)/2 = (265−1)/2 = 132 échantillons = 132/16000 ≈ 8.25 ms</p>
+          <p><strong>Compensation :</strong> Pour aligner les signaux dans le tracé : <code>y_aligne = y[(N-1)//2:]</code> puis tronquer x_b au même nombre de points.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q4.</strong> Si on veut Aa &gt; 70 dB avec la même bande de transition, quelle fenêtre choisir ? Quel est le nouvel ordre ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Fenêtre :</strong> Aa &gt; 70 dB → Blackman (Aa = 74 dB) ✓</p>
+          <p><strong>N :</strong> K = 11 → N = ceil(11 × 16000/400) = ceil(440) = 441 (déjà impair)</p>
+          <p>L'ordre est presque <strong>doublé</strong> par rapport à Hamming (441 vs 265), ce qui signifie plus de calculs et plus de mémoire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 3 — Filtre RII par transformation bilinéaire</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">TP3 · Butterworth, Chebyshev, stabilité</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-expert">EXPERT</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <p style="color:var(--text2); margin-bottom:1rem">Données : fe = 44100 Hz, Aa = 60 dB, Ap = 1 dB, Δf ≤ fe/50</p>
+      <div class="question">
+        <p><strong>Q1.</strong> Calculer la bande de transition maximale Δf et définir fp et fa pour une fréquence de coupure fc = 3000 Hz.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Δf_max :</strong> fe/50 = 44100/50 = 882 Hz</p>
+          <p>On choisit Δf = 882 Hz (valeur limite)</p>
+          <p><strong>fp :</strong> fc − Δf/2 = 3000 − 441 = <strong>2559 Hz</strong></p>
+          <p><strong>fa :</strong> fc + Δf/2 = 3000 + 441 = <strong>3441 Hz</strong></p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q2.</strong> Comparer les ordres N obtenus avec Butterworth, Chebyshev 1 et Chebyshev 2 pour ces spécifications. Quel filtre vous choisissez et pourquoi ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <pre style="margin:0">fe = <span class="nm">44100</span>; Aa, Ap = <span class="nm">60</span>, <span class="nm">1</span>
+fp, fa = <span class="nm">2559</span>, <span class="nm">3441</span>
+
+N_but, _ = sp.<span class="fn">buttord</span>(fp, fa, Ap, Aa, fs=fe)    <span class="cm"># typiquement ≈ 10–14</span>
+N_c1,  _ = sp.<span class="fn">cheb1ord</span>(fp, fa, Ap, Aa, fs=fe)   <span class="cm"># typiquement ≈ 6–9</span>
+N_c2,  _ = sp.<span class="fn">cheb2ord</span>(fp, fa, Ap, Aa, fs=fe)   <span class="cm"># typiquement ≈ 6–9</span></pre>
+          <p style="margin-top:8px"><strong>Choix :</strong> Chebyshev 2 si la bande passante doit être lisse (pas d'ondulations). Butterworth si la phase est importante. Pour un usage audio, Chebyshev 2 est souvent le meilleur compromis.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q3.</strong> Comment vérifier la stabilité d'un filtre RII numériquement ? Donner le code Python et la condition mathématique précise.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Condition :</strong> Tous les pôles pᵢ doivent satisfaire |pᵢ| &lt; 1</p>
+          <pre style="margin:0">_, poles, _ = sp.<span class="fn">tf2zpk</span>(b, a)
+stable = np.<span class="fn">all</span>(np.<span class="fn">abs</span>(poles) < <span class="nm">1</span>)
+<span class="fn">print</span>(<span class="st">f"Pôles: {poles}"</span>)
+<span class="fn">print</span>(<span class="st">f"Modules: {np.abs(poles)}"</span>)
+<span class="fn">print</span>(<span class="st">f"Stable: {stable}"</span>)</pre>
+          <p style="margin-top:8px">Les fonctions scipy (butter, cheby1, cheby2) garantissent des filtres stables par construction.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q4 (piège d'examen).</strong> Quelle est la différence fondamentale entre <code>sp.freqz(b,a)</code> et <code>sp.freqz(b,a,fs=fe)</code> ? Quel axe des fréquences obtient-on dans chaque cas ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Sans fs :</strong> Les fréquences sont en <em>radians/échantillon</em>, de 0 à π. L'axe renvoie ω ∈ [0, π].</p>
+          <p><strong>Avec fs=fe :</strong> Les fréquences sont en <em>Hz</em>, de 0 à fe/2. L'axe renvoie f ∈ [0, fe/2].</p>
+          <p>Pour un tracé en Hz correct : toujours passer <code>fs=fe</code>. Sinon les labels de l'axe sont faux.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 4 — Multicadence : décimation et interpolation</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">TP4 · Shannon, Aliasing, Resample</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-expert">EXPERT</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <div class="question">
+        <p><strong>Q1.</strong> Un signal x(t) = cos(2π·1000t) + cos(2π·3500t) est échantillonné à fe = 8000 Hz. On le décime par D = 3. À quelles fréquences apparaissent les composantes dans le signal décimé (sans filtre) ?</p>
+        <div class="hint">Rappel : faliasée = |f − round(f/fe_new) × fe_new| avec fe_new = fe/D</div>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>fe_new = 8000/3 ≈ 2667 Hz</strong></p>
+          <p><strong>Composante à 1000 Hz :</strong> 1000 &lt; 2667/2 = 1333 Hz → pas de repliement → reste à <strong>1000 Hz</strong></p>
+          <p><strong>Composante à 3500 Hz :</strong> 3500 &gt; 1333 Hz → repliement ! faliasée = |3500 − round(3500/2667) × 2667| = |3500 − 1 × 2667| = <strong>833 Hz</strong></p>
+          <p>La composante à 3500 Hz apparaît à 833 Hz → elle se superpose au signal utile → impossible à séparer !</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q2.</strong> Que fait exactement <code>sp.decimate(x, D)</code> ? Quel filtre utilise-t-il ? Quelle est sa fréquence de coupure ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Opération :</strong> <code>sp.decimate(x, D)</code> effectue deux opérations en séquence :</p>
+          <p>1. Applique un filtre anti-repliement passe-bas (filtre de Chebyshev de type 1, ordre 8 par défaut)</p>
+          <p>2. Sous-échantillonne par D (garde 1 échantillon sur D)</p>
+          <p><strong>Fréquence de coupure du filtre :</strong> fc = fe/(2·D) — exactement à la moitié de la nouvelle fréquence de Nyquist.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q3.</strong> On veut passer d'une fréquence fe = 44100 Hz à fe_new = 32000 Hz (facteur rationnel). Proposer deux méthodes et déterminer les facteurs L et M.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Facteur :</strong> fe_new/fe = 32000/44100 = 320/441</p>
+          <p><strong>Méthode 1 (sur-éch. puis décim.) :</strong> Sur-échantillonner par L=320, puis décimer par M=441.</p>
+          <pre style="margin:0">x_up = sp.<span class="fn">resample</span>(x, <span class="nm">320</span>*<span class="fn">len</span>(x))
+x_new = x_up[::<span class="nm">441</span>]</pre>
+          <p><strong>Méthode 2 (directe) :</strong></p>
+          <pre style="margin:0">x_new = sp.<span class="fn">resample</span>(x, <span class="fn">int</span>(<span class="fn">len</span>(x)*<span class="nm">32000</span>/<span class="nm">44100</span>))</pre>
+          <p>La méthode directe est meilleure (une seule opération, meilleure qualité).</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q4 (piège d'examen).</strong> Si on sur-échantillonne par 4 en insérant des zéros puis on lit à 4·fe, pourquoi entend-on quand même le son correct malgré les zéros insérés ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p>L'insertion de zéros ne change pas le <strong>contenu fréquentiel fondamental</strong> du signal — les zéros ne sont pas du "silence" mais des interpolations nulles entre les échantillons. Le système de lecture interprète tous les échantillons selon fe_new = 4·fe, ce qui revient à "étaler" le signal dans le temps (durée×4). Le son original est contenu dans la bande [0, fe/2], qui est toujours présente dans [0, 4·fe/2] = [0, 2·fe]. Cependant, des images spectrales apparaissent aux multiples de fe, ce qui crée un son "métallique". Le filtre passe-bas (sp.resample) élimine ces images.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 5 — QCM -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 5 — Questions de cours difficiles</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">Théorie · Tous TPs</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-expert">EXPERT</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <div class="question">
+        <p><strong>Q1.</strong> Expliquer pourquoi fftshift est nécessaire et ce qu'il fait exactement sur le résultat de np.fft.fft().</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><code>np.fft.fft()</code> retourne les fréquences dans l'ordre : [0, Δf, 2Δf, ..., fe/2, −fe/2+Δf, ..., −Δf]. Les fréquences négatives sont dans la deuxième moitié du tableau.</p>
+          <p><code>fftshift</code> réarrange le tableau pour obtenir : [−fe/2, ..., −Δf, 0, Δf, ..., fe/2]. Cela permet de tracer le spectre bilatéral centré autour de 0 Hz, ce qui est la représentation physiquement intuitive.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q2.</strong> Un filtre RIF a les coefficients b = [1, 0, −1]. Déterminer sa réponse en fréquence H(f) analytiquement. Quel type de filtre est-ce ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p>H(z) = 1 + 0·z⁻¹ − 1·z⁻² = 1 − z⁻²</p>
+          <p>En z = e^(j2πf/fe) : H(f) = 1 − e^(−j4πf/fe)</p>
+          <p>|H(f)| = |1 − e^(−j4πf/fe)| = 2|sin(2πf/fe)|</p>
+          <p>À f = 0 : |H(0)| = 0 → atténuation totale. À f = fe/4 : |H| = 2 → gain max. → C'est un <strong>filtre passe-haut différentiateur</strong> (type dérivateur numérique).</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q3.</strong> Quelle est la différence entre sp.lfilter(b,a,x) et sp.filtfilt(b,a,x) ? Quel est l'avantage/inconvénient de chacun ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>lfilter :</strong> Filtrage causal (dans le sens chronologique). Introduit un délai de groupe = (N−1)/2. Signal filtré décalé par rapport à l'original.</p>
+          <p><strong>filtfilt :</strong> Filtrage avant ET arrière (aller-retour). Délai nul (phase nulle). Atténuation doublée (ordre effectif doublé). Ne peut pas être utilisé en temps réel car il nécessite le signal complet.</p>
+          <p><strong>Pour l'examen TNS :</strong> On utilise lfilter (traitement hors-ligne des TPs). filtfilt serait utilisé pour des applications où la phase importe.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q4.</strong> Lors du formatage d'un signal flottant y en uint8, expliquer ligne par ligne la formule : <code>yf = np.uint8((y-min(y))*(255)/(max(y)-min(y)))</code></p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>y − min(y) :</strong> Décale le signal pour que sa valeur minimale soit 0 (signal positif)</p>
+          <p><strong>/ (max(y) − min(y)) :</strong> Normalise sur [0, 1]</p>
+          <p><strong>× 255 :</strong> Met à l'échelle sur [0, 255] (255 niveaux d'un uint8)</p>
+          <p><strong>np.uint8(...) :</strong> Convertit en entiers non signés 8 bits (troncature vers le bas)</p>
+          <p>Pour int16, on soustrait 2¹⁵ = 32768 après la mise à l'échelle pour centrer le signal autour de 0.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Q5 (très difficile).</strong> Un signal audio de 3 secondes échantillonné à 22050 Hz est filtré par un filtre RIF d'ordre 660. Quel est le retard introduit ? Le signal filtré a-t-il la même durée ? Comment obtenir la même durée sur les deux signaux pour comparer ?</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Retard :</strong> τ = (N−1)/2 = (661−1)/2 = 330 échantillons = 330/22050 ≈ <strong>15 ms</strong></p>
+          <p><strong>Durée du signal filtré :</strong> sp.lfilter retourne exactement N_x échantillons (même longueur que l'entrée), mais les 330 derniers échantillons correspondent à des "effets de bord" (extinction du filtre).</p>
+          <p><strong>Alignement :</strong></p>
+          <pre style="margin:0">y_aligne = y[<span class="nm">330</span>:]          <span class="cm"># décaler y de 330 samples</span>
+x_court = x[:len(y_aligne)] <span class="cm"># tronquer x à la même longueur</span></pre>
+          <p>Ainsi x_court et y_aligne ont la même durée et sont temporellement alignés.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 — Synthèse -->
+  <div class="exercise">
+    <div class="exercise-header" onclick="toggleEx(this)">
+      <div>
+        <div class="exercise-title">Exercice 6 — Problème de synthèse complet (type examen final)</div>
+        <div style="font-size:12px; color:var(--text3); margin-top:4px; font-family:var(--mono)">Tous TPs · Durée estimée : 45 min</div>
+      </div>
+      <div class="exercise-meta">
+        <span class="difficulty diff-expert">EXPERT</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="exercise-body">
+      <div class="highlight-box warn">
+        <p style="color:var(--text); margin:0"><strong>Énoncé :</strong> On a un signal vocal échantillonné à fe = 44100 Hz. Des interférences à 5000, 8000 et 12000 Hz d'amplitude 100V corrompent le signal. On veut concevoir un système complet de débruitage.</p>
+      </div>
+      <div class="question">
+        <p><strong>Partie A.</strong> Générer le signal bruité et tracer son spectre. Indiquer à quels indices k les bruits apparaissent dans le spectre unilatéral (0 à fe/2).</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <pre style="margin:0">t = np.<span class="fn">arange</span>(<span class="fn">len</span>(x)) / fe
+bruit = <span class="nm">100</span> * (np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*<span class="nm">5000</span>*t) +
+               np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*<span class="nm">8000</span>*t) +
+               np.<span class="fn">sin</span>(<span class="nm">2</span>*np.pi*<span class="nm">12000</span>*t))
+x_b = x.<span class="fn">astype</span>(float) + bruit</pre>
+          <p>Indices k dans le spectre (N points) : k = f·N/fe</p>
+          <p>5000 Hz → k = 5000·N/44100 ≈ 0.113·N</p>
+          <p>8000 Hz → k ≈ 0.181·N ; 12000 Hz → k ≈ 0.272·N</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Partie B.</strong> On veut utiliser un filtre RIF passe-bas avec fc = 4000 Hz, Δf = 500 Hz, Aa &gt; 50 dB. Calculer l'ordre et écrire le code de conception.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p>Aa &gt; 50 dB → <strong>Hamming</strong> (53 dB ≥ 50 dB)</p>
+          <p>N = ceil(6.6 × 44100 / 500) = ceil(583.2) = 584 → impair : <strong>N = 585</strong></p>
+          <p>fcn = 4000/44100 = <strong>0.0907</strong></p>
+          <pre style="margin:0">b = sp.<span class="fn">firwin</span>(<span class="nm">585</span>, <span class="nm">0.0907</span>, window=<span class="st">'hamming'</span>, pass_zero=<span class="st">'lowpass'</span>)
+y_rif = sp.<span class="fn">lfilter</span>(b, [<span class="nm">1</span>], x_b)</pre>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Partie C.</strong> On décide d'utiliser un filtre RII Butterworth à la place. Avec Ap = 1 dB, Aa = 55 dB, fp = 3750 Hz, fa = 4250 Hz. Écrire le code et comparer visuellement les deux solutions.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <pre style="margin:0">Ap, Aa = <span class="nm">1</span>, <span class="nm">55</span>
+fp, fa = <span class="nm">3750</span>, <span class="nm">4250</span>
+N_b, fc_b = sp.<span class="fn">buttord</span>(fp, fa, Ap, Aa, fs=fe)
+b_b, a_b = sp.<span class="fn">butter</span>(N_b, fc_b, <span class="st">'low'</span>, fs=fe)
+y_rii = sp.<span class="fn">lfilter</span>(b_b, a_b, x_b)
+
+<span class="fn">print</span>(<span class="st">f"Ordre Butterworth: {N_b}"</span>)
+<span class="fn">print</span>(<span class="st">f"Ordre RIF Hamming: 585"</span>)</pre>
+          <p><strong>Comparaison attendue :</strong> Butterworth N ≈ 8 (vs 585 pour RIF !). Mais le filtre RIF a une phase linéaire (délai constant), le RII a une phase non-linéaire. Sur un signal audio, le RII peut introduire une distorsion de phase perceptible.</p>
+        </div>
+      </div>
+      <div class="question">
+        <p><strong>Partie D.</strong> On veut compresser le fichier en le rééchantillonnant à 22050 Hz (D=2). Expliquer la procédure complète (avec filtre anti-repliement) et écrire le code.</p>
+        <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir corrigé</button>
+        <div class="answer-block">
+          <p><strong>Procédure :</strong></p>
+          <p>1. Vérifier que le contenu utile est &lt; 22050/2 = 11025 Hz (ici oui, le bruit est déjà filtré)</p>
+          <p>2. Appliquer sp.decimate qui filtre anti-repliement + sous-échantillonne</p>
+          <pre style="margin:0">y_filtre = sp.<span class="fn">lfilter</span>(b, [<span class="nm">1</span>], x_b)   <span class="cm"># d'abord filtrer le signal</span>
+y_dec = sp.<span class="fn">decimate</span>(y_filtre, <span class="nm">2</span>)          <span class="cm"># puis décimer</span>
+fe_new = fe // <span class="nm">2</span>                          <span class="cm"># = 22050 Hz</span>
+
+<span class="cm"># Formatage pour sauvegarde</span>
+y16 = np.<span class="fn">int16</span>((y_dec - y_dec.<span class="fn">min</span>()) / (y_dec.<span class="fn">max</span>() - y_dec.<span class="fn">min</span>()) * <span class="nm">65535</span> - <span class="nm">32768</span>)
+wav.<span class="fn">write</span>(<span class="st">'sortie_decime.wav'</span>, fe_new, y16)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHEAT SHEET ===== -->
+<section id="cheat">
+  <div class="section-header">
+    <span class="section-num">REF</span>
+    <h2>Cheat Sheet — À Mémoriser pour l'Examen</h2>
+  </div>
+
+  <h3>Formules indispensables</h3>
+  <div class="cheat-sheet">
+    <div class="cs-item"><div class="label">fréquence de coupure</div><div class="value">fc = (fp + fa) / 2</div></div>
+    <div class="cs-item"><div class="label">bande de transition</div><div class="value">Δf = fa − fp</div></div>
+    <div class="cs-item"><div class="label">atténuation passante</div><div class="value">Ap = −20·log₁₀(1 − δp)</div></div>
+    <div class="cs-item"><div class="label">atténuation atténuée</div><div class="value">Aa = −20·log₁₀(δa)</div></div>
+    <div class="cs-item"><div class="label">fréq. normalisée</div><div class="value">fcn = fc / fe ∈ [0, 0.5]</div></div>
+    <div class="cs-item"><div class="label">résolution TFD</div><div class="value">Δf_freq = fe / N</div></div>
+    <div class="cs-item"><div class="label">délai groupe RIF</div><div class="value">τ = (N−1)/2 échantillons</div></div>
+    <div class="cs-item"><div class="label">Shannon</div><div class="value">fe ≥ 2 · fmax</div></div>
+    <div class="cs-item"><div class="label">Hamming : ordre N</div><div class="value">N ≈ ceil(6.6 · fe / Δf), impair</div></div>
+    <div class="cs-item"><div class="label">Bilinéaire</div><div class="value">p = 2Fe · (1−z⁻¹)/(1+z⁻¹)</div></div>
+    <div class="cs-item"><div class="label">fréq. analogique</div><div class="value">fp_a = Fe·tan(π·fp/Fe)</div></div>
+    <div class="cs-item"><div class="label">stabilité RII</div><div class="value">|pôles| &lt; 1 pour tous les pôles</div></div>
+  </div>
+
+  <h3>Fonctions Python clés</h3>
+  <table>
+    <tr>
+      <th>Fonction</th>
+      <th>Usage</th>
+      <th>Retourne</th>
+    </tr>
+    <tr><td><code>wav.read(file)</code></td><td>Lire un fichier WAV</td><td>fe, x</td></tr>
+    <tr><td><code>np.fft.fft(x, N)</code></td><td>TFD de x sur N points</td><td>Tableau complexe</td></tr>
+    <tr><td><code>np.fft.fftshift(X)</code></td><td>Centrer le spectre</td><td>Tableau réordonné</td></tr>
+    <tr><td><code>sp.freqz(b,a,L,fs=fe)</code></td><td>Réponse fréquentielle</td><td>freq, Hf</td></tr>
+    <tr><td><code>sp.lfilter(b,a,x)</code></td><td>Filtrage causal</td><td>Signal filtré y</td></tr>
+    <tr><td><code>sp.firwin(N, fcn, window=...)</code></td><td>Coeff. filtre RIF</td><td>b</td></tr>
+    <tr><td><code>sp.buttord(fp,fa,Ap,Aa,fs=fe)</code></td><td>Ordre Butterworth</td><td>N, fc</td></tr>
+    <tr><td><code>sp.butter(N,fc,'low',fs=fe)</code></td><td>Filtre Butterworth</td><td>b, a</td></tr>
+    <tr><td><code>sp.tf2zpk(b,a)</code></td><td>Pôles et zéros</td><td>z, p, k</td></tr>
+    <tr><td><code>sp.decimate(x, D)</code></td><td>Décimation avec filtre</td><td>Signal décimé</td></tr>
+    <tr><td><code>sp.resample(x, Nnew)</code></td><td>Rééchantillonnage</td><td>Signal rééch.</td></tr>
+    <tr><td><code>zplane(b,a)</code></td><td>Plan z (pôles/zéros)</td><td>z, p (graphique)</td></tr>
+  </table>
+
+  <h3>Rappel fenêtres (tableau mémo)</h3>
+  <div class="card" style="overflow-x:auto">
+    <table style="margin:0">
+      <tr>
+        <th>Fenêtre</th>
+        <th>K (= Δfw·N/Fe)</th>
+        <th>Aa min (dB)</th>
+        <th>Quand l'utiliser</th>
+      </tr>
+      <tr><td>Rectangulaire</td><td>1.8</td><td>21</td><td>Jamais en pratique (lobes élevés)</td></tr>
+      <tr><td>Bartlett</td><td>2</td><td>25</td><td>Rarement</td></tr>
+      <tr><td>Hanning</td><td>6.2</td><td>44</td><td>Si 44 dB ≤ Aa &lt; 53 dB</td></tr>
+      <tr><td style="color:var(--accent)"><strong>Hamming</strong></td><td style="color:var(--accent)"><strong>6.6</strong></td><td style="color:var(--accent)"><strong>53</strong></td><td style="color:var(--accent)"><strong>Si Aa &gt; 50 dB (le plus courant)</strong></td></tr>
+      <tr><td>Blackman</td><td>11</td><td>74</td><td>Si Aa &gt; 74 dB (ordre très élevé)</td></tr>
+    </table>
+  </div>
+
+  <h3>Pièges classiques d'examen</h3>
+  <div class="card" style="border-color:rgba(239,83,80,0.3)">
+    <ul>
+      <li style="padding:6px 0 6px 1.2rem"><code>firwin</code> attend fcn ∈ [0, 0.5], PAS en Hz !</li>
+      <li style="padding:6px 0 6px 1.2rem">N doit être <strong>impair</strong> pour un filtre RIF symétrique à phase linéaire</li>
+      <li style="padding:6px 0 6px 1.2rem">Toujours ajouter <code>1e-12</code> avant le <code>log10</code></li>
+      <li style="padding:6px 0 6px 1.2rem">Diviser la FFT par N pour normaliser les amplitudes</li>
+      <li style="padding:6px 0 6px 1.2rem"><code>fftshift</code> est nécessaire pour un spectre centré sur 0 Hz</li>
+      <li style="padding:6px 0 6px 1.2rem">Convertir x en <code>float64</code> avant d'ajouter le bruit pour éviter le dépassement int</li>
+      <li style="padding:6px 0 6px 1.2rem">La stabilité se vérifie avec <code>|pôles| &lt; 1</code>, pas &lt;= 1</li>
+      <li style="padding:6px 0 6px 1.2rem"><code>sp.decimate</code> utilise Chebyshev ordre 8 par défaut, coupure à fe/(2D)</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleEx(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+function toggleAnswer(btn) {
+  const block = btn.nextElementSibling;
+  block.classList.toggle('show');
+  btn.textContent = block.classList.contains('show') ? 'Masquer' : 'Voir corrigé';
+}
+
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 400);
+});
+
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('nav a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = e.target.id;
+      const link = document.querySelector(`nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

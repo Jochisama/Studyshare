@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>⚡ 1H AVANT L'EXAM — IA Chelali</title>
+<style>
+:root{--bg:#07090f;--s:#0e1219;--c:#141c28;--b:#1c2a3e;--b2:#253448;--cy:#00e5ff;--or:#ff6b35;--gr:#00c896;--re:#ff4757;--am:#ffd32a;--vi:#a78bfa;--pk:#f472b6;--tx:#e8edf5;--mu:#5a7a9a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);font-size:13.5px;line-height:1.65}
+/* ── HEADER ── */
+header{background:rgba(7,9,15,.97);border-bottom:2px solid var(--cy);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
+.hd{max-width:1300px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:8px;height:50px;flex-wrap:wrap}
+.logo{font-size:13px;font-weight:700;color:var(--cy);letter-spacing:2px;white-space:nowrap}
+.logo b{color:var(--or)}
+.timer{background:rgba(255,71,87,.15);border:1px solid var(--re);color:var(--re);font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;animation:blink 1s infinite;margin-left:auto;white-space:nowrap}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
+nav{display:flex;gap:2px;overflow-x:auto;flex:1;min-width:0}
+nav::-webkit-scrollbar{height:0}
+nav a{color:var(--mu);text-decoration:none;font-size:11px;padding:4px 10px;border-radius:4px;border:1px solid transparent;white-space:nowrap;transition:.15s}
+nav a:hover{color:var(--cy);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.05)}
+/* ── MAIN ── */
+main{max-width:1300px;margin:0 auto;padding:20px 16px 60px}
+/* ── SECTIONS ── */
+section{margin-bottom:32px}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sh-tag{font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px;flex-shrink:0}
+.sh h2{font-size:17px;font-weight:700}
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(min-width:500px) and (max-width:700px){.g2{grid-template-columns:1fr 1fr}}
+/* ── CARD ── */
+.card{background:var(--c);border:1px solid var(--b);border-radius:10px;padding:14px 16px}
+.card h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.card p,.card li{font-size:13px;color:#9ab0c8;line-height:1.7}
+.card ul{padding-left:16px}
+.card li::marker{color:var(--cy)}
+/* ── HIGHLIGHT ── */
+.hl{border-left:3px solid var(--cy);background:rgba(0,229,255,.05);padding:9px 13px;border-radius:0 8px 8px 0;margin:8px 0;font-size:13px;color:#9ab0c8}
+.hl b,.hl strong{color:var(--cy)}
+.hl.or{border-color:var(--or);background:rgba(255,107,53,.05)}
+.hl.or b,.hl.or strong{color:var(--or)}
+.hl.gr{border-color:var(--gr);background:rgba(0,200,150,.05)}
+.hl.gr b,.hl.gr strong{color:var(--gr)}
+.hl.re{border-color:var(--re);background:rgba(255,71,87,.05)}
+.hl.re b,.hl.re strong{color:var(--re)}
+.hl.am{border-color:var(--am);background:rgba(255,211,42,.05)}
+.hl.am b,.hl.am strong{color:var(--am)}
+.hl.vi{border-color:var(--vi);background:rgba(167,139,250,.05)}
+.hl.vi b,.hl.vi strong{color:var(--vi)}
+/* ── CODE ── */
+.code{background:#050810;border:1px solid var(--b);border-radius:8px;padding:10px 14px;font-family:'Courier New',monospace;font-size:12px;color:#a8ff78;line-height:1.85;overflow-x:auto;margin:8px 0}
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0}
+th{background:rgba(0,229,255,.07);color:var(--cy);font-size:11px;padding:7px 10px;text-align:left;border-bottom:1px solid var(--b)}
+td{padding:7px 10px;border-bottom:1px solid rgba(28,42,62,.5);color:#9ab0c8;vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.015)}
+/* ── WARN/INFO ── */
+.warn{background:rgba(255,211,42,.07);border:1px solid rgba(255,211,42,.3);border-radius:7px;padding:9px 13px;font-size:13px;color:#fde68a;margin:8px 0}
+.warn::before{content:'⚠ '}
+.info{background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.25);border-radius:7px;padding:9px 13px;font-size:13px;color:#a5f3fc;margin:8px 0}
+/* ── CHIP ── */
+.chip{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:20px;margin:2px}
+.cy{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:var(--cy)}
+.or2{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--or)}
+.gr2{background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.3);color:var(--gr)}
+.re2{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);color:var(--re)}
+.am2{background:rgba(255,211,42,.1);border:1px solid rgba(255,211,42,.3);color:var(--am)}
+.vi2{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--vi)}
+/* ── QCM ── */
+.qblock{background:var(--c);border:1px solid var(--b);border-radius:10px;padding:16px;margin-bottom:14px}
+.qn{font-size:10.5px;color:var(--mu);font-family:monospace;margin-bottom:6px}
+.qtxt{font-size:13.5px;font-weight:500;margin-bottom:12px;line-height:1.6}
+.opt{display:block;background:rgba(14,18,25,.8);border:1px solid var(--b);border-radius:7px;padding:9px 13px;margin:5px 0;cursor:pointer;font-size:13px;color:#8a9db8;text-align:left;width:100%;transition:.15s;font-family:inherit}
+.opt:hover{border-color:var(--cy);color:var(--tx);background:rgba(0,229,255,.04)}
+.opt.ok{background:rgba(0,200,150,.1);border-color:var(--gr);color:#6ee7b7}
+.opt.no{background:rgba(255,71,87,.08);border-color:var(--re);color:#fca5a5}
+.opt.show-ok{background:rgba(0,200,150,.1);border-color:var(--gr);color:#6ee7b7}
+.expl{display:none;background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);border-radius:7px;padding:11px;margin-top:10px;font-size:12.5px;color:#a5f3fc;line-height:1.7}
+.expl.on{display:block}
+/* ── SCORE ── */
+.sbar{background:var(--c);border:1px solid var(--b);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.sval{font-size:24px;font-weight:700;color:var(--cy)}
+.strk{flex:1;min-width:120px;height:6px;background:var(--b);border-radius:3px;overflow:hidden}
+.sfil{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cy),var(--vi));transition:width .4s}
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:12px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:14px;top:32px;bottom:0;width:1px;background:var(--b)}
+.snum{width:28px;height:28px;border-radius:50%;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);color:var(--cy);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-family:monospace}
+.sbody{padding-bottom:16px;flex:1}
+.stitle{font-weight:600;font-size:13px;color:var(--tx);margin-bottom:3px}
+.sdesc{font-size:12.5px;color:#8a9db8}
+/* ── MATRIX ── */
+.mat-wrap{display:grid;grid-template-columns:70px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:5px;max-width:380px;margin:10px 0}
+.mh{background:var(--s);border-radius:6px;padding:6px;text-align:center;font-size:11px;font-weight:600;color:var(--mu);display:flex;align-items:center;justify-content:center}
+.mc{border-radius:8px;padding:12px 8px;text-align:center;display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center}
+.mc-g{background:rgba(0,200,150,.12);border:1px solid rgba(0,200,150,.35)}
+.mc-r{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3)}
+.mc-code{font-size:16px;font-weight:700}
+.mc-n{font-size:12px;color:#8a9db8}
+/* ── COLLAPSE ── */
+.coll-btn{background:none;border:1px solid var(--b);color:var(--mu);cursor:pointer;font-size:11.5px;font-family:monospace;padding:5px 12px;border-radius:6px;margin-top:10px;transition:.2s}
+.coll-btn:hover{border-color:var(--cy);color:var(--cy)}
+.coll-body{display:none;margin-top:10px}
+.coll-body.on{display:block}
+/* ── DIVIDER ── */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--b),transparent);margin:20px 0}
+/* ── PRINT HINT ── */
+.ph{text-align:center;font-size:11px;color:var(--mu);padding:8px;background:rgba(255,211,42,.04);border-top:1px solid var(--b);border-radius:0 0 10px 10px;margin-top:8px}
+</style>
+</head>
+<body>
+
+<header>
+<div class="hd">
+  <div class="logo">IA·<b>USTHB</b></div>
+  <nav>
+    <a href="#ch1">RF</a>
+    <a href="#classif">Classif.</a>
+    <a href="#svm">SVM</a>
+    <a href="#mlp">MLP</a>
+    <a href="#cnn">CNN</a>
+    <a href="#rnn">RNN/LSTM</a>
+    <a href="#metrics">Métriques</a>
+    <a href="#tp">TPs</a>
+    <a href="#qcm">QCM</a>
+    <a href="#formules">Formules</a>
+  </nav>
+  <div class="timer" id="timer">⏱ 1:00:00</div>
+</div>
+</header>
+
+<main>
+<div style="background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(124,58,237,.06));border:1px solid rgba(0,229,255,.2);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+  <div>
+    <div style="font-size:15px;font-weight:700;color:var(--cy)">⚡ Révision Flash — 1h avant l'examen</div>
+    <div style="font-size:12.5px;color:#8a9db8;margin-top:3px">Prof. Chelali · USTHB M1 ST · Tout ce qu'il faut savoir pour avoir minimum 10/20</div>
+  </div>
+  <div style="margin-left:auto;text-align:right">
+    <div style="font-size:11px;color:var(--mu)">Structure attendue</div>
+    <div style="margin-top:4px"><span class="chip cy">Partie QCM</span><span class="chip or2">Partie Exercices</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ CH1 RF ══════════════════════════════════════ -->
+<section id="ch1">
+<div class="sh"><span class="sh-tag" style="background:rgba(0,229,255,.1);color:var(--cy)">CH 1</span><h2>Reconnaissance de Formes — Fondements</h2></div>
+
+<div class="g2">
+<div>
+<div class="hl"><b>Définition RF :</b> associer une étiquette (classe) à une donnée. Des données différentes peuvent avoir la même étiquette.</div>
+<div class="hl or"><b>3 Approches :</b><br>
+① <b>Statistique</b> : forme = vecteur ℝⁿ → Bayes, KNN, LDA, ACP<br>
+② <b>Syntaxique/Structurelle</b> : primitives + grammaires → formes complexes<br>
+③ <b>Connexionniste</b> : réseaux de neurones → MLP, CNN, RNN</div>
+<div class="hl"><b>Primitive</b> = composante non décomposable (segment, boucle, arc)<br><b>Caractéristique</b> = mesure scalaire (hauteur/largeur, énergie, niveaux de gris)</div>
+</div>
+<div>
+<div class="card">
+<h3>⚙️ 6 Étapes d'un Système RF</h3>
+<div class="steps">
+<div class="step"><div class="snum">1</div><div class="sbody"><div class="stitle">Numérisation</div><div class="sdesc">pixels, échantillons</div></div></div>
+<div class="step"><div class="snum">2</div><div class="sbody"><div class="stitle">Prétraitement</div><div class="sdesc">filtrage, normalisation</div></div></div>
+<div class="step"><div class="snum">3</div><div class="sbody"><div class="stitle">Extraction caractéristiques</div><div class="sdesc">vecteur de features</div></div></div>
+<div class="step"><div class="snum">4</div><div class="sbody"><div class="stitle">Apprentissage</div><div class="sdesc">supervisé ou non</div></div></div>
+<div class="step"><div class="snum">5</div><div class="sbody"><div class="stitle">Décision/Classification</div><div class="sdesc">affecter à une classe</div></div></div>
+<div class="step"><div class="snum">6</div><div class="sbody"><div class="stitle">Post-traitement</div><div class="sdesc">validation, rejet</div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="warn">Malédiction de la dimensionnalité : trop de caractéristiques → données trop éparpillées → performances dégradées. Solution : ACP ou LDA.</div>
+<div class="g2" style="margin-top:8px">
+<div class="hl"><b>Variabilité intra-personnelle :</b> bruit, âge, contexte, coarticulation, état physique</div>
+<div class="hl or"><b>Variabilité extra-personnelle :</b> différences physiologiques, accents, débit</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ CLASSIFIEURS ══════════════════════════════════════ -->
+<section id="classif">
+<div class="sh"><span class="sh-tag" style="background:rgba(255,107,53,.1);color:var(--or)">CH 2</span><h2>Classifieurs — KNN · Bayes · ACP vs LDA · Confusion Matrix</h2></div>
+
+<div class="g3">
+<div class="card">
+<h3 style="color:var(--cy)">K-NN</h3>
+<ul>
+<li>Calculer D(X, Pᵢ) pour tous les prototypes</li>
+<li>Sélectionner les K plus proches</li>
+<li>Vote majoritaire → classe de X</li>
+</ul>
+<div class="code">Euclidienne : √Σ(xₖ-rₖ)²
+City Block  : Σ|xₖ-rₖ|</div>
+<div class="hl" style="margin-top:6px"><b>K=1</b> → frontière complexe, overfit<br><b>K grand</b> → frontière lisse, underfit</div>
+</div>
+<div class="card">
+<h3 style="color:var(--vi)">Bayes</h3>
+<div class="code">P(wᵢ/x) = P(x/wᵢ)·P(wᵢ) / P(x)
+Décide wᵢ si P(x/wᵢ)·P(wᵢ) = MAX
+P(x) = Σⱼ P(x/wⱼ)·P(wⱼ)</div>
+<div class="hl vi"><b>Astuce :</b> P(x) identique pour toutes les classes → comparer directement P(x/wᵢ)·P(wᵢ) sans calculer P(x)</div>
+</div>
+<div class="card">
+<h3 style="color:var(--or)">ACP vs LDA</h3>
+<table>
+<tr><th>ACP</th><th>LDA</th></tr>
+<tr><td>Max variance totale</td><td>Max inter/intra</td></tr>
+<tr><td>Compression</td><td>Discrimination</td></tr>
+<tr><td>Sensible illumination</td><td>Robuste</td></tr>
+<tr><td>Mieux petite base</td><td>Mieux grande base</td></tr>
+</table>
+<div class="hl or" style="margin-top:6px"><b>Eigenfaces</b> = ACP · <b>Fisherfaces</b> = LDA</div>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--am)">📊 Confusion Matrix — LE PLUS IMPORTANT</div>
+<div class="g2">
+<div>
+<div class="mat-wrap">
+<div class="mh"></div>
+<div class="mh">Prédit +</div>
+<div class="mh">Prédit −</div>
+<div class="mh">Réel +</div>
+<div class="mc mc-g"><span class="mc-code" style="color:#00c896">TP</span><span class="mc-n">Vrai Positif</span></div>
+<div class="mc mc-r"><span class="mc-code" style="color:#ff4757">FN</span><span class="mc-n">Faux Négatif<br>Type II ⚠</span></div>
+<div class="mh">Réel −</div>
+<div class="mc mc-r"><span class="mc-code" style="color:#ff4757">FP</span><span class="mc-n">Faux Positif<br>Type I</span></div>
+<div class="mc mc-g"><span class="mc-code" style="color:#00c896">TN</span><span class="mc-n">Vrai Négatif</span></div>
+</div>
+<div class="hl re"><b>FN (Type II)</b> = malade non détecté → le plus grave en médecine</div>
+</div>
+<div>
+<div class="code">Accuracy  = (TP+TN)/(TP+TN+FP+FN)
+Precision = TP/(TP+FP)
+Recall    = TP/(TP+FN)   ← Sensibilité
+F1 Score  = 2×P×R/(P+R)
+Spécif.   = TN/(TN+FP)
+
+Matrice multi-classes :
+ TP = diagonale [i,i]
+ FN = reste de la LIGNE i
+ FP = reste de la COLONNE i
+ TN = tout le reste</div>
+<div class="warn">F1 Score = utile quand dataset déséquilibré (imbalanced). Ex: 99% sains / 1% malades → Accuracy trompeuse !</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ SVM ══════════════════════════════════════ -->
+<section id="svm">
+<div class="sh"><span class="sh-tag" style="background:rgba(167,139,250,.1);color:var(--vi)">CH 3</span><h2>SVM — Support Vector Machines</h2></div>
+
+<div class="g2">
+<div>
+<div class="hl vi"><b>Principe :</b> hyperplan optimal qui maximise la marge 2/‖w‖ entre 2 classes. Seuls les <b>Vecteurs de Support</b> (points sur H₁/H₂) définissent l'hyperplan.</div>
+<div class="code">H  : ⟨w,x⟩ + b = 0    (frontière)
+H₁ : ⟨w,x⟩ + b = +1  (classe +1)
+H₂ : ⟨w,x⟩ + b = -1  (classe -1)
+Marge = 2/‖w‖
+Objectif : min ½‖w‖²
+s.c. yᵢ(⟨w,xᵢ⟩+b) ≥ 1
+
+Soft margin (non-séparable) :
+min ½‖w‖² + C·Σεᵢ</div>
+</div>
+<div>
+<table>
+<tr><th>Noyau</th><th>Formule</th><th>Usage</th></tr>
+<tr><td>Linéaire</td><td>⟨x,y⟩</td><td>Données séparables</td></tr>
+<tr><td><b style="color:var(--cy)">RBF ★</b></td><td>exp(−‖x−y‖²/2σ²)</td><td>Le + utilisé</td></tr>
+<tr><td>Poly</td><td>(⟨x,y⟩+1)ᵖ</td><td>Relations polynomiales</td></tr>
+<tr><td>Tanh</td><td>tanh(A+B⟨x,y⟩)</td><td>Type neuronal</td></tr>
+</table>
+<div class="g2" style="margin-top:8px">
+<div class="hl vi"><b>C petit</b> → marge large, tolérant → underfit<br><b>C grand</b> → marge étroite → overfit</div>
+<div class="hl or"><b>OvO</b> : N(N-1)/2 classif. (vote)<br><b>OvA</b> : N classif. (max décision)</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ MLP ══════════════════════════════════════ -->
+<section id="mlp">
+<div class="sh"><span class="sh-tag" style="background:rgba(0,200,150,.1);color:var(--gr)">CH 4</span><h2>MLP — Réseaux de Neurones & Rétropropagation</h2></div>
+
+<div class="g2">
+<div>
+<div class="hl gr"><b>Architecture :</b> Input → Couches cachées (ReLU) → Sortie (Sigmoïde/Softmax)<br>Sans activation non-linéaire = aucun intérêt d'empiler des couches.</div>
+
+<table>
+<tr><th>Activation</th><th>Plage</th><th>Quand l'utiliser</th><th>Problème</th></tr>
+<tr><td>Sigmoïde</td><td>(0,1)</td><td>Sortie binaire</td><td>Vanishing gradient</td></tr>
+<tr><td>Tanh</td><td>(−1,1)</td><td>Couches cachées</td><td>Vanishing gradient</td></tr>
+<tr><td><b style="color:var(--cy)">ReLU ★</b></td><td>[0,+∞)</td><td>Couches cachées</td><td>Dying ReLU</td></tr>
+<tr><td>Leaky ReLU</td><td>(−∞,+∞)</td><td>Résout dying ReLU</td><td>α à tuner</td></tr>
+<tr><td><b style="color:var(--vi)">Softmax</b></td><td>(0,1) Σ=1</td><td>Sortie multi-classes</td><td>Sortie seulement</td></tr>
+</table>
+<div class="warn">Dying ReLU : x&lt;0 → gradient=0 → neurone mort. Fix : Leaky ReLU = max(αx, x).</div>
+</div>
+<div>
+<div class="card">
+<h3 style="color:var(--gr)">🔄 Rétropropagation</h3>
+<div class="code">eⱼ(n)    = dⱼ(n) − yⱼ(n)
+
+δⱼ SORTIE : eⱼ · yⱼ · (1−yⱼ)
+
+δⱼ CACHÉ  : yⱼ·(1−yⱼ) · Σₖ δₖ·wₖⱼ
+
+Δwⱼᵢ = η · δⱼ · yᵢ
+
++ momentum :
+Δwⱼᵢ(n) = η·δⱼ·yᵢ + μ·Δwⱼᵢ(n-1)
+η = learning rate
+μ = momentum (inertie)</div>
+<div class="hl gr"><b>Vanishing gradient :</b> sigmoïde/tanh → gradient ≈ 0 → couches profondes n'apprennent plus. Fix : ReLU.</div>
+<div class="hl re" style="margin-top:6px"><b>Overfitting</b> = mémorise → train ✓, test ✗<br>Fix : Dropout, L1/L2, Early stopping</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ CNN ══════════════════════════════════════ -->
+<section id="cnn">
+<div class="sh"><span class="sh-tag" style="background:rgba(255,211,42,.1);color:var(--am)">CH 5</span><h2>CNN — Réseaux Convolutifs</h2></div>
+
+<div class="g2">
+<div>
+<div class="hl am"><b>Architecture :</b> Input → [Conv → ReLU → Pool]×N → Flatten → FC → Softmax<br>ReLU OBLIGATOIRE après chaque Conv. Pooling ne change PAS la profondeur D.</div>
+<div class="code">Conv  : W_out = (W_in − F + 2P)/S + 1
+Pool  : W_out = (W − F)/S + 1
+Params conv = F×F×D_in×K + K
+
+Exemple : 32×32×3, K=64, F=3, S=1, P=1
+→ W_out = (32−3+2)/1+1 = 32 → 32×32×64
+MaxPool F=2 S=2 → 16×16×64</div>
+<div class="warn">Pooling : ne change jamais D. Exemple : 32×32×64 après MaxPool(2,2) → 16×16×64 (pas 16×16×32 !)</div>
+</div>
+<div>
+<table>
+<tr><th>Architecture</th><th>Année</th><th>Innovation clé</th></tr>
+<tr><td>LeNet-5</td><td>1989</td><td>1er CNN pratique (MNIST)</td></tr>
+<tr><td><b style="color:var(--cy)">AlexNet ★</b></td><td>2012</td><td>ReLU + Dropout + GPU</td></tr>
+<tr><td>VGG-16</td><td>2014</td><td>16 couches, filtres 3×3</td></tr>
+<tr><td>ResNet</td><td>2015</td><td>Skip connections (résiduelles)</td></tr>
+</table>
+<div class="g2" style="margin-top:8px">
+<div class="hl am"><b>Data Augmentation :</b> rotation, flip, zoom → plus de données artificiellement</div>
+<div class="hl vi"><b>Transfer Learning :</b> réutiliser AlexNet/VGG pré-entraîné sur ImageNet</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ RNN/LSTM ══════════════════════════════════════ -->
+<section id="rnn">
+<div class="sh"><span class="sh-tag" style="background:rgba(244,114,182,.1);color:var(--pk)">CH 6</span><h2>RNN · LSTM · Hopfield · Kohonen</h2></div>
+
+<div class="g3">
+<div class="card">
+<h3 style="color:var(--cy)">Hopfield (1982)</h3>
+<ul>
+<li>Réseau récurrent entièrement connecté, poids symétriques</li>
+<li>Neurones binaires (−1/+1)</li>
+<li>Basé sur une <b style="color:var(--cy)">fonction d'énergie</b></li>
+<li><b style="color:var(--cy)">CAM</b> : récupère un pattern depuis version bruitée/incomplète</li>
+</ul>
+</div>
+<div class="card">
+<h3 style="color:var(--pk)">LSTM (1997) — Hochreiter & Schmidhuber</h3>
+<div class="code" style="font-size:11px">fₜ = σ(Wf·[hₜ₋₁,xₜ]+bf) ← FORGET
+iₜ = σ(Wi·[hₜ₋₁,xₜ]+bi) ← INPUT
+oₜ = σ(Wo·[hₜ₋₁,xₜ]+bo) ← OUTPUT
+cₜ = fₜ⊙cₜ₋₁ + iₜ⊙c̃ₜ   ← CELL
+hₜ = oₜ⊙tanh(cₜ)</div>
+<div class="hl" style="margin-top:6px"><b>fₜ≈0</b> = oublie cₜ₋₁ · <b>iₜ≈1</b> = mémorise · résout vanishing gradient</div>
+</div>
+<div class="card">
+<h3 style="color:var(--or)">Kohonen (SOM)</h3>
+<ul>
+<li>Non supervisé, grille 2D</li>
+<li><b style="color:var(--or)">BMU</b> = neurone le plus proche de x</li>
+<li>Met à jour BMU + voisins</li>
+<li>Préserve la topologie des données</li>
+</ul>
+<div class="hl or" style="margin-top:8px"><b>Elman (1990) :</b> 1er RNN entraîné par backprop. Couche contexte = hₜ₋₁ réinjecté. Limite : vanishing gradient sur longues séquences.</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ MÉTRIQUES ══════════════════════════════════════ -->
+<section id="metrics">
+<div class="sh"><span class="sh-tag" style="background:rgba(255,71,87,.1);color:var(--re)">MÉTRIQUES</span><h2>Formules Complètes — À Maîtriser</h2></div>
+<div class="g2">
+<div class="code">Accuracy  = (TP+TN) / (TP+TN+FP+FN)
+Precision = TP / (TP+FP)
+Recall    = TP / (TP+FN)
+F1 Score  = 2 × (P×R) / (P+R)
+Spécif.   = TN / (TN+FP)
+MSE       = (1/n) Σ(yᵢ − ŷᵢ)²
+R²        = 1 − SS_res/SS_tot
+Marge SVM = 2/‖w‖
+σ'(x)     = σ(x)·(1−σ(x))
+tanh'(x)  = 1 − tanh²(x)</div>
+<div>
+<div class="hl re"><b>FP = Type I</b> (fausse alarme) · <b>FN = Type II</b> (détection manquée)</div>
+<div class="hl gr"><b>Recall critique</b> en médecine : FN = patient non traité → fatal</div>
+<div class="hl am"><b>F1 Score</b> : quand classes déséquilibrées. Ex : 99% sains → Acc=99% mais modèle nul !</div>
+<div class="hl vi" style="margin-top:6px"><b>Loss Function</b> = erreur sur 1 exemple<br><b>Cost Function</b> = moyenne sur tout le dataset<br>J(w) = (1/m)·Σ L(ŷ⁽ⁱ⁾, y⁽ⁱ⁾)</div>
+</div>
+</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ TPs ══════════════════════════════════════ -->
+<section id="tp">
+<div class="sh"><span class="sh-tag" style="background:rgba(255,107,53,.1);color:var(--or)">TPs</span><h2>Notions TP — Ce qui peut tomber</h2></div>
+
+<div class="g2">
+<div class="card">
+<h3 style="color:var(--or)">TP 1 — KNN & Régression (Iris)</h3>
+<div class="hl or"><b>Dataset Iris :</b> Fisher (1936). 150 fleurs, 3 espèces (50 chaque). 4 features : sepal/petal length/width. Setosa = linéairement séparable. Versicolor/Virginica se chevauchent.</div>
+<ul style="margin-top:8px">
+<li>Normaliser AVANT KNN (StandardScaler)</li>
+<li>fit sur train seulement, transform sur les deux</li>
+<li>Trouver le meilleur K par validation croisée</li>
+<li><b>R² ≈ 1</b> = bon modèle. <b>MSE petit</b> = bonne précision</li>
+<li>Régression logistique = classifieur (pas de prédiction continue !)</li>
+</ul>
+</div>
+<div class="card">
+<h3 style="color:var(--cy)">TP 2 — SVM</h3>
+<ul>
+<li>Toujours normaliser avant SVM</li>
+<li>Comparer kernels : linear, poly, rbf, sigmoid</li>
+<li>RBF généralement le meilleur sur Iris</li>
+<li>GridSearchCV pour optimiser C et gamma</li>
+<li>Cross-validation (cv=5) = meilleure estimation</li>
+</ul>
+<div class="code" style="font-size:11px;margin-top:8px">model = SVC(kernel='rbf', C=1.0, gamma='scale')
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print(accuracy_score(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))</div>
+</div>
+<div class="card">
+<h3 style="color:var(--gr)">TP 3 — MLP (Iris + COVID)</h3>
+<div class="code" style="font-size:11px">model = Sequential([
+  Dense(16, activation='relu', input_shape=(4,)),
+  Dense(16, activation='relu'),
+  Dense(3, activation='softmax')  # 3 classes
+])
+model.compile(optimizer='adam',
+  loss='categorical_crossentropy',
+  metrics=['accuracy'])</div>
+<div class="hl gr" style="margin-top:6px"><b>Multi-classes + one-hot</b> → categorical_crossentropy<br><b>Multi-classes + entiers</b> → sparse_categorical_crossentropy</div>
+</div>
+<div class="card">
+<h3 style="color:var(--am)">TP 4 — CNN COVID-19</h3>
+<ul>
+<li>Images chest X-ray : COVID / Normal / Pneumonia</li>
+<li>Resize 224×224, normaliser pixels /255</li>
+<li>Data Augmentation : rotation, flip, zoom</li>
+<li>Batch size = nb images avant mise à jour poids</li>
+<li><b>Recall pour COVID = CRITIQUE</b> : FN = malade non détecté</li>
+<li>Early stopping : stop si val_loss remonte</li>
+</ul>
+</div>
+</div>
+<div class="warn" style="margin-top:10px">Règle d'or Python : scaler.fit_transform(X_train) puis scaler.transform(X_test). JAMAIS fit sur le test set → data leakage !</div>
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ QCM ══════════════════════════════════════ -->
+<section id="qcm">
+<div class="sh"><span class="sh-tag" style="background:rgba(0,229,255,.1);color:var(--cy)">QCM</span><h2>QCM Niveau Examen — 15 Questions Clés</h2></div>
+
+<div class="sbar" id="sbar" style="display:none">
+  <div style="font-size:12px;color:var(--mu)">Score</div>
+  <div class="sval" id="sval">0/0</div>
+  <div class="strk"><div class="sfil" id="sfil" style="width:0%"></div></div>
+</div>
+
+<div class="g2">
+<div id="qcol1">
+
+<div class="qblock" id="q1">
+<div class="qn">Q01 · CH1 <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Dans la rétropropagation, le gradient local δⱼ pour une couche <strong>cachée</strong> est :</div>
+<button class="opt" onclick="ans('q1','A',false)">A. δⱼ = eⱼ·yⱼ·(1−yⱼ)</button>
+<button class="opt" onclick="ans('q1','B',true)">B. δⱼ = yⱼ·(1−yⱼ)·Σₖ δₖ·wₖⱼ</button>
+<button class="opt" onclick="ans('q1','C',false)">C. δⱼ = −∂E/∂yⱼ directement</button>
+<button class="opt" onclick="ans('q1','D',false)">D. δⱼ = yⱼ·(1−yⱼ)·eⱼ</button>
+<div class="expl" id="expl-q1">✅ <b>B.</b> Pour la couche de SORTIE : δ = e·y·(1−y) [réponse A]. Pour une couche CACHÉE : l'erreur n'est pas observable → on propage les δₖ de la couche suivante pondérés par wₖⱼ.</div>
+</div>
+
+<div class="qblock" id="q2">
+<div class="qn">Q02 · CH3 <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Image 64×64×3. Conv K=32, F=3, S=1, P=1. MaxPool F=2, S=2. Quelle est la taille finale ?</div>
+<button class="opt" onclick="ans('q2','A',false)">A. 32×32×32</button>
+<button class="opt" onclick="ans('q2','B',true)">B. 32×32×32</button>
+<button class="opt" onclick="ans('q2','C',false)">C. 30×30×32</button>
+<button class="opt" onclick="ans('q2','D',false)">D. 64×64×32</button>
+<div class="expl" id="expl-q2">✅ <b>B.</b> Conv P=1: (64−3+2)/1+1 = 64 → 64×64×32. MaxPool: (64−2)/2+1 = 32 → 32×32×32. Le pooling divise W et H par 2, ne change pas K=32.</div>
+</div>
+
+<div class="qblock" id="q3">
+<div class="qn">Q03 · Métriques <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">TP=80, FP=20, FN=40, TN=160. Quel est le F1-Score ?</div>
+<button class="opt" onclick="ans('q3','A',false)">A. 0.800</button>
+<button class="opt" onclick="ans('q3','B',true)">B. ≈ 0.727</button>
+<button class="opt" onclick="ans('q3','C',false)">C. 0.667</button>
+<button class="opt" onclick="ans('q3','D',false)">D. 0.888</button>
+<div class="expl" id="expl-q3">✅ <b>B.</b> P = 80/100 = 0.80. R = 80/120 = 0.667. F1 = 2×0.80×0.667/(0.80+0.667) = 1.067/1.467 ≈ 0.727. Accuracy = 240/300 = 0.80.</div>
+</div>
+
+<div class="qblock" id="q4">
+<div class="qn">Q04 · CH2 <span style="color:var(--am)">● Moyen</span></div>
+<div class="qtxt">Bayes : P(w1)=0.4, P(w2)=0.6, P(x/w1)=0.5, P(x/w2)=0.3. Décision pour x ?</div>
+<button class="opt" onclick="ans('q4','A',true)">A. w1 car 0.5×0.4=0.20 > 0.3×0.6=0.18</button>
+<button class="opt" onclick="ans('q4','B',false)">B. w2 car P(w2) plus grand</button>
+<button class="opt" onclick="ans('q4','C',false)">C. w2 car P(x/w2) plus probable</button>
+<button class="opt" onclick="ans('q4','D',false)">D. Impossible à décider</button>
+<div class="expl" id="expl-q4">✅ <b>A.</b> Comparer P(x/wᵢ)×P(wᵢ) : w1=0.5×0.4=0.20 vs w2=0.3×0.6=0.18. 0.20 > 0.18 → Décide w1. P(x) inutile à calculer.</div>
+</div>
+
+<div class="qblock" id="q5">
+<div class="qn">Q05 · LSTM <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Dans un LSTM, fₜ ≈ 0 signifie :</div>
+<button class="opt" onclick="ans('q5','A',false)">A. L'entrée xₜ est ignorée</button>
+<button class="opt" onclick="ans('q5','B',false)">B. Le hidden state hₜ est à zéro</button>
+<button class="opt" onclick="ans('q5','C',true)">C. La cell state cₜ oublie cₜ₋₁ : cₜ ≈ iₜ⊙c̃ₜ</button>
+<button class="opt" onclick="ans('q5','D',false)">D. L'output gate est désactivée</button>
+<div class="expl" id="expl-q5">✅ <b>C.</b> cₜ = fₜ⊙cₜ₋₁ + iₜ⊙c̃ₜ. fₜ≈0 → fₜ⊙cₜ₋₁≈0 → la mémoire passée est effacée. Seule la nouvelle info iₜ⊙c̃ₜ reste.</div>
+</div>
+
+<div class="qblock" id="q6">
+<div class="qn">Q06 · SVM <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">SVM avec εᵢ > 1 pour un point xᵢ. Ce point est :</div>
+<button class="opt" onclick="ans('q6','A',false)">A. Bien classé, hors marge</button>
+<button class="opt" onclick="ans('q6','B',false)">B. Vecteur de support sur H₁ ou H₂</button>
+<button class="opt" onclick="ans('q6','C',true)">C. Mal classé (de l'autre côté de H)</button>
+<button class="opt" onclick="ans('q6','D',false)">D. Exactement sur l'hyperplan H</button>
+<div class="expl" id="expl-q6">✅ <b>C.</b> εᵢ=0 → bien classé hors marge. 0&lt;εᵢ≤1 → bien classé mais dans la marge (VS). εᵢ&gt;1 → MAL CLASSÉ, contrainte yᵢ(⟨w,xᵢ⟩+b) ≥ 1−εᵢ &lt; 0.</div>
+</div>
+
+<div class="qblock" id="q7">
+<div class="qn">Q07 · CNN <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Conv(K=64, F=3, P=0, S=1) sur 32×32×3. Nombre de paramètres de cette couche ?</div>
+<button class="opt" onclick="ans('q7','A',false)">A. 1 728</button>
+<button class="opt" onclick="ans('q7','B',true)">B. 1 792</button>
+<button class="opt" onclick="ans('q7','C',false)">C. 3 456</button>
+<button class="opt" onclick="ans('q7','D',false)">D. 27 648</button>
+<div class="expl" id="expl-q7">✅ <b>B.</b> Params = F×F×D_in×K + K (biais) = 3×3×3×64 + 64 = 1728 + 64 = 1792. Le "+K" = un biais par filtre.</div>
+</div>
+
+<div class="qblock" id="q8">
+<div class="qn">Q08 · TPs <span style="color:var(--am)">● Moyen</span></div>
+<div class="qtxt">Pourquoi fit SEULEMENT sur X_train et transform sur X_test pour StandardScaler ?</div>
+<button class="opt" onclick="ans('q8','A',false)">A. Pour que le test soit plus difficile</button>
+<button class="opt" onclick="ans('q8','B',true)">B. Pour éviter le data leakage : le modèle ne doit pas "voir" le test avant l'évaluation</button>
+<button class="opt" onclick="ans('q8','C',false)">C. Pour réduire le temps de calcul</button>
+<button class="opt" onclick="ans('q8','D',false)">D. C'est la même chose que fit_transform sur tout</button>
+<div class="expl" id="expl-q8">✅ <b>B.</b> Si on fit sur le test, on utilise μ et σ du test pour normaliser → les paramètres du modèle sont influencés par des données qu'il ne devrait pas voir = data leakage = évaluation optimiste et fausse.</div>
+</div>
+
+</div><!-- qcol1 -->
+
+<div id="qcol2">
+
+<div class="qblock" id="q9">
+<div class="qn">Q09 · CH1 <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Différence fondamentale entre Eigenfaces (ACP) et Fisherfaces (LDA) ?</div>
+<button class="opt" onclick="ans('q9','A',false)">A. Eigenfaces = supervisé, LDA = non supervisé</button>
+<button class="opt" onclick="ans('q9','B',false)">B. ACP utilise des noyaux non-linéaires</button>
+<button class="opt" onclick="ans('q9','C',true)">C. ACP maximise la variance totale (représentation). LDA maximise inter/intra classe (discrimination)</button>
+<button class="opt" onclick="ans('q9','D',false)">D. Identiques sur grande base</button>
+<div class="expl" id="expl-q9">✅ <b>C.</b> ACP = compression optimale, pas de notion de classe. LDA = séparation maximale entre classes, robuste à l'illumination. Petite base → ACP peut dépasser LDA. Grande base → LDA meilleure.</div>
+</div>
+
+<div class="qblock" id="q10">
+<div class="qn">Q10 · TPs <span style="color:var(--am)">● Moyen</span></div>
+<div class="qtxt">Dans le TP CNN COVID, pourquoi le Recall de la classe COVID est la métrique la plus critique ?</div>
+<button class="opt" onclick="ans('q10','A',false)">A. Car le Recall est toujours plus élevé que la Precision</button>
+<button class="opt" onclick="ans('q10','B',true)">B. Car FN = malade non détecté = potentiellement fatal. On préfère quelques FP (fausses alarmes) à des FN.</button>
+<button class="opt" onclick="ans('q10','C',false)">C. Car le dataset COVID est toujours équilibré</button>
+<button class="opt" onclick="ans('q10','D',false)">D. Car c'est le plus facile à calculer</button>
+<div class="expl" id="expl-q10">✅ <b>B.</b> Recall = TP/(TP+FN). Un FN = patient COVID classé "sain" → rentre chez lui, risque décès, contamination. Un FP = patient sain classé "COVID" → test supplémentaire, moins grave.</div>
+</div>
+
+<div class="qblock" id="q11">
+<div class="qn">Q11 · MLP <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">L1 vs L2 regularisation. Laquelle met des poids EXACTEMENT à 0 ?</div>
+<button class="opt" onclick="ans('q11','A',true)">A. L1 (Lasso) met des poids exactement à 0 → sélection de features</button>
+<button class="opt" onclick="ans('q11','B',false)">B. L2 (Ridge) met des poids exactement à 0</button>
+<button class="opt" onclick="ans('q11','C',false)">C. Les deux mettent des poids à 0</button>
+<button class="opt" onclick="ans('q11','D',false)">D. Aucune des deux</button>
+<div class="expl" id="expl-q11">✅ <b>A.</b> L1 pénalité = Σ|wᵢ| → peut forcer des poids à exactement 0 (sélection de features). L2 pénalité = Σwᵢ² → réduit les poids proches de 0 mais jamais exactement 0.</div>
+</div>
+
+<div class="qblock" id="q12">
+<div class="qn">Q12 · TPs <span style="color:var(--am)">● Moyen</span></div>
+<div class="qtxt">Loss function pour classification multi-classes Keras avec labels one-hot ?</div>
+<button class="opt" onclick="ans('q12','A',false)">A. binary_crossentropy</button>
+<button class="opt" onclick="ans('q12','B',false)">B. mean_squared_error</button>
+<button class="opt" onclick="ans('q12','C',true)">C. categorical_crossentropy</button>
+<button class="opt" onclick="ans('q12','D',false)">D. hinge</button>
+<div class="expl" id="expl-q12">✅ <b>C.</b> Labels one-hot [0,1,0] + softmax → categorical_crossentropy. Labels entiers (0,1,2) + softmax → sparse_categorical_crossentropy. Binary = 1 seul neurone sortie + sigmoïde.</div>
+</div>
+
+<div class="qblock" id="q13">
+<div class="qn">Q13 · CH2 <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">CAH : quelle information encode la HAUTEUR d'un nœud dans le dendrogramme ?</div>
+<button class="opt" onclick="ans('q13','A',false)">A. Le nombre d'éléments dans le cluster</button>
+<button class="opt" onclick="ans('q13','B',true)">B. La distance entre les deux clusters fusionnés à cette étape</button>
+<button class="opt" onclick="ans('q13','C',false)">C. L'ordre chronologique de la fusion</button>
+<button class="opt" onclick="ans('q13','D',false)">D. Le nombre de clusters restants</button>
+<div class="expl" id="expl-q13">✅ <b>B.</b> Plus la fusion est haute dans l'arbre, plus les clusters fusionnés sont éloignés. Couper le dendrogramme à une hauteur h donne des clusters dont la distance interne < h.</div>
+</div>
+
+<div class="qblock" id="q14">
+<div class="qn">Q14 · Général <span style="color:var(--am)">● Moyen</span></div>
+<div class="qtxt">Différence entre Loss Function et Cost Function ?</div>
+<button class="opt" onclick="ans('q14','A',false)">A. Ce sont exactement la même chose</button>
+<button class="opt" onclick="ans('q14','B',true)">B. Loss = erreur sur 1 exemple. Cost = moyenne sur tout le dataset.</button>
+<button class="opt" onclick="ans('q14','C',false)">C. Loss = classification, Cost = régression</button>
+<button class="opt" onclick="ans('q14','D',false)">D. Cost = utilisée seulement en SVM</button>
+<div class="expl" id="expl-q14">✅ <b>B.</b> L(ŷ⁽ⁱ⁾, y⁽ⁱ⁾) = erreur sur un seul exemple. J(w) = (1/m)·Σ L(ŷ⁽ⁱ⁾, y⁽ⁱ⁾) = moyenne sur m exemples = Cost Function qu'on minimise pendant l'entraînement.</div>
+</div>
+
+<div class="qblock" id="q15">
+<div class="qn">Q15 · CNN <span style="color:var(--re)">● Difficile</span></div>
+<div class="qtxt">Quel est le rôle du batch_size dans l'entraînement d'un CNN ?</div>
+<button class="opt" onclick="ans('q15','A',false)">A. Il définit le nombre total d'epochs</button>
+<button class="opt" onclick="ans('q15','B',false)">B. Il définit la taille de l'image d'entrée</button>
+<button class="opt" onclick="ans('q15','C',true)">C. Il contrôle combien d'images sont traitées avant chaque mise à jour des poids</button>
+<button class="opt" onclick="ans('q15','D',false)">D. Il détermine le nombre de couches</button>
+<div class="expl" id="expl-q15">✅ <b>C.</b> batch_size=32 → 32 images traitées → 1 mise à jour des poids. Petit batch → updates fréquentes mais bruyantes. Grand batch → updates stables. Avec 1000 images, 1 epoch = 1000/32 ≈ 31 updates.</div>
+</div>
+
+</div><!-- qcol2 -->
+</div><!-- g2 -->
+</section>
+
+<div class="sdiv"></div>
+
+<!-- ══════════════════════════════════════ FORMULES ══════════════════════════════════════ -->
+<section id="formules">
+<div class="sh"><span class="sh-tag" style="background:rgba(0,200,150,.1);color:var(--gr)">FORMULES</span><h2>Aide-mémoire — Tout d'un coup d'œil</h2></div>
+
+<div class="g4">
+<div class="card"><h3 style="color:var(--cy);font-size:12px">Distances</h3>
+<div class="code" style="font-size:11px">Euclidienne: √Σ(aₖ-bₖ)²
+City Block : Σ|aₖ-bₖ|
+Mahalanobis: √((x-μ)ᵀΣ⁻¹(x-μ))</div></div>
+
+<div class="card"><h3 style="color:var(--vi);font-size:12px">Bayes</h3>
+<div class="code" style="font-size:11px">P(wᵢ/x)=P(x/wᵢ)P(wᵢ)/P(x)
+P(x) = Σⱼ P(x/wⱼ)·P(wⱼ)
+Décide: max P(x/wᵢ)·P(wᵢ)</div></div>
+
+<div class="card"><h3 style="color:var(--re);font-size:12px">Confusion</h3>
+<div class="code" style="font-size:11px">Acc = (TP+TN)/total
+Pre = TP/(TP+FP)
+Rec = TP/(TP+FN)
+F1  = 2PR/(P+R)</div></div>
+
+<div class="card"><h3 style="color:var(--or);font-size:12px">SVM</h3>
+<div class="code" style="font-size:11px">Marge = 2/‖w‖
+min ½‖w‖²
+Soft: +C·Σεᵢ
+RBF: exp(-‖x-y‖²/2σ²)</div></div>
+
+<div class="card"><h3 style="color:var(--gr);font-size:12px">Backprop</h3>
+<div class="code" style="font-size:11px">δ sortie=e·y·(1-y)
+δ caché=y·(1-y)·Σδₖwₖⱼ
+Δw=η·δ·y
++momentum: +μ·Δw(n-1)</div></div>
+
+<div class="card"><h3 style="color:var(--am);font-size:12px">CNN Dim.</h3>
+<div class="code" style="font-size:11px">Conv: (W-F+2P)/S+1
+Pool: (W-F)/S+1
+Params=F²·D·K+K</div></div>
+
+<div class="card"><h3 style="color:var(--pk);font-size:12px">LSTM</h3>
+<div class="code" style="font-size:11px">fₜ=σ(Wf·[h,x]+b) FORGET
+iₜ=σ(Wi·[h,x]+b) INPUT
+oₜ=σ(Wo·[h,x]+b) OUTPUT
+cₜ=fₜ⊙cₜ₋₁+iₜ⊙c̃ₜ
+hₜ=oₜ⊙tanh(cₜ)</div></div>
+
+<div class="card"><h3 style="color:var(--cy);font-size:12px">Activations</h3>
+<div class="code" style="font-size:11px">σ(x)=1/(1+e⁻ˣ) →(0,1)
+σ'(x)=σ(x)·(1-σ(x))
+ReLU=max(0,x)
+Softmax=eˣⁱ/Σeˣʲ</div></div>
+</div>
+
+<div class="hl re" style="margin-top:16px"><b>⚠ Pièges classiques à l'examen :</b> (1) Pooling ne change pas D. (2) δ couche cachée ≠ δ couche sortie. (3) FN = Type II (pas Type I). (4) ACP = non supervisé. (5) Soft margin : εᵢ&gt;1 = mal classé. (6) OvO = N(N-1)/2, OvA = N.</div>
+</section>
+
+</main>
+
+<div style="text-align:center;padding:16px;border-top:1px solid var(--b);font-size:11px;color:var(--mu)">
+  IA·USTHB · Prof. Chelali · <span style="color:var(--cy)">Bonne chance ! 💪</span>
+</div>
+
+<script>
+// Timer
+let t=3600;
+const tmr=document.getElementById('timer');
+const iv=setInterval(()=>{
+  t--;
+  if(t<=0){clearInterval(iv);tmr.textContent='⏱ TERMINÉ';tmr.style.background='rgba(255,71,87,.3)';return}
+  const m=Math.floor(t/60),s=t%60;
+  tmr.textContent=`⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if(t<=600)tmr.style.borderColor='#ff4757';
+  if(t<=300){tmr.style.background='rgba(255,71,87,.3)';tmr.style.animation='blink .5s infinite'}
+},1000);
+
+// QCM
+const st={};
+function ans(qid,opt,correct){
+  if(st[qid])return;
+  st[qid]={correct};
+  const q=document.getElementById(qid);
+  q.querySelectorAll('.opt').forEach(b=>{
+    if(b.textContent[0]===opt)b.classList.add(correct?'ok':'no');
+    if(!correct){const f=b.getAttribute('onclick');if(f&&f.includes('true'))b.classList.add('show-ok')}
+  });
+  document.getElementById('expl-'+qid).classList.add('on');
+  updateScore();
+}
+function updateScore(){
+  const tot=Object.keys(st).length,good=Object.values(st).filter(x=>x.correct).length;
+  const sb=document.getElementById('sbar');
+  sb.style.display='flex';
+  document.getElementById('sval').textContent=good+'/'+tot;
+  const p=tot?good/tot*100:0;
+  const f=document.getElementById('sfil');
+  f.style.width=p+'%';
+  f.style.background=p>=70?'linear-gradient(90deg,var(--gr),var(--cy))':p>=40?'linear-gradient(90deg,var(--am),var(--or))':'linear-gradient(90deg,var(--re),var(--or))';
+}
+
+// Scroll active nav
+window.addEventListener('scroll',()=>{
+  const secs=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('nav a');
+  let cur='';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id});
+  links.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+cur)});
+});
+</script>
+</body>
+</html>

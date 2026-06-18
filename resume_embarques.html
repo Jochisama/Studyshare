@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rattrapage — Systèmes Embarqués · M1ST USTHB</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090f;--bg2:#0a0d16;--surface:#0f1421;--card:#131926;--card2:#181f30;
+  --border:#1c2a42;--border2:#273d5e;
+  --cyan:#00e5ff;--orange:#ff6b35;--violet:#7c3aed;--green:#00d68f;--red:#ff4757;
+  --amber:#ffd32a;--pink:#f472b6;--sky:#38bdf8;--lime:#a3e635;
+  --text:#dde4f0;--muted:#4e6480;--muted2:#7a93b0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;font-size:14.5px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* scan line overlay */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.004) 2px,rgba(0,229,255,.004) 3px);pointer-events:none;z-index:9999}
+
+/* progress */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--orange));z-index:10000;width:0%;transition:width .1s}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:500;background:rgba(7,9,15,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.hw{max-width:1300px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:16px;height:54px}
+.logo{font-family:'Space Mono',monospace;font-size:12px;color:var(--cyan);letter-spacing:3px;white-space:nowrap;flex-shrink:0}
+.logo b{color:var(--orange)}
+nav{display:flex;gap:2px;overflow-x:auto;flex:1}
+nav::-webkit-scrollbar{height:0}
+nav a{color:var(--muted);text-decoration:none;font-size:11px;font-family:'Space Mono',monospace;padding:5px 10px;border-radius:4px;border:1px solid transparent;transition:all .18s;white-space:nowrap}
+nav a:hover,nav a.act{color:var(--cyan);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.05)}
+.badge{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.4);color:#ff8a96;font-size:10px;font-family:'Space Mono',monospace;padding:3px 10px;border-radius:20px;white-space:nowrap;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:80px 24px 60px}
+.hero-bg{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%,rgba(0,229,255,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 90%,rgba(124,58,237,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 10% 80%,rgba(255,107,53,.05) 0%,transparent 55%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:56px 56px}
+.hero-content{position:relative;max-width:860px}
+.chip-live{display:inline-flex;align-items:center;gap:8px;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.35);color:#ff8a96;font-size:11px;font-family:'Space Mono',monospace;padding:5px 16px;border-radius:20px;margin-bottom:24px;letter-spacing:1px}
+.chip-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#ff4757;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5.5vw,62px);font-weight:800;line-height:1.08;margin-bottom:18px;letter-spacing:-1px}
+.hero h1 .g1{background:linear-gradient(135deg,var(--cyan) 0%,var(--sky) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .g2{background:linear-gradient(135deg,var(--orange) 0%,var(--amber) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:15px;color:var(--muted2);max-width:560px;margin:0 auto 36px}
+.hero-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 22px;text-align:center;min-width:90px}
+.stat-n{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.stat-l{font-size:10.5px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:2px}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--muted);font-family:'Space Mono',monospace;display:flex;flex-direction:column;align-items:center;gap:6px;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+
+/* MAIN */
+main{max-width:1300px;margin:0 auto;padding:0 20px 80px}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+
+/* SECTION HEAD */
+.sh{margin-bottom:36px}
+.tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;padding:3px 12px;border-radius:20px;margin-bottom:10px;letter-spacing:1px}
+.tag-c{color:var(--cyan);background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2)}
+.tag-o{color:var(--orange);background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2)}
+.tag-v{color:#a78bfa;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2)}
+.tag-g{color:var(--green);background:rgba(0,214,143,.08);border:1px solid rgba(0,214,143,.2)}
+.tag-a{color:var(--amber);background:rgba(255,211,42,.08);border:1px solid rgba(255,211,42,.2)}
+.sh h2{font-family:'Syne',sans-serif;font-size:clamp(20px,2.8vw,30px);font-weight:800;margin-bottom:8px}
+.sh p{color:var(--muted2);font-size:14px;max-width:680px}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(min-width:560px) and (max-width:860px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .2s,transform .18s,box-shadow .2s}
+.card:hover{transform:translateY(-2px)}
+.card.c:hover{border-color:rgba(0,229,255,.4);box-shadow:0 4px 24px rgba(0,229,255,.05)}
+.card.o:hover{border-color:rgba(255,107,53,.4);box-shadow:0 4px 24px rgba(255,107,53,.05)}
+.card.v:hover{border-color:rgba(124,58,237,.4);box-shadow:0 4px 24px rgba(124,58,237,.06)}
+.card.g:hover{border-color:rgba(0,214,143,.4);box-shadow:0 4px 24px rgba(0,214,143,.05)}
+.card.a:hover{border-color:rgba(255,211,42,.4);box-shadow:0 4px 24px rgba(255,211,42,.04)}
+.ci{font-size:22px;margin-bottom:10px}
+.card h3{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;margin-bottom:6px}
+.card h4{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:6px}
+.card p,.card li{color:var(--muted2);font-size:13.5px;line-height:1.8}
+.card ul{padding-left:16px}
+.card li::marker{color:var(--cyan)}
+
+/* HIGHLIGHT */
+.hl{border-left:3px solid;border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0;font-size:13.5px;color:var(--muted2)}
+.hl.c{border-color:var(--cyan);background:rgba(0,229,255,.04)}
+.hl.c strong,.hl.c b,.hl.c code{color:var(--cyan)}
+.hl.o{border-color:var(--orange);background:rgba(255,107,53,.04)}
+.hl.o strong,.hl.o b,.hl.o code{color:var(--orange)}
+.hl.v{border-color:#a78bfa;background:rgba(124,58,237,.04)}
+.hl.v strong,.hl.v b,.hl.v code{color:#a78bfa}
+.hl.g{border-color:var(--green);background:rgba(0,214,143,.04)}
+.hl.g strong,.hl.g b,.hl.g code{color:var(--green)}
+.hl.a{border-color:var(--amber);background:rgba(255,211,42,.04)}
+.hl.a strong,.hl.a b,.hl.a code{color:var(--amber)}
+.hl.r{border-color:var(--red);background:rgba(255,71,87,.04)}
+.hl.r strong,.hl.r b{color:var(--red)}
+
+/* CODE */
+.code{background:#030508;border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-family:'Space Mono',monospace;font-size:12.5px;color:#a3e635;line-height:2;overflow-x:auto;margin:12px 0;position:relative}
+.code-label{position:absolute;top:8px;right:12px;font-size:10px;color:var(--muted);letter-spacing:1px}
+.code .c{color:#3d5270}
+.code .kw{color:#00e5ff}
+.code .fn{color:#ffd32a}
+.code .nb{color:#f472b6}
+.code .str{color:#ff8a96}
+.code .reg{color:#a78bfa}
+.code .flag{color:#00d68f}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.tbl th{background:rgba(0,229,255,.07);color:var(--cyan);font-family:'Space Mono',monospace;font-size:10.5px;padding:9px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.tbl td{padding:9px 14px;border-bottom:1px solid rgba(28,42,66,.5);color:var(--muted2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.012)}
+.tbl .ok{color:var(--green)}
+.tbl .no{color:var(--red)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:14px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:16px;top:38px;bottom:0;width:1px;background:var(--border)}
+.snum{width:32px;height:32px;border-radius:50%;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:var(--cyan);font-family:'Space Mono',monospace;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.sbody{padding-bottom:18px;flex:1}
+.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:13.5px;margin-bottom:4px}
+.sdesc{font-size:13.5px;color:var(--muted2)}
+
+/* QA */
+.qa{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;transition:border-color .2s}
+.qa:hover{border-color:var(--border2)}
+.qa-q{padding:14px 18px;background:var(--card2);cursor:pointer;display:flex;align-items:flex-start;gap:12px;font-size:13.5px;font-weight:600}
+.qa-q .num{background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.25);color:var(--cyan);font-family:'Space Mono',monospace;font-size:11px;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.qa-q .arr{margin-left:auto;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.qa-a{display:none;padding:14px 18px 16px;border-top:1px solid var(--border);background:var(--card);font-size:13.5px;color:var(--muted2);line-height:1.8}
+.qa.open .qa-a{display:block}
+.qa.open .arr{transform:rotate(90deg);color:var(--cyan)}
+
+/* CHIPS */
+.chip{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;padding:3px 9px;border-radius:20px;margin:2px}
+.cc{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--cyan)}
+.co{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);color:var(--orange)}
+.cg{background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.25);color:var(--green)}
+.cv{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:#a78bfa}
+.ca{background:rgba(255,211,42,.1);border:1px solid rgba(255,211,42,.25);color:var(--amber)}
+.cr{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.25);color:var(--red)}
+
+/* DIAGRAM */
+.diagram{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:24px;margin:16px 0;text-align:center;font-family:'Space Mono',monospace;font-size:12px;color:var(--muted2);overflow-x:auto}
+.diagram .box{display:inline-block;border:1px solid var(--border2);border-radius:8px;padding:8px 16px;margin:4px;color:var(--text);background:var(--card);font-size:12px}
+.diagram .box.c{border-color:rgba(0,229,255,.4);color:var(--cyan);background:rgba(0,229,255,.06)}
+.diagram .box.o{border-color:rgba(255,107,53,.4);color:var(--orange);background:rgba(255,107,53,.06)}
+.diagram .box.g{border-color:rgba(0,214,143,.4);color:var(--green);background:rgba(0,214,143,.06)}
+.diagram .arr-r{color:var(--muted);margin:0 4px;font-size:14px}
+.diagram .row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;margin:6px 0}
+
+/* WARN BOX */
+.warn{background:rgba(255,71,87,.06);border:1px solid rgba(255,71,87,.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px;color:#ff8a96}
+.warn strong{color:var(--red)}
+.tip{background:rgba(0,214,143,.06);border:1px solid rgba(0,214,143,.25);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px;color:var(--green)}
+.tip strong{color:var(--green)}
+
+/* SCORE TRACKER */
+#score-wrap{display:none;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin-bottom:24px;font-family:'Space Mono',monospace;font-size:12px}
+#score-val{color:var(--cyan);font-size:15px;font-weight:700}
+#score-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+#score-fill{height:100%;border-radius:3px;transition:width .4s,background .4s;width:0%}
+
+/* QCM */
+.qcm{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px}
+.qcm-q{font-size:14px;font-weight:600;margin-bottom:14px;line-height:1.7}
+.qcm-q span{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-right:8px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 14px;cursor:pointer;text-align:left;font-size:13px;color:var(--text);transition:all .18s;font-family:'Plus Jakarta Sans',sans-serif}
+.opt:hover{border-color:var(--border2);background:var(--card2)}
+.opt.correct{border-color:var(--green);background:rgba(0,214,143,.1);color:var(--green)}
+.opt.wrong{border-color:var(--red);background:rgba(255,71,87,.08);color:#ff8a96}
+.opt.reveal{border-color:rgba(0,214,143,.4);background:rgba(0,214,143,.05);color:var(--green);opacity:.7}
+.expl{display:none;margin-top:10px;font-size:13px;color:var(--muted2);border-left:2px solid var(--green);padding-left:12px}
+.expl.show{display:block}
+
+/* BACK TO TOP */
+#btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;background:var(--card);border:1px solid var(--border2);border-radius:10px;color:var(--cyan);font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .2s;z-index:100}
+#btt.vis{display:flex}
+#btt:hover{background:rgba(0,229,255,.1);border-color:rgba(0,229,255,.4)}
+
+@media(max-width:600px){.hw{gap:8px}.logo{font-size:11px}nav{display:none}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<header>
+  <div class="hw">
+    <div class="logo">SE·<b>USTHB</b></div>
+    <nav>
+      <a href="#ex1">EX·1 Thumb</a>
+      <a href="#ex2">EX·2 DHT22</a>
+      <a href="#ex3">EX·3 LSL</a>
+      <a href="#arm">ARM</a>
+      <a href="#datapath">Datapath</a>
+      <a href="#banked">Registres banked</a>
+      <a href="#arch">Architecture</a>
+      <a href="#cpsr">CPSR & Modes</a>
+      <a href="#qcm">QCM</a>
+      <a href="#piege">Pièges</a>
+    </nav>
+    <div class="badge">RATTRAPAGE</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="chip-live">● RATTRAPAGE · Janv. 2026</div>
+    <h1><span class="g1">Systèmes</span><br><span class="g2">Embarqués</span></h1>
+    <p>Révision complète · M1ST · Pr Fatma Zohra Chelali<br>Tous les exercices de l'examen, corrigés et expliqués</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n" style="color:var(--cyan)">3</div><div class="stat-l">Exercices</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--orange)">15</div><div class="stat-l">Points</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--violet)">12</div><div class="stat-l">Questions</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--green)">1h30</div><div class="stat-l">Durée</div></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <span class="chip cc">Thumb ISA</span>
+      <span class="chip co">DHT22 / Arduino</span>
+      <span class="chip cv">LSL · Flags NZCV</span>
+      <span class="chip cg">ARM Cortex-M</span>
+      <span class="chip ca">RISC / Harvard</span>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ scroll</div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════ EXERCICE 1 ═══════════════════════════════════ -->
+<section id="ex1">
+  <div class="sh">
+    <div class="tag tag-c">EXERCICE 1 · 7 pts</div>
+    <h2>Instructions Thumb : MOV, ADD, SUBS, BNE, STR</h2>
+    <p>Comprendre et appliquer les instructions ARM Thumb de base pour manipuler les registres, la mémoire et les flags.</p>
+  </div>
+
+  <!-- Tableau de référence -->
+  <div class="card c" style="margin-bottom:20px">
+    <div class="ci">📋</div>
+    <h3>Table des instructions de l'examen</h3>
+    <table class="tbl">
+      <thead><tr><th>Instruction</th><th>Opération</th><th>Met à jour les flags ?</th><th>Explication</th></tr></thead>
+      <tbody>
+        <tr><td><code style="color:var(--cyan)">MOV R0, #5</code></td><td>R0 ← 5</td><td class="no">Non (MOV)</td><td>Charge la valeur immédiate 5 dans R0</td></tr>
+        <tr><td><code style="color:var(--cyan)">ADD R1, R0, R2</code></td><td>R1 ← R0 + R2</td><td class="no">Non (ADD)</td><td>Addition sans mise à jour des flags</td></tr>
+        <tr><td><code style="color:var(--cyan)">SUBS R3, R3, #1</code></td><td>R3 ← R3 − 1</td><td class="ok">✓ Oui (SUBS)</td><td>Soustraction + met à jour N, Z, C, V</td></tr>
+        <tr><td><code style="color:var(--cyan)">BNE label</code></td><td>Saut si Z = 0</td><td class="no">—</td><td>Branch if Not Equal : branche si résultat ≠ 0</td></tr>
+        <tr><td><code style="color:var(--cyan)">STR R2, [R4]</code></td><td>Mém[R4] ← R2</td><td class="no">—</td><td>Stocke R2 en mémoire à l'adresse contenue dans R4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Part A : Questions de compréhension -->
+  <div style="margin-bottom:24px">
+    <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;color:var(--cyan)">PART A — Questions de compréhension (2,5 pts)</h3>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q1 · 0.5pt</span>Que fait <code>MOV R0, #5</code> ?<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <strong style="color:var(--cyan)">Réponse :</strong> Cette instruction charge la constante immédiate <strong>5</strong> dans le registre <strong>R0</strong>. C'est une opération de chargement direct (pas de lecture mémoire). Après l'instruction : R0 = 5. Les flags NZCV <strong>ne sont PAS modifiés</strong> (pour mettre à jour les flags il faudrait MOVS).
+        <div class="hl c"><strong>Syntaxe Thumb :</strong> <code>MOV Rd, #imm8</code> — l'immédiat est sur 8 bits (0–255).</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q2 · 0.5pt</span>Différence entre <code>ADD R1, R0, R2</code> et <code>ADDS R1, R0, R2</code> ?<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <table class="tbl">
+          <thead><tr><th>ADD</th><th>ADDS</th></tr></thead>
+          <tbody>
+            <tr><td>R1 ← R0 + R2</td><td>R1 ← R0 + R2</td></tr>
+            <tr><td class="no">Flags NZCV <strong>non modifiés</strong></td><td class="ok">Flags NZCV <strong>mis à jour</strong></td></tr>
+            <tr><td>Pas de branchement conditionnel possible après</td><td>BNE / BEQ / BCS... utilisables après</td></tr>
+          </tbody>
+        </table>
+        <div class="hl o"><strong>Règle clé :</strong> Le suffixe <strong>S</strong> (ADDS, SUBS, MOVS...) signifie «Set flags». Sans S → les flags ne changent pas.</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q3 · 0.5pt</span>Effet de <code>SUBS R3, R3, #1</code> sur les flags N, Z, C, V<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <table class="tbl">
+          <thead><tr><th>Flag</th><th>Signification</th><th>Mis à 1 si...</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--pink)">N</strong> — Negative</td><td>Résultat négatif</td><td>Bit 31 du résultat = 1 (R3 devient négatif)</td></tr>
+            <tr><td><strong style="color:var(--cyan)">Z</strong> — Zero</td><td>Résultat nul</td><td>R3 − 1 = 0 ← <strong>condition pour arrêter une boucle</strong></td></tr>
+            <tr><td><strong style="color:var(--orange)">C</strong> — Carry</td><td>Dépassement non signé</td><td>Emprunt lors de la soustraction (borrow)</td></tr>
+            <tr><td><strong style="color:var(--amber)">V</strong> — Overflow</td><td>Dépassement signé</td><td>Débordement arithmétique signé</td></tr>
+          </tbody>
+        </table>
+        <div class="hl g"><strong>Exemple :</strong> Si R3 = 1, après SUBS R3, R3, #1 → R3 = 0, <strong>Z = 1</strong>, N = 0, C = 1 (pas d'emprunt), V = 0.</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q4 · 0.5pt</span>Sous quelle condition <code>BNE label</code> branche-t-il ?<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <strong style="color:var(--cyan)">BNE = Branch if Not Equal = Branch if Zero flag = 0</strong>
+        <div class="hl c">BNE branche vers <code>label</code> si le flag <strong>Z = 0</strong> (résultat de la dernière opération ≠ 0).<br>Si Z = 1 (résultat = 0), le branchement <strong>ne se fait pas</strong> et l'exécution continue normalement.</div>
+        <p style="margin-top:8px;color:var(--muted2)">C'est la clé des boucles de décompte : tant que SUBS n'arrive pas à 0, Z=0 et BNE boucle.</p>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q5 · 0.5pt</span>Rôle de <code>STR R2, [R4]</code><span class="arr">▶</span></div>
+      <div class="qa-a">
+        <strong style="color:var(--cyan)">STR = Store Register</strong> — stocke le contenu d'un registre en mémoire.
+        <div class="hl o"><strong>STR R2, [R4]</strong> : écrit la valeur de R2 à l'adresse mémoire <strong>pointée par R4</strong>.<br>R4 est utilisé comme <strong>pointeur</strong>. La mémoire à l'adresse R4 reçoit la valeur de R2. R4 lui-même n'est pas modifié.</div>
+        <table class="tbl" style="margin-top:10px">
+          <thead><tr><th>Instruction</th><th>Sens</th><th>Mémoire ↔ Registre</th></tr></thead>
+          <tbody>
+            <tr><td>STR Rt, [Rn]</td><td>Registre → Mémoire</td><td>Écriture</td></tr>
+            <tr><td>LDR Rt, [Rn]</td><td>Mémoire → Registre</td><td>Lecture</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part B -->
+  <div>
+    <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;color:var(--orange)">PART B — Application pratique (4,5 pts)</h3>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q6 · 1pt</span>Expliquez comment une boucle SUBS + BNE compte à rebours vers 0<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="code">
+          <span class="c">; Boucle de décompte : compte de N jusqu'à 0</span><br>
+          <span class="kw">MOV</span>  <span class="reg">R3</span>, <span class="nb">#5</span>      <span class="c">; R3 = 5 (valeur initiale)</span><br>
+          <br>
+          loop:<br>
+          &nbsp;&nbsp;<span class="kw">SUBS</span> <span class="reg">R3</span>, <span class="reg">R3</span>, <span class="nb">#1</span>  <span class="c">; R3 = R3 - 1, met à jour Z</span><br>
+          &nbsp;&nbsp;<span class="kw">BNE</span>  loop         <span class="c">; Si Z=0 → stop | Si Z=1 → boucle</span><br>
+          <br>
+          <span class="c">; Après : R3 = 0, Z = 1, boucle terminée</span>
+        </div>
+        <div class="steps" style="margin-top:12px">
+          <div class="step"><div class="snum">1</div><div class="sbody"><div class="stitle">Itération 1 : R3=5 → SUBS → R3=4</div><div class="sdesc">Z=0 car 4≠0 → BNE branche vers loop</div></div></div>
+          <div class="step"><div class="snum">2</div><div class="sbody"><div class="stitle">Itérations 2-4 : même mécanisme</div><div class="sdesc">R3 diminue : 4→3→2→1, Z reste à 0</div></div></div>
+          <div class="step"><div class="snum">3</div><div class="sbody"><div class="stitle">Itération 5 : R3=1 → SUBS → R3=0</div><div class="sdesc">Z=1 car résultat=0 → BNE ne branche PAS → sortie</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q7 · 0.5pt</span>Diagramme : registres, mémoire et flags pour une boucle de décompte<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="diagram">
+          <div style="color:var(--cyan);font-size:11px;margin-bottom:12px;letter-spacing:1px">ÉTAT DU PROCESSEUR — BOUCLE SUBS + BNE</div>
+          <div class="row">
+            <div style="margin-right:20px">
+              <div style="color:var(--muted);font-size:10px;margin-bottom:6px">REGISTRES</div>
+              <div class="box c">R3 = N…0</div><br>
+              <div class="box" style="margin-top:4px">R0..R2 = données</div>
+            </div>
+            <div style="font-size:20px;color:var(--border2);margin:0 16px">⟵⟶</div>
+            <div style="margin:0 20px">
+              <div style="color:var(--muted);font-size:10px;margin-bottom:6px">CPSR — FLAGS</div>
+              <div class="box g">Z = 0 → boucle</div><br>
+              <div class="box o" style="margin-top:4px">Z = 1 → fin</div>
+            </div>
+            <div style="font-size:20px;color:var(--border2);margin:0 16px">⟶</div>
+            <div>
+              <div style="color:var(--muted);font-size:10px;margin-bottom:6px">MÉMOIRE</div>
+              <div class="box">Adresse [R4]</div><br>
+              <div class="box" style="margin-top:4px">← STR R2, [R4]</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;font-size:10.5px;color:var(--muted)">SUBS met à jour Z → BNE lit Z → décision de boucler</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q8 · 0.5pt</span>Code Thumb : additionner R0=7 et R1=5, stocker le résultat en mémoire<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="code">
+          <div class="code-label">THUMB ASSEMBLY</div>
+          <span class="c">; Initialisation</span><br>
+          <span class="kw">MOV</span>  <span class="reg">R0</span>, <span class="nb">#7</span>         <span class="c">; R0 = 7</span><br>
+          <span class="kw">MOV</span>  <span class="reg">R1</span>, <span class="nb">#5</span>         <span class="c">; R1 = 5</span><br>
+          <br>
+          <span class="c">; Addition</span><br>
+          <span class="kw">ADD</span>  <span class="reg">R2</span>, <span class="reg">R0</span>, <span class="reg">R1</span>    <span class="c">; R2 = R0 + R1 = 12</span><br>
+          <br>
+          <span class="c">; Stockage en mémoire</span><br>
+          <span class="kw">LDR</span>  <span class="reg">R4</span>, =result      <span class="c">; R4 pointe vers l'adresse 'result'</span><br>
+          <span class="kw">STR</span>  <span class="reg">R2</span>, [<span class="reg">R4</span>]        <span class="c">; Mém[R4] = R2 = 12</span><br>
+          <br>
+          result: <span class="kw">.word</span> <span class="nb">0</span>        <span class="c">; Espace mémoire pour le résultat</span>
+        </div>
+        <div class="hl g"><strong>Résultat :</strong> R2 = 12, la valeur 12 est stockée à l'adresse <code>result</code> en mémoire.</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q9 · 0.5pt</span>Comment les valeurs se déplacent-elles entre registres et mémoire ?<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="g2" style="gap:12px">
+          <div class="card g"><h4>🔼 Load (LDR) : Mémoire → Registre</h4><p>Lit une valeur depuis l'adresse mémoire pointée par un registre, et la place dans un registre de destination.<br><br><code style="color:var(--green)">LDR R0, [R4]</code> → R0 ← Mémoire[R4]</p></div>
+          <div class="card o"><h4>🔽 Store (STR) : Registre → Mémoire</h4><p>Écrit la valeur d'un registre dans la mémoire à l'adresse pointée par un autre registre.<br><br><code style="color:var(--orange)">STR R2, [R4]</code> → Mémoire[R4] ← R2</p></div>
+        </div>
+        <div class="hl c"><strong>Architecture Load/Store :</strong> Dans ARM Thumb, seules les instructions LDR et STR accèdent à la mémoire. Toutes les autres opérations (ADD, SUBS...) travaillent uniquement sur des registres.</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q10 · 1pt</span>Comment le flag Zero affecte-t-il le branchement dans votre boucle ?<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <table class="tbl">
+          <thead><tr><th>Instruction</th><th>Valeur de Z</th><th>Action de BNE</th></tr></thead>
+          <tbody>
+            <tr><td>SUBS R3, R3, #1 (R3 était 3 → devient 2)</td><td><strong style="color:var(--red)">Z = 0</strong></td><td class="ok">BNE branche → retour au début de la boucle</td></tr>
+            <tr><td>SUBS R3, R3, #1 (R3 était 1 → devient 0)</td><td><strong style="color:var(--green)">Z = 1</strong></td><td class="no">BNE ne branche pas → sortie de boucle</td></tr>
+          </tbody>
+        </table>
+        <div class="hl a"><strong>Mécanisme :</strong> Le flag Z est la "sentinelle" de la boucle. SUBS le positionne automatiquement à chaque décrémentation. BNE le teste et décide de continuer ou d'arrêter.</div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q11 · 0.5pt</span>Diagramme de flux : états registres, mémoire et flags pour une boucle SUBS + BNE<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="diagram" style="font-size:11.5px">
+          <div style="color:var(--cyan);font-size:10px;letter-spacing:1px;margin-bottom:10px">FLOWCHART — BOUCLE SUBS + BNE</div>
+          <div class="row"><div class="box c">DÉBUT : MOV R3, #N</div></div>
+          <div class="row" style="color:var(--border2)">↓</div>
+          <div class="row"><div class="box" style="border-color:var(--amber)">SUBS R3, R3, #1<br><small style="color:var(--amber)">Z flag mis à jour</small></div></div>
+          <div class="row" style="color:var(--border2)">↓</div>
+          <div class="row">
+            <div class="box o">BNE loop<br><small>teste Z</small></div>
+          </div>
+          <div class="row" style="gap:60px">
+            <div style="text-align:center"><div style="color:var(--green);font-size:10px">Z = 0 (R3 ≠ 0)</div><div style="color:var(--border2)">↺ boucle</div></div>
+            <div style="text-align:center"><div style="color:var(--red);font-size:10px">Z = 1 (R3 = 0)</div><div class="box g">STR R2, [R4] → FIN</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q"><span class="num">Q12 · 0.5pt</span>Flux de MOV, ADD, SUBS, BNE, STR et interaction avec le Zero flag<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="diagram">
+          <div class="row">
+            <div class="box c">MOV<br><small>Charge valeur</small></div>
+            <span class="arr-r">→</span>
+            <div class="box" style="border-color:var(--sky)">ADD<br><small>Calcule somme</small></div>
+            <span class="arr-r">→</span>
+            <div class="box o">SUBS<br><small>Décrémente + met Z</small></div>
+            <span class="arr-r">→</span>
+            <div class="box" style="border-color:var(--amber)">BNE<br><small>Teste Z → loop/exit</small></div>
+            <span class="arr-r">→</span>
+            <div class="box g">STR<br><small>Sauve résultat</small></div>
+          </div>
+          <div style="margin-top:12px;font-size:10px;color:var(--muted)">MOV/ADD ne touchent pas les flags · SUBS → Z · BNE → lit Z</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ EXERCICE 2 ═══════════════════════════════════ -->
+<section id="ex2">
+  <div class="sh">
+    <div class="tag tag-o">EXERCICE 2 · 5 pts</div>
+    <h2>Système embarqué : DHT22 + Arduino</h2>
+    <p>Conception d'un système de mesure de température/humidité avec affichage sur moniteur série.</p>
+  </div>
+
+  <div class="g2" style="margin-bottom:20px">
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q" style="border-radius:14px"><span class="num">Q1 · 0.5pt</span>Diagramme bloc du système de mesure<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="diagram">
+          <div style="color:var(--orange);font-size:10px;letter-spacing:1px;margin-bottom:10px">ARCHITECTURE DU SYSTÈME</div>
+          <div class="row">
+            <div class="box" style="border-color:var(--green)">DHT22<br><small style="color:var(--muted)">Capteur</small></div>
+            <span class="arr-r">→ DATA pin →</span>
+            <div class="box o">Arduino Uno<br><small style="color:var(--muted)">ATmega328P</small></div>
+            <span class="arr-r">→ USB/UART →</span>
+            <div class="box" style="border-color:var(--sky)">PC<br><small style="color:var(--muted)">Moniteur série</small></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="box" style="font-size:10px">Alimentation 3.3V/5V</div>
+            <span class="arr-r">→</span>
+            <div class="box" style="font-size:10px">Résistance pull-up 10kΩ</div>
+            <span class="arr-r">→</span>
+            <div class="box" style="font-size:10px">Ligne DATA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa" onclick="toggleQA(this)">
+      <div class="qa-q" style="border-radius:14px"><span class="num">Q2 · 0.5pt</span>Rôle de chaque bloc<span class="arr">▶</span></div>
+      <div class="qa-a">
+        <div class="steps">
+          <div class="step"><div class="snum" style="background:rgba(0,214,143,.1);border-color:rgba(0,214,143,.3);color:var(--green)">1</div><div class="sbody"><div class="stitle">DHT22 — Capteur</div><div class="sdesc">Mesure la température (−40°C à +80°C) et l'humidité relative (0–100%). Utilise un protocole 1-wire pour transmettre les données.</div></div></div>
+          <div class="step"><div class="snum" style="background:rgba(255,107,53,.1);border-color:rgba(255,107,53,.3);color:var(--orange)">2</div><div class="sbody"><div class="stitle">Arduino (ATmega328P) — Microcontrôleur</div><div class="sdesc">Lit les données du DHT22 via la bibliothèque, traite les valeurs, les formate et les envoie via UART (Serial).</div></div></div>
+          <div class="step"><div class="snum" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:var(--sky)">3</div><div class="sbody"><div class="stitle">PC / Moniteur série — Affichage</div><div class="sdesc">Reçoit les données via USB-to-Serial et les affiche dans l'IDE Arduino (ou PuTTY, etc.) à 9600 bauds.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q3 · 0.5pt</span>Table de correspondance DHT22 ↔ Arduino<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <table class="tbl">
+        <thead><tr><th>Broche DHT22</th><th>Fonction</th><th>Connexion Arduino</th><th>Remarque</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VCC</strong></td><td>Alimentation</td><td>3.3V ou 5V</td><td>Le DHT22 fonctionne à 3.3V-5V</td></tr>
+          <tr><td><strong>DATA</strong></td><td>Transmission données</td><td>Pin numérique (ex: D2)</td><td>Nécessite résistance pull-up 10kΩ vers VCC</td></tr>
+          <tr><td><strong>GND</strong></td><td>Masse</td><td>GND</td><td>Référence commune</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q4 · 0.5pt</span>Pourquoi une résistance pull-up est-elle nécessaire sur la ligne DATA ?<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="hl o">Le DHT22 utilise un protocole <strong>open-drain</strong> : la ligne DATA peut être tirée vers le bas (GND) par le capteur, mais personne ne la tire vers le haut (VCC) par défaut. La résistance pull-up (<strong>10kΩ</strong> entre DATA et VCC) assure que la ligne est à l'état HAUT au repos. Sans elle, la ligne flotterait à une tension indéfinie → données corrompues ou pas de communication.</div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q5 · 0.5pt</span>Architecture logicielle du système<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="steps">
+        <div class="step"><div class="snum">1</div><div class="sbody"><div class="stitle">setup() — Initialisation</div><div class="sdesc">Démarrage de Serial.begin(9600), initialisation de la bibliothèque DHT.</div></div></div>
+        <div class="step"><div class="snum">2</div><div class="sbody"><div class="stitle">loop() — Boucle principale</div><div class="sdesc">Lecture périodique du capteur, traitement, envoi via Serial.print().</div></div></div>
+        <div class="step"><div class="snum">3</div><div class="sbody"><div class="stitle">Bibliothèque DHT — Couche HAL</div><div class="sdesc">Abstrait le protocole 1-wire du DHT22 : timing précis, calcul CRC, décodage des trames de 40 bits.</div></div></div>
+        <div class="step"><div class="snum">4</div><div class="sbody"><div class="stitle">UART/Serial — Communication</div><div class="sdesc">Arduino convertit les données en texte ASCII et les envoie au PC via USB à 9600 bauds.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q6 · 0.5pt</span>Pourquoi un délai est-il nécessaire entre deux lectures DHT22 ?<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="hl r"><strong>Contrainte matérielle :</strong> Le DHT22 a un temps de conversion minimum de <strong>2 secondes</strong> entre deux mesures. Si on lit plus vite, le capteur retourne des données invalides ou la même valeur que précédemment. La datasheet spécifie un intervalle minimum de 2s.</div>
+      <div class="hl g"><strong>Solution :</strong> <code>delay(2000);</code> dans le loop() Arduino.</div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q7 · 1pt</span>Programme C++ (Arduino) complet<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="code">
+        <div class="code-label">ARDUINO C++</div>
+        <span class="c">// Bibliothèque DHT pour Arduino</span><br>
+        <span class="kw">#include</span> <span class="str">&lt;DHT.h&gt;</span><br>
+        <br>
+        <span class="c">// Configuration</span><br>
+        <span class="kw">#define</span> <span class="fn">DHTPIN</span>   <span class="nb">2</span>       <span class="c">// Broche DATA sur pin D2</span><br>
+        <span class="kw">#define</span> <span class="fn">DHTTYPE</span>  DHT22    <span class="c">// Type de capteur</span><br>
+        <br>
+        <span class="fn">DHT</span> dht(<span class="fn">DHTPIN</span>, <span class="fn">DHTTYPE</span>);  <span class="c">// Création de l'objet DHT</span><br>
+        <br>
+        <span class="kw">void</span> <span class="fn">setup</span>() {<br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.begin(<span class="nb">9600</span>);        <span class="c">// Démarrage moniteur série</span><br>
+        &nbsp;&nbsp;dht.begin();              <span class="c">// Initialisation DHT22</span><br>
+        }<br>
+        <br>
+        <span class="kw">void</span> <span class="fn">loop</span>() {<br>
+        &nbsp;&nbsp;delay(<span class="nb">2000</span>);              <span class="c">// Attente 2s (contrainte DHT22)</span><br>
+        <br>
+        &nbsp;&nbsp;<span class="kw">float</span> h = dht.<span class="fn">readHumidity</span>();      <span class="c">// Lecture humidité</span><br>
+        &nbsp;&nbsp;<span class="kw">float</span> t = dht.<span class="fn">readTemperature</span>();   <span class="c">// Lecture température (°C)</span><br>
+        <br>
+        &nbsp;&nbsp;<span class="c">// Vérification erreur lecture</span><br>
+        &nbsp;&nbsp;<span class="kw">if</span> (<span class="fn">isnan</span>(h) || <span class="fn">isnan</span>(t)) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">Serial</span>.println(<span class="str">"Erreur lecture DHT22!"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>;<br>
+        &nbsp;&nbsp;}<br>
+        <br>
+        &nbsp;&nbsp;<span class="c">// Affichage sur moniteur série</span><br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.print(<span class="str">"Température: "</span>);<br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.print(t);<br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.print(<span class="str">" °C | Humidité: "</span>);<br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.print(h);<br>
+        &nbsp;&nbsp;<span class="fn">Serial</span>.println(<span class="str">" %"</span>);<br>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q8 · 1pt</span>Flowchart du processus de mesure<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="diagram">
+        <div style="color:var(--orange);font-size:10px;letter-spacing:1px;margin-bottom:10px">FLOWCHART — MESURE TEMPÉRATURE DHT22</div>
+        <div class="row"><div class="box c">DÉBUT / setup()</div></div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box">Serial.begin(9600)<br>dht.begin()</div></div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box o">loop() — début</div></div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box">delay(2000ms)</div></div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box" style="border-color:var(--cyan)">readTemperature() / readHumidity()</div></div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box" style="border-color:var(--amber)">isnan(t) || isnan(h) ?</div></div>
+        <div class="row" style="gap:50px">
+          <div style="text-align:center"><div style="color:var(--red);font-size:10px">OUI → erreur</div><div class="box" style="border-color:var(--red)">Serial.println("Erreur")</div></div>
+          <div style="text-align:center"><div style="color:var(--green);font-size:10px">NON → ok</div><div class="box g">Serial.print(t + h)</div></div>
+        </div>
+        <div class="row" style="color:var(--border2)">↓</div>
+        <div class="row"><div class="box o">↺ retour loop()</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ EXERCICE 3 ═══════════════════════════════════ -->
+<section id="ex3">
+  <div class="sh">
+    <div class="tag tag-v">EXERCICE 3 · 3 pts</div>
+    <h2>Instruction LSL — Logical Shift Left</h2>
+    <p>Comprendre et appliquer l'instruction de décalage logique à gauche avec suivi des flags.</p>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q9 · 0.5pt</span>Expliquer l'opération LSL (Logical Shift Left)<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="g2">
+        <div>
+          <div class="hl v"><strong>LSL Rd, Rn, #imm</strong> : Décale tous les bits de Rn de <code>imm</code> positions vers la <strong>gauche</strong>. Les bits entrants à droite sont mis à <strong>0</strong>. Le dernier bit sorti (à gauche) est copié dans le <strong>flag C (Carry)</strong>.</div>
+          <table class="tbl" style="margin-top:12px">
+            <thead><tr><th>Aspect</th><th>Détail</th></tr></thead>
+            <tbody>
+              <tr><td>Registre Rd</td><td>Reçoit le résultat décalé</td></tr>
+              <tr><td>Bits entrants</td><td>Toujours 0 (côté droit)</td></tr>
+              <tr><td>Bit sortant</td><td>Copié dans flag C</td></tr>
+              <tr><td>Flag Z</td><td>1 si résultat = 0</td></tr>
+              <tr><td>Flag N</td><td>1 si bit 31 du résultat = 1</td></tr>
+              <tr><td>Effet mathématique</td><td>LSL #1 = ×2 ; LSL #2 = ×4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="diagram">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px">VISUALISATION LSL #1</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;color:var(--text)">
+              Avant : <span style="color:var(--cyan)">0000 0101</span><br>
+              <span style="color:var(--muted)">bit 7→C | ←0 entre</span><br><br>
+              Après : <span style="color:var(--green)">0000 1010</span><br>
+              <span style="color:var(--muted)">C=0 (bit sorti) · Z=0 · N=0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="num">Q1-5 · 2.5pts</span>Application complète : R0 = 0x05, LSL #1 puis #2<span class="arr">▶</span></div>
+    <div class="qa-a">
+      <div class="hl c"><strong>Initialisation :</strong> R0 = 0x05 = 0000 0000 0000 0000 0000 0000 0000 0101 (binaire 32 bits)</div>
+
+      <table class="tbl" style="margin-top:14px">
+        <thead>
+          <tr>
+            <th>Étape</th>
+            <th>Instruction</th>
+            <th>Binaire (8 bits)</th>
+            <th>Hex</th>
+            <th>Décimal</th>
+            <th style="color:var(--pink)">N</th>
+            <th style="color:var(--cyan)">Z</th>
+            <th style="color:var(--orange)">C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Init</strong></td>
+            <td><code>MOV R0, #5</code></td>
+            <td><code>0000 0101</code></td>
+            <td>0x05</td>
+            <td>5</td>
+            <td>0</td><td>0</td><td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Étape 1</strong></td>
+            <td><code>LSL R0, R0, #1</code></td>
+            <td><code>0000 1010</code></td>
+            <td>0x0A</td>
+            <td><strong style="color:var(--green)">10</strong> (×2)</td>
+            <td class="ok">0</td><td class="ok">0</td><td class="ok">0</td>
+          </tr>
+          <tr>
+            <td><strong>Étape 2</strong></td>
+            <td><code>LSL R0, R0, #2</code></td>
+            <td><code>0010 1000</code></td>
+            <td>0x28</td>
+            <td><strong style="color:var(--green)">40</strong> (×4)</td>
+            <td class="ok">0</td><td class="ok">0</td><td class="ok">0</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="g2" style="margin-top:14px">
+        <div class="hl g"><strong>LSL R0, #1 :</strong><br>
+        Avant : <code>0000 0101</code> = 5<br>
+        Décalage gauche 1 bit → 0 entre à droite<br>
+        Après : <code>0000 1010</code> = 10<br>
+        C = 0 (bit sorti = 0), Z = 0, N = 0</div>
+        <div class="hl v"><strong>LSL R0, #2 :</strong><br>
+        Avant : <code>0000 1010</code> = 10<br>
+        Décalage gauche 2 bits → 00 entrent à droite<br>
+        Après : <code>0010 1000</code> = 40<br>
+        C = 0 (dernier bit sorti = 0), Z = 0, N = 0</div>
+      </div>
+
+      <div class="hl a" style="margin-top:12px"><strong>Règle mathématique :</strong> LSL #n est équivalent à une multiplication par 2ⁿ (tant qu'il n'y a pas de débordement). LSL #1 = ×2 ; LSL #2 = ×4 ; LSL #3 = ×8.</div>
+
+      <div style="margin-top:16px">
+        <h4 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:10px;color:var(--violet)">Cas où C = 1 (bit sort à gauche)</h4>
+        <div class="code">
+          <span class="c">; Exemple avec C = 1</span><br>
+          <span class="kw">MOV</span>  <span class="reg">R0</span>, <span class="nb">#0x80</span>       <span class="c">; R0 = 1000 0000</span><br>
+          <span class="kw">LSLS</span> <span class="reg">R0</span>, <span class="reg">R0</span>, <span class="nb">#1</span>    <span class="c">; Décale gauche de 1</span><br>
+          <span class="c">; Résultat : R0 = 0000 0000 (en 8 bits)</span><br>
+          <span class="c">; C = 1 (bit 7 sorti) · Z = 1 (résultat nul) · N = 0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ ARM RÉFÉRENCE ═══════════════════════════════════ -->
+<section id="arm">
+  <div class="sh">
+    <div class="tag tag-c">COURS · ARM & THUMB</div>
+    <h2>Architecture ARM — Fiches mémo essentielles</h2>
+    <p>Les points clés du cours à maîtriser pour l'examen, issus du polycopié Pr Chelali.</p>
+  </div>
+
+  <div class="g3">
+    <div class="card c">
+      <div class="ci">🗂️</div>
+      <h3>Registres ARM (R0–R15)</h3>
+      <table class="tbl">
+        <thead><tr><th>Registre</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td>R0 – R12</td><td>Registres généraux</td></tr>
+          <tr><td>R13 (SP)</td><td>Stack Pointer</td></tr>
+          <tr><td>R14 (LR)</td><td>Link Register</td></tr>
+          <tr><td>R15 (PC)</td><td>Program Counter</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card v">
+      <div class="ci">🏁</div>
+      <h3>Flags NZCV (CPSR)</h3>
+      <ul>
+        <li><strong style="color:var(--pink)">N</strong> — Negative : résultat < 0</li>
+        <li><strong style="color:var(--cyan)">Z</strong> — Zero : résultat = 0</li>
+        <li><strong style="color:var(--orange)">C</strong> — Carry : dépassement non signé</li>
+        <li><strong style="color:var(--amber)">V</strong> — oVerflow : dépassement signé</li>
+      </ul>
+      <div class="hl v" style="margin-top:10px"><strong>Bit T du CPSR :</strong> T=1 → Thumb mode | T=0 → ARM mode</div>
+    </div>
+    <div class="card o">
+      <div class="ci">⚡</div>
+      <h3>ARM vs Thumb</h3>
+      <table class="tbl">
+        <thead><tr><th></th><th>ARM</th><th>Thumb</th></tr></thead>
+        <tbody>
+          <tr><td>Taille inst.</td><td>32 bits</td><td>16 bits</td></tr>
+          <tr><td>Densité code</td><td>—</td><td>+25–35%</td></tr>
+          <tr><td>Cortex-M</td><td>Non</td><td class="ok">Oui (Thumb-2)</td></tr>
+          <tr><td>Perf/W</td><td>Haute</td><td>Optimale</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-top:14px">
+    <div class="card g">
+      <div class="ci">🔄</div>
+      <h3>Modes ARM (7 modes)</h3>
+      <ul>
+        <li><strong style="color:var(--muted2)">User</strong> — Applications normales (non privilégié)</li>
+        <li><strong style="color:var(--cyan)">IRQ</strong> — Interruptions standard (timers, UART...)</li>
+        <li><strong style="color:var(--orange)">FIQ</strong> — Interruptions rapides (plus banked regs → plus rapide)</li>
+        <li><strong style="color:var(--violet)">SVC</strong> — Supervisor / noyau OS</li>
+        <li><strong style="color:var(--amber)">Abort</strong> — Violations d'accès mémoire</li>
+        <li><strong style="color:var(--red)">Undefined</strong> — Instructions inconnues</li>
+        <li><strong style="color:var(--sky)">System</strong> — Mode OS privilégié</li>
+      </ul>
+    </div>
+    <div class="card a">
+      <div class="ci">🚌</div>
+      <h3>AMBA — Bus Architecture</h3>
+      <table class="tbl">
+        <thead><tr><th>Bus</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--cyan)">AHB</strong></td><td>CPU ↔ Mémoire ↔ DMA (haute perfo)</td></tr>
+          <tr><td><strong style="color:var(--orange)">APB</strong></td><td>Périphériques lents : UART, GPIO, Timers</td></tr>
+          <tr><td><strong style="color:var(--violet)">AXI</strong></td><td>SoCs complexes (Cortex-A)</td></tr>
+        </tbody>
+      </table>
+      <div class="hl a" style="margin-top:8px"><strong>DMA :</strong> transferts mémoire/périphériques sans CPU → libère le processeur.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ ARCHITECTURE ═══════════════════════════════════ -->
+<section id="arch">
+  <div class="sh">
+    <div class="tag tag-a">COURS · ARCHITECTURE</div>
+    <h2>Von Neumann vs Harvard — Arduino & mémoire</h2>
+  </div>
+
+  <div class="g2">
+    <div class="card c">
+      <div class="ci">🧠</div>
+      <h3>Von Neumann</h3>
+      <ul>
+        <li>Mémoire <strong>unique</strong> pour données + instructions</li>
+        <li>Un seul bus → traitement <strong>séquentiel</strong></li>
+        <li>Goulot d'étranglement possible</li>
+        <li>Simple et moins cher</li>
+        <li>Ex : Intel 8085, Z80</li>
+      </ul>
+    </div>
+    <div class="card o">
+      <div class="ci">🔀</div>
+      <h3>Harvard</h3>
+      <ul>
+        <li>Mémoires <strong>séparées</strong> : données ≠ instructions</li>
+        <li>Bus séparés → <strong>accès parallèle</strong></li>
+        <li>Plus rapide, meilleur temps réel</li>
+        <li>Plus complexe et coûteux</li>
+        <li>Ex : PIC, AVR (Arduino), ARM Cortex-M</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card g" style="margin-top:14px">
+    <div class="ci">🔵</div>
+    <h3>Mémoire Arduino Uno (ATmega328P)</h3>
+    <div class="g3" style="margin-top:12px">
+      <div class="hl c"><strong>Flash — 32 Ko</strong><br>Stocke le <strong>programme</strong> (firmware). Non volatile, conservé après coupure.</div>
+      <div class="hl o"><strong>SRAM — 2 Ko</strong><br>Données <strong>temporaires</strong> (variables, pile). Volatile, perdu au reset.</div>
+      <div class="hl v"><strong>EEPROM — 1 Ko</strong><br>Données <strong>persistantes</strong> (configuration, calibration). Non volatile, ré-écrivable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ DATAPATH ARM ═══════════════════════════════════ -->
+<section id="datapath">
+  <div class="sh">
+    <div class="tag tag-c">ARCHITECTURE INTERNE · DATAPATH ARM</div>
+    <h2>Schéma interne du processeur ARM — Datapath complet</h2>
+    <p>Tiré du polycopié — comprendre comment une instruction voyage depuis la mémoire jusqu'au résultat final.</p>
+  </div>
+
+  <!-- Schéma SVG du datapath -->
+  <div class="card c" style="margin-bottom:20px;padding:28px">
+    <h3 style="margin-bottom:18px">🔷 Datapath ARM — vue fonctionnelle</h3>
+    <div style="overflow-x:auto">
+    <svg viewBox="0 0 820 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;display:block;margin:0 auto;font-family:'Space Mono',monospace">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00e5ff" opacity=".7"/></marker>
+        <marker id="arro" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ff6b35" opacity=".7"/></marker>
+        <marker id="arrg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00d68f" opacity=".7"/></marker>
+        <marker id="arrv" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#a78bfa" opacity=".7"/></marker>
+      </defs>
+
+      <!-- Background blocs -->
+      <!-- Address bus zone -->
+      <rect x="10" y="10" width="200" height="200" rx="10" fill="rgba(0,229,255,.03)" stroke="rgba(0,229,255,.15)" stroke-width="1"/>
+      <text x="110" y="28" text-anchor="middle" font-size="9" fill="#00e5ff" opacity=".5" letter-spacing="1">FETCH / ADRESSES</text>
+
+      <!-- Register bank zone -->
+      <rect x="130" y="130" width="230" height="130" rx="10" fill="rgba(0,214,143,.03)" stroke="rgba(0,214,143,.15)" stroke-width="1"/>
+      <text x="245" y="148" text-anchor="middle" font-size="9" fill="#00d68f" opacity=".5" letter-spacing="1">REGISTER FILE</text>
+
+      <!-- ALU zone -->
+      <rect x="130" y="290" width="230" height="140" rx="10" fill="rgba(124,58,237,.04)" stroke="rgba(124,58,237,.2)" stroke-width="1"/>
+      <text x="245" y="308" text-anchor="middle" font-size="9" fill="#a78bfa" opacity=".5" letter-spacing="1">EXECUTE</text>
+
+      <!-- Control zone -->
+      <rect x="590" y="130" width="220" height="270" rx="10" fill="rgba(255,107,53,.04)" stroke="rgba(255,107,53,.2)" stroke-width="1"/>
+      <text x="700" y="148" text-anchor="middle" font-size="9" fill="#ff6b35" opacity=".5" letter-spacing="1">CONTRÔLE</text>
+
+      <!-- Data bus zone -->
+      <rect x="280" y="460" width="250" height="60" rx="8" fill="rgba(255,211,42,.04)" stroke="rgba(255,211,42,.2)" stroke-width="1"/>
+
+      <!-- ── BLOCS ── -->
+      <!-- Address register -->
+      <rect x="20" y="40" width="150" height="36" rx="6" fill="#101a2e" stroke="#1c2a42"/>
+      <text x="95" y="63" text-anchor="middle" font-size="11" fill="#dde4f0">Address Register</text>
+
+      <!-- Address incrementer -->
+      <rect x="20" y="90" width="150" height="36" rx="6" fill="#101a2e" stroke="#1c2a42"/>
+      <text x="95" y="113" text-anchor="middle" font-size="11" fill="#dde4f0">Address Incrementer</text>
+
+      <!-- Increment Bus label -->
+      <rect x="185" y="40" width="20" height="90" rx="4" fill="rgba(0,229,255,.08)" stroke="rgba(0,229,255,.3)"/>
+      <text transform="rotate(-90,195,85)" x="195" y="89" text-anchor="middle" font-size="9" fill="#00e5ff">Increment Bus</text>
+
+      <!-- Register Bank -->
+      <rect x="140" y="155" width="210" height="88" rx="8" fill="#101a2e" stroke="#273d5e"/>
+      <text x="245" y="195" text-anchor="middle" font-size="12" fill="#00d68f" font-weight="bold">Register Bank</text>
+      <text x="245" y="212" text-anchor="middle" font-size="10" fill="#7a93b0">R0–R15 · 6 status regs</text>
+      <text x="245" y="228" text-anchor="middle" font-size="9" fill="#4e6480">Rm | Rn | Rd (sorties)</text>
+
+      <!-- Multiplier -->
+      <rect x="220" y="165" width="120" height="28" rx="5" fill="#0f1421" stroke="#2a3d5e"/>
+      <text x="280" y="183" text-anchor="middle" font-size="10" fill="#38bdf8">32×8 Multiplier</text>
+
+      <!-- Barrel Shifter -->
+      <rect x="180" y="315" width="140" height="34" rx="6" fill="#101a2e" stroke="#273d5e"/>
+      <text x="250" y="337" text-anchor="middle" font-size="11" fill="#ffd32a">Barrel Shifter</text>
+
+      <!-- ALU -->
+      <rect x="155" y="370" width="190" height="50" rx="8" fill="#1a2235" stroke="rgba(124,58,237,.5)"/>
+      <text x="250" y="401" text-anchor="middle" font-size="16" fill="#a78bfa" font-weight="bold">ALU</text>
+
+      <!-- Data out register -->
+      <rect x="290" y="435" width="150" height="34" rx="6" fill="#101a2e" stroke="#273d5e"/>
+      <text x="365" y="457" text-anchor="middle" font-size="11" fill="#dde4f0">Data Out Reg</text>
+
+      <!-- Data bus -->
+      <rect x="290" y="470" width="240" height="36" rx="6" fill="#131926" stroke="rgba(255,211,42,.4)"/>
+      <text x="410" y="494" text-anchor="middle" font-size="11" fill="#ffd32a">Data Bus D(31:0)</text>
+
+      <!-- Data in Reg -->
+      <rect x="460" y="395" width="120" height="34" rx="6" fill="#101a2e" stroke="#273d5e"/>
+      <text x="520" y="417" text-anchor="middle" font-size="11" fill="#dde4f0">Data In Reg</text>
+
+      <!-- Instruction Decoder & Control -->
+      <rect x="600" y="155" width="195" height="225" rx="8" fill="#1a1530" stroke="rgba(255,107,53,.4)"/>
+      <text x="698" y="210" text-anchor="middle" font-size="11" fill="#ff8a96" font-weight="bold">Instruction</text>
+      <text x="698" y="228" text-anchor="middle" font-size="11" fill="#ff8a96" font-weight="bold">Decoder</text>
+      <text x="698" y="248" text-anchor="middle" font-size="11" fill="#ff6b35">&amp; Control Logic</text>
+
+      <!-- A-Bus label -->
+      <rect x="140" y="245" width="20" height="80" rx="4" fill="rgba(0,229,255,.06)" stroke="rgba(0,229,255,.2)"/>
+      <text transform="rotate(-90,150,285)" x="150" y="289" text-anchor="middle" font-size="9" fill="#00e5ff">A-Bus</text>
+
+      <!-- B-Bus label -->
+      <rect x="580" y="245" width="20" height="140" rx="4" fill="rgba(56,189,248,.06)" stroke="rgba(56,189,248,.2)"/>
+      <text transform="rotate(-90,590,315)" x="590" y="319" text-anchor="middle" font-size="9" fill="#38bdf8">B-Bus</text>
+
+      <!-- ALU Bus label -->
+      <rect x="10" y="310" width="20" height="100" rx="4" fill="rgba(163,230,53,.06)" stroke="rgba(163,230,53,.2)"/>
+      <text transform="rotate(-90,20,360)" x="20" y="364" text-anchor="middle" font-size="9" fill="#a3e635">ALU Bus</text>
+
+      <!-- A(31:0) label at top -->
+      <text x="95" y="22" text-anchor="middle" font-size="10" fill="#7a93b0">A(31:0)</text>
+
+      <!-- ── FLÈCHES ── -->
+      <!-- Increment bus to address register -->
+      <line x1="185" y1="58" x2="172" y2="58" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#arr)" opacity=".6"/>
+      <!-- Increment bus to address incrementer -->
+      <line x1="185" y1="108" x2="172" y2="108" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#arr)" opacity=".6"/>
+      <!-- Address incrementer ↔ Register Bank -->
+      <line x1="95" y1="126" x2="200" y2="160" stroke="#00d68f" stroke-width="1.5" marker-end="url(#arrg)" opacity=".5" stroke-dasharray="4,3"/>
+      <!-- Register Bank → Barrel Shifter (Rm) -->
+      <line x1="230" y1="243" x2="230" y2="315" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#arrv)" opacity=".7"/>
+      <!-- Register Bank → Multiplier (Rn) -->
+      <line x1="265" y1="165" x2="265" y2="193" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr)" opacity=".6"/>
+      <!-- Barrel Shifter → ALU -->
+      <line x1="250" y1="349" x2="250" y2="370" stroke="#ffd32a" stroke-width="2" marker-end="url(#arrg)" opacity=".8"/>
+      <!-- ALU → Data Out Reg -->
+      <line x1="340" y1="395" x2="360" y2="435" stroke="#00d68f" stroke-width="1.5" marker-end="url(#arrg)" opacity=".7"/>
+      <!-- Data Out Reg → Data Bus -->
+      <line x1="365" y1="469" x2="365" y2="470" stroke="#ffd32a" stroke-width="1.5" marker-end="url(#arrg)" opacity=".6"/>
+      <!-- Data Bus → Data In Reg -->
+      <line x1="530" y1="470" x2="530" y2="429" stroke="#ffd32a" stroke-width="1.5" marker-end="url(#arrg)" opacity=".6"/>
+      <!-- Control → B-Bus (Decoder to barrel shifter) -->
+      <line x1="600" y1="315" x2="600" y2="340" stroke="#ff6b35" stroke-width="1.5" opacity=".5" stroke-dasharray="3,3"/>
+      <line x1="600" y1="340" x2="322" y2="340" stroke="#ff6b35" stroke-width="1.5" marker-end="url(#arro)" opacity=".5" stroke-dasharray="3,3"/>
+      <!-- ALU Bus result back to regs -->
+      <line x1="155" y1="395" x2="30" y2="395" stroke="#a3e635" stroke-width="1.5" opacity=".6"/>
+      <line x1="30" y1="395" x2="30" y2="160" stroke="#a3e635" stroke-width="1.5" opacity=".6"/>
+      <line x1="30" y1="160" x2="140" y2="185" stroke="#a3e635" stroke-width="1.5" marker-end="url(#arrg)" opacity=".6"/>
+
+      <!-- Labels Rm, Rn, Rd -->
+      <text x="222" y="268" font-size="9" fill="#a78bfa" opacity=".9">Rm</text>
+      <text x="260" y="260" font-size="9" fill="#38bdf8" opacity=".9">Rn</text>
+      <text x="330" y="275" font-size="9" fill="#00d68f" opacity=".9">Rd →</text>
+
+      <!-- Result sent labels -->
+      <text x="36" y="310" font-size="8" fill="#a3e635" opacity=".8">résultat</text>
+      <text x="36" y="320" font-size="8" fill="#a3e635" opacity=".8">→ regs</text>
+      <text x="348" y="210" font-size="8" fill="#00d68f" opacity=".8">résultat</text>
+      <text x="348" y="220" font-size="8" fill="#00d68f" opacity=".8">→ data out</text>
+    </svg>
+    </div>
+  </div>
+
+  <!-- Explication des composants -->
+  <div class="g3" style="margin-bottom:16px">
+    <div class="card c">
+      <div class="ci">📍</div>
+      <h3>Address Register + Incrementer</h3>
+      <p>Contient l'adresse mémoire courante (A31:0). L'<strong>Address Incrementer</strong> calcule automatiquement la prochaine adresse pour le fetch de l'instruction suivante. Alimenté par l'<strong>Increment Bus</strong>.</p>
+      <div class="hl c" style="margin-top:10px">PC (R15) pointe vers la prochaine instruction. ARM mode : +4 (32 bits). Thumb mode : +2 (16 bits).</div>
+    </div>
+    <div class="card g">
+      <div class="ci">🗂️</div>
+      <h3>Register Bank (R0–R15)</h3>
+      <p>Banque de <strong>16 registres</strong> + 6 registres de statut. Expose <strong>3 ports de sortie</strong> simultanément :</p>
+      <ul>
+        <li><strong style="color:var(--violet)">Rm</strong> — 1ᵉʳ opérande source</li>
+        <li><strong style="color:var(--sky)">Rn</strong> — 2ᵉ opérande source</li>
+        <li><strong style="color:var(--green)">Rd</strong> — Registre destination (résultat)</li>
+      </ul>
+      <div class="hl g" style="margin-top:8px">Lecture simultanée de 2 registres + écriture du résultat en 1 seul cycle.</div>
+    </div>
+    <div class="card v">
+      <div class="ci">⚙️</div>
+      <h3>Barrel Shifter</h3>
+      <p>Effectue les décalages/rotations en <strong>1 cycle</strong> avant l'ALU. Prend l'opérande Rm et applique LSL, LSR, ASR, ROR. C'est ici que <strong>LSL R0, #1</strong> est exécuté.</p>
+      <div class="hl v" style="margin-top:8px"><strong>Avantage RISC :</strong> Le décalage est gratuit — intégré dans l'instruction sans cycle supplémentaire.</div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="card a">
+      <div class="ci">🔢</div>
+      <h3>ALU (Arithmetic Logic Unit)</h3>
+      <p>Effectue toutes les opérations arithmétiques et logiques : ADD, SUB, AND, ORR, EOR, CMP... Reçoit deux opérandes (depuis le Barrel Shifter et le B-Bus) et produit un résultat + met à jour les flags NZCV.</p>
+      <div class="hl a" style="margin-top:8px">Résultat → Data Out Register (pour STR en mémoire) OU → ALU Bus (pour écriture dans Register Bank).</div>
+    </div>
+    <div class="card o">
+      <div class="ci">🎛️</div>
+      <h3>Instruction Decoder & Control Logic</h3>
+      <p>Décode les instructions 32 bits (ARM) ou 16 bits (Thumb). Génère tous les signaux de contrôle :</p>
+      <ul>
+        <li>Sélection des registres Rm, Rn, Rd</li>
+        <li>Opération ALU à effectuer</li>
+        <li>Activation du Barrel Shifter</li>
+        <li>Contrôle du B-Bus</li>
+        <li>Écriture mémoire ou registre</li>
+      </ul>
+    </div>
+    <div class="card c">
+      <div class="ci">🚌</div>
+      <h3>Les 3 bus internes</h3>
+      <table class="tbl">
+        <thead><tr><th>Bus</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--cyan)">A-Bus</strong></td><td>Rm vers Barrel Shifter</td></tr>
+          <tr><td><strong style="color:var(--sky)">B-Bus</strong></td><td>Rn vers ALU (2ᵉ opérande)</td></tr>
+          <tr><td><strong style="color:var(--lime)">ALU-Bus</strong></td><td>Résultat ALU → Register Bank</td></tr>
+        </tbody>
+      </table>
+      <div class="hl c" style="margin-top:8px"><strong>Data Bus D(31:0)</strong> : bus externe pour accès mémoire (Load/Store). Seuls LDR/STR l'utilisent.</div>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="card g" style="margin-top:16px">
+    <div class="ci">🔁</div>
+    <h3>Pipeline ARM 3 étages — Fetch / Decode / Execute</h3>
+    <div class="g3" style="margin-top:14px">
+      <div class="hl c">
+        <strong>1. FETCH</strong><br>
+        L'instruction est lue depuis la mémoire à l'adresse PC. Le PC est automatiquement incrémenté (+4 ARM, +2 Thumb). Implique l'Address Register + Address Incrementer.
+      </div>
+      <div class="hl o">
+        <strong>2. DECODE</strong><br>
+        L'Instruction Decoder décode l'opcode et génère les signaux de contrôle. Les registres sources Rm et Rn sont lus depuis la Register Bank.
+      </div>
+      <div class="hl v">
+        <strong>3. EXECUTE</strong><br>
+        Le Barrel Shifter pré-traite Rm, l'ALU effectue l'opération, le résultat est écrit dans Rd (Register Bank) ou en mémoire (Data Bus). Les flags NZCV sont mis à jour.
+      </div>
+    </div>
+    <div class="hl a" style="margin-top:12px"><strong>⚡ Avantage pipeline :</strong> 3 instructions différentes sont en cours simultanément (F/D/E) → débit théorique de 1 instruction/cycle en régime permanent.</div>
+  </div>
+
+  <!-- 32×8 Multiplier -->
+  <div class="card v" style="margin-top:16px">
+    <div class="ci">✖️</div>
+    <h3>32×8 Multiplier (Booth Multiplier)</h3>
+    <p style="color:var(--muted2)">ARM intègre un multiplicateur matériel qui utilise l'algorithme de <strong>Booth</strong>. Il décompose la multiplication en décalages et additions successifs. Le "32×8" signifie qu'il traite l'opérande de 32 bits par tranches de 8 bits à chaque cycle, permettant de compléter une multiplication en <strong>2–5 cycles</strong> selon la valeur de l'opérande.</p>
+    <div class="hl v" style="margin-top:8px">Instructions concernées : <code>MUL Rd, Rm, Rs</code> · <code>MLA Rd, Rm, Rs, Rn</code> (multiply-accumulate)</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ BANKED REGISTERS ═══════════════════════════════════ -->
+<section id="banked">
+  <div class="sh">
+    <div class="tag tag-v">REGISTRES BANKED · PAR MODE</div>
+    <h2>Table complète des registres ARM par mode d'exécution</h2>
+    <p>Chaque mode privilégié possède ses propres copies (banked) de certains registres pour un changement de contexte ultra-rapide.</p>
+  </div>
+
+  <!-- Table interactive -->
+  <div style="overflow-x:auto;margin-bottom:20px">
+    <table class="tbl" style="min-width:750px">
+      <thead>
+        <tr>
+          <th style="min-width:80px">Registre</th>
+          <th style="color:#7a93b0">User / Sys</th>
+          <th style="color:#f472b6">FIQ</th>
+          <th style="color:#ffd32a">IRQ</th>
+          <th style="color:#ff6b35">SVC</th>
+          <th style="color:#ff8a96">ABT</th>
+          <th style="color:#a78bfa">UND</th>
+          <th style="color:#38bdf8">MON</th>
+          <th style="color:#00d68f">HYP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>R0–R7</td>
+          <td colspan="8" style="text-align:center;color:var(--muted2);font-style:italic">Partagés entre tous les modes — pas de banked copies</td>
+        </tr>
+        <tr style="background:rgba(244,114,182,.03)">
+          <td><strong>R8</strong></td>
+          <td style="color:#7a93b0">R8</td>
+          <td style="color:#f472b6;font-weight:600">R8_fiq ★</td>
+          <td style="color:var(--muted)">R8</td><td style="color:var(--muted)">R8</td><td style="color:var(--muted)">R8</td><td style="color:var(--muted)">R8</td><td style="color:var(--muted)">R8</td><td style="color:var(--muted)">R8</td>
+        </tr>
+        <tr style="background:rgba(244,114,182,.03)">
+          <td><strong>R9</strong></td>
+          <td style="color:#7a93b0">R9</td>
+          <td style="color:#f472b6;font-weight:600">R9_fiq ★</td>
+          <td style="color:var(--muted)">R9</td><td style="color:var(--muted)">R9</td><td style="color:var(--muted)">R9</td><td style="color:var(--muted)">R9</td><td style="color:var(--muted)">R9</td><td style="color:var(--muted)">R9</td>
+        </tr>
+        <tr style="background:rgba(244,114,182,.03)">
+          <td><strong>R10</strong></td>
+          <td style="color:#7a93b0">R10</td>
+          <td style="color:#f472b6;font-weight:600">R10_fiq ★</td>
+          <td style="color:var(--muted)">R10</td><td style="color:var(--muted)">R10</td><td style="color:var(--muted)">R10</td><td style="color:var(--muted)">R10</td><td style="color:var(--muted)">R10</td><td style="color:var(--muted)">R10</td>
+        </tr>
+        <tr style="background:rgba(244,114,182,.03)">
+          <td><strong>R11</strong></td>
+          <td style="color:#7a93b0">R11</td>
+          <td style="color:#f472b6;font-weight:600">R11_fiq ★</td>
+          <td style="color:var(--muted)">R11</td><td style="color:var(--muted)">R11</td><td style="color:var(--muted)">R11</td><td style="color:var(--muted)">R11</td><td style="color:var(--muted)">R11</td><td style="color:var(--muted)">R11</td>
+        </tr>
+        <tr style="background:rgba(244,114,182,.03)">
+          <td><strong>R12</strong></td>
+          <td style="color:#7a93b0">R12</td>
+          <td style="color:#f472b6;font-weight:600">R12_fiq ★</td>
+          <td style="color:var(--muted)">R12</td><td style="color:var(--muted)">R12</td><td style="color:var(--muted)">R12</td><td style="color:var(--muted)">R12</td><td style="color:var(--muted)">R12</td><td style="color:var(--muted)">R12</td>
+        </tr>
+        <tr style="background:rgba(0,214,143,.04)">
+          <td><strong>R13 (SP)</strong></td>
+          <td style="color:#7a93b0">SP</td>
+          <td style="color:#f472b6;font-weight:600">SP_fiq</td>
+          <td style="color:#ffd32a;font-weight:600">SP_irq</td>
+          <td style="color:#ff6b35;font-weight:600">SP_svc</td>
+          <td style="color:#ff8a96;font-weight:600">SP_abt</td>
+          <td style="color:#a78bfa;font-weight:600">SP_und</td>
+          <td style="color:#38bdf8;font-weight:600">SP_mon</td>
+          <td style="color:#00d68f;font-weight:600">SP_hyp</td>
+        </tr>
+        <tr style="background:rgba(0,214,143,.04)">
+          <td><strong>R14 (LR)</strong></td>
+          <td style="color:#7a93b0">LR</td>
+          <td style="color:#f472b6;font-weight:600">LR_fiq</td>
+          <td style="color:#ffd32a;font-weight:600">LR_irq</td>
+          <td style="color:#ff6b35;font-weight:600">LR_svc</td>
+          <td style="color:#ff8a96;font-weight:600">LR_abt</td>
+          <td style="color:#a78bfa;font-weight:600">LR_und</td>
+          <td style="color:#38bdf8;font-weight:600">LR_mon</td>
+          <td style="color:#7a93b0">R14</td>
+        </tr>
+        <tr>
+          <td><strong>R15 (PC)</strong></td>
+          <td colspan="8" style="text-align:center;color:var(--muted2);font-style:italic">R15 (PC) — partagé entre tous les modes</td>
+        </tr>
+        <tr style="background:rgba(255,71,87,.04)">
+          <td><strong>CPSR</strong></td>
+          <td colspan="2" style="color:#f472b6">CPSR (partagé)</td>
+          <td colspan="6" style="color:var(--muted2);font-style:italic">CPSR (même registre visible depuis tous les modes)</td>
+        </tr>
+        <tr style="background:rgba(255,71,87,.06)">
+          <td><strong>SPSR</strong></td>
+          <td style="color:var(--muted)">—</td>
+          <td style="color:#f472b6;font-weight:600">SPSR_fiq</td>
+          <td style="color:#ffd32a;font-weight:600">SPSR_irq</td>
+          <td style="color:#ff6b35;font-weight:600">SPSR_svc</td>
+          <td style="color:#ff8a96;font-weight:600">SPSR_abt</td>
+          <td style="color:#a78bfa;font-weight:600">SPSR_und</td>
+          <td style="color:#38bdf8;font-weight:600">SPSR_mon</td>
+          <td style="color:#00d68f;font-weight:600">SPSR_hyp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="hl c"><strong>★ FIQ a le plus de registres banked (R8–R14)</strong> — c'est pourquoi le FIQ est plus rapide : le gestionnaire d'interruption peut utiliser R8–R12 librement sans sauvegarder/restaurer les valeurs de User Mode.</div>
+
+  <div class="g2" style="margin-top:16px">
+    <div class="card v">
+      <div class="ci">💾</div>
+      <h3>SPSR — Saved Program Status Register</h3>
+      <p>Chaque mode d'exception possède son propre SPSR. Lors d'une exception :</p>
+      <div class="steps" style="margin-top:10px">
+        <div class="step"><div class="snum" style="width:26px;height:26px;font-size:10px">1</div><div class="sbody"><div class="stitle">CPU entre dans le mode d'exception</div><div class="sdesc">Le CPSR actuel est sauvegardé dans le SPSR du nouveau mode</div></div></div>
+        <div class="step"><div class="snum" style="width:26px;height:26px;font-size:10px">2</div><div class="sbody"><div class="stitle">Traitement de l'exception</div><div class="sdesc">Le gestionnaire s'exécute avec ses registres banked dédiés</div></div></div>
+        <div class="step"><div class="snum" style="width:26px;height:26px;font-size:10px">3</div><div class="sbody"><div class="stitle">Retour au mode précédent</div><div class="sdesc">MOVS PC, LR → restaure CPSR depuis SPSR → reprend le programme interrompu</div></div></div>
+      </div>
+    </div>
+    <div class="card o">
+      <div class="ci">🔢</div>
+      <h3>Pourquoi les Banked Registers ?</h3>
+      <p style="color:var(--muted2)">Sans registres banked, une exception interrompant une tâche devrait <strong>sauvegarder tous les registres en mémoire</strong> avant de s'exécuter (push sur la pile), puis les restaurer au retour. Cela prend de nombreux cycles.</p>
+      <div class="hl o" style="margin-top:10px">Avec banked registers : <strong>pas de push/pop nécessaire</strong> pour les registres dédiés → latence d'interruption dramatiquement réduite, critique pour les systèmes temps-réel.</div>
+      <table class="tbl" style="margin-top:10px">
+        <thead><tr><th>Mode</th><th>Banked regs</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td style="color:#f472b6">FIQ</td><td>R8–R14 + SPSR</td><td>Interruption rapide (DMA, ADC)</td></tr>
+          <tr><td style="color:#ffd32a">IRQ</td><td>R13, R14 + SPSR</td><td>Interruptions standard</td></tr>
+          <tr><td style="color:#ff6b35">SVC</td><td>R13, R14 + SPSR</td><td>Appels système OS</td></tr>
+          <tr><td style="color:#ff8a96">ABT</td><td>R13, R14 + SPSR</td><td>Fautes mémoire</td></tr>
+          <tr><td style="color:#a78bfa">UND</td><td>R13, R14 + SPSR</td><td>Instructions inconnues</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Rôles détaillés R0-R15 -->
+  <div class="card c" style="margin-top:16px">
+    <div class="ci">📖</div>
+    <h3>Rôles détaillés R0–R15 (depuis le polycopié)</h3>
+    <div class="g2" style="margin-top:14px">
+      <div>
+        <div class="hl c"><strong>R0–R12 — Registres généraux</strong><br>Stockent valeurs temporaires, pointeurs mémoire. <strong>R0</strong> = accumulateur (résultat d'opérations arithmétiques). <strong>R7</strong> = numéro de syscall. <strong>R11</strong> = frame pointer (suivi des limites de pile).</div>
+        <div class="hl g" style="margin-top:8px"><strong>Convention d'appel ARM :</strong> Les 4 premiers arguments d'une fonction sont passés dans <strong>R0, R1, R2, R3</strong>. La valeur de retour est dans <strong>R0</strong>.</div>
+      </div>
+      <div>
+        <div class="hl o"><strong>R13 — SP (Stack Pointer)</strong><br>Pointe vers le sommet de la pile. Pour allouer N octets sur la pile : <code>SUB SP, SP, #N</code>. Pour désallouer : <code>ADD SP, SP, #N</code>. Pour une valeur 32 bits : <code>SUB SP, SP, #4</code>.</div>
+        <div class="hl v" style="margin-top:8px"><strong>R14 — LR (Link Register)</strong><br>Lors d'un <code>BL label</code>, l'adresse de retour (PC+4 ou PC+2) est automatiquement sauvegardée dans LR. Le retour se fait avec <code>MOV PC, LR</code> ou <code>BX LR</code>.</div>
+        <div class="hl a" style="margin-top:8px"><strong>R15 — PC (Program Counter)</strong><br>ARM mode : incrémenté de 4 par cycle. Thumb mode : incrémenté de 2. En Thumb, PC est aligné sur des demi-mots (16 bits).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ CPSR & MODES ═══════════════════════════════════ -->
+<section id="cpsr">
+  <div class="sh">
+    <div class="tag tag-g">CPSR · MODES · EXCEPTIONS</div>
+    <h2>CPSR — Current Program Status Register & Modes d'exécution</h2>
+    <p>Le registre CPSR contrôle tout : état du processeur, mode, flags, et activation des interruptions.</p>
+  </div>
+
+  <!-- CPSR bit layout -->
+  <div class="card v" style="margin-bottom:20px">
+    <div class="ci">🔲</div>
+    <h3>Structure du CPSR (32 bits)</h3>
+    <div style="overflow-x:auto;margin-top:14px">
+      <div style="display:flex;gap:2px;min-width:600px;font-family:'Space Mono',monospace;font-size:11px">
+        <!-- Bits 31-28 : flags -->
+        <div style="flex:4;background:rgba(244,114,182,.15);border:1px solid rgba(244,114,182,.4);border-radius:6px;padding:8px 4px;text-align:center">
+          <div style="color:#f472b6;font-weight:700">N Z C V</div>
+          <div style="color:var(--muted);font-size:9px;margin-top:4px">bits 31–28</div>
+          <div style="color:var(--muted2);font-size:9px;margin-top:2px">Condition Flags</div>
+        </div>
+        <!-- Bits 27-25 : Q + GE -->
+        <div style="flex:2;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);border-radius:6px;padding:8px 4px;text-align:center">
+          <div style="color:#38bdf8">Q · GE</div>
+          <div style="color:var(--muted);font-size:9px;margin-top:4px">bits 27–16</div>
+          <div style="color:var(--muted2);font-size:9px;margin-top:2px">Saturation / SIMD</div>
+        </div>
+        <!-- Bits 9-8 : AIF -->
+        <div style="flex:2;background:rgba(255,211,42,.1);border:1px solid rgba(255,211,42,.3);border-radius:6px;padding:8px 4px;text-align:center">
+          <div style="color:#ffd32a">E · A · I · F</div>
+          <div style="color:var(--muted);font-size:9px;margin-top:4px">bits 9–6</div>
+          <div style="color:var(--muted2);font-size:9px;margin-top:2px">Endian · Masques INT</div>
+        </div>
+        <!-- Bit 5 : T -->
+        <div style="flex:1;background:rgba(0,229,255,.15);border:1px solid rgba(0,229,255,.5);border-radius:6px;padding:8px 4px;text-align:center">
+          <div style="color:#00e5ff;font-weight:700">T</div>
+          <div style="color:var(--muted);font-size:9px;margin-top:4px">bit 5</div>
+          <div style="color:var(--muted2);font-size:9px;margin-top:2px">Thumb</div>
+        </div>
+        <!-- Bits 4-0 : mode -->
+        <div style="flex:2;background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.3);border-radius:6px;padding:8px 4px;text-align:center">
+          <div style="color:#00d68f">M[4:0]</div>
+          <div style="color:var(--muted);font-size:9px;margin-top:4px">bits 4–0</div>
+          <div style="color:var(--muted2);font-size:9px;margin-top:2px">Mode actuel</div>
+        </div>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:16px">
+      <div>
+        <table class="tbl">
+          <thead><tr><th>Flag</th><th>Bit</th><th>Mis à 1 quand...</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:#f472b6">N</strong></td><td>31</td><td>Résultat < 0 (bit 31 = 1)</td></tr>
+            <tr><td><strong style="color:var(--cyan)">Z</strong></td><td>30</td><td>Résultat = 0 exactement</td></tr>
+            <tr><td><strong style="color:var(--orange)">C</strong></td><td>29</td><td>Carry out (add) ou borrow (sub)</td></tr>
+            <tr><td><strong style="color:var(--amber)">V</strong></td><td>28</td><td>Débordement signé (overflow)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table class="tbl">
+          <thead><tr><th>Bit de contrôle</th><th>Effet</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--cyan)">T (bit 5)</strong></td><td>1 = Thumb mode, 0 = ARM mode</td></tr>
+            <tr><td><strong style="color:var(--amber)">I (bit 7)</strong></td><td>1 = IRQ désactivées</td></tr>
+            <tr><td><strong style="color:var(--orange)">F (bit 6)</strong></td><td>1 = FIQ désactivées</td></tr>
+            <tr><td><strong style="color:var(--green)">M[4:0]</strong></td><td>Code binaire du mode actuel</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modes et codes -->
+  <div class="card o" style="margin-bottom:16px">
+    <div class="ci">🏷️</div>
+    <h3>Codes de mode M[4:0] dans le CPSR</h3>
+    <div style="overflow-x:auto">
+    <table class="tbl">
+      <thead><tr><th>Mode</th><th>M[4:0] binaire</th><th>Hex</th><th>Privilégié ?</th><th>Banked regs</th><th>Usage typique</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:#7a93b0">User</strong></td><td>10000</td><td>0x10</td><td class="no">Non</td><td>Aucun</td><td>Applications utilisateur</td></tr>
+        <tr><td><strong style="color:#7a93b0">System</strong></td><td>11111</td><td>0x1F</td><td class="ok">Oui</td><td>Aucun</td><td>OS (même regs que User)</td></tr>
+        <tr><td><strong style="color:#f472b6">FIQ</strong></td><td>10001</td><td>0x11</td><td class="ok">Oui</td><td>R8–R14, SPSR</td><td>Interruptions rapides</td></tr>
+        <tr><td><strong style="color:#ffd32a">IRQ</strong></td><td>10010</td><td>0x12</td><td class="ok">Oui</td><td>R13, R14, SPSR</td><td>Interruptions standard</td></tr>
+        <tr><td><strong style="color:#ff6b35">SVC</strong></td><td>10011</td><td>0x13</td><td class="ok">Oui</td><td>R13, R14, SPSR</td><td>Appels système (SVC/SWI)</td></tr>
+        <tr><td><strong style="color:#ff8a96">Abort</strong></td><td>10111</td><td>0x17</td><td class="ok">Oui</td><td>R13, R14, SPSR</td><td>Violation accès mémoire</td></tr>
+        <tr><td><strong style="color:#a78bfa">Undefined</strong></td><td>11011</td><td>0x1B</td><td class="ok">Oui</td><td>R13, R14, SPSR</td><td>Instruction inconnue</td></tr>
+        <tr><td><strong style="color:#38bdf8">Monitor</strong></td><td>10110</td><td>0x16</td><td class="ok">Oui</td><td>R13, R14, SPSR</td><td>TrustZone (sécurité)</td></tr>
+        <tr><td><strong style="color:#00d68f">Hyp</strong></td><td>11010</td><td>0x1A</td><td class="ok">Oui</td><td>SP, ELR, SPSR</td><td>Hyperviseur (virtualisation)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Exception vector table -->
+  <div class="card a">
+    <div class="ci">🚨</div>
+    <h3>Table des vecteurs d'exception ARM (Exception Vector Table)</h3>
+    <p style="color:var(--muted2);margin-bottom:12px">Chaque type d'exception a une adresse fixe où le CPU saute automatiquement lors de l'événement :</p>
+    <table class="tbl">
+      <thead><tr><th>Adresse (ARM)</th><th>Exception</th><th>Mode activé</th><th>Cause</th></tr></thead>
+      <tbody>
+        <tr><td><code>0x00000000</code></td><td>Reset</td><td>SVC</td><td>Power-on, reset matériel</td></tr>
+        <tr><td><code>0x00000004</code></td><td>Undefined Instruction</td><td>UND</td><td>Opcode non reconnu par le CPU</td></tr>
+        <tr><td><code>0x00000008</code></td><td>SVC (Software Interrupt)</td><td>SVC</td><td>Instruction <code>SVC #n</code> (appel système)</td></tr>
+        <tr><td><code>0x0000000C</code></td><td>Prefetch Abort</td><td>ABT</td><td>Erreur lecture instruction (adresse invalide)</td></tr>
+        <tr><td><code>0x00000010</code></td><td>Data Abort</td><td>ABT</td><td>Erreur lecture/écriture données</td></tr>
+        <tr><td><code>0x00000014</code></td><td>Reserved</td><td>—</td><td>Non utilisé</td></tr>
+        <tr><td><code>0x00000018</code></td><td>IRQ</td><td>IRQ</td><td>Interruption matérielle normale</td></tr>
+        <tr><td><code>0x0000001C</code></td><td>FIQ</td><td>FIQ</td><td>Interruption matérielle rapide</td></tr>
+      </tbody>
+    </table>
+    <div class="hl a" style="margin-top:12px"><strong>Mécanisme :</strong> Lors d'une exception, le CPU (1) sauvegarde PC dans LR_mode, (2) copie CPSR dans SPSR_mode, (3) change le mode dans CPSR, (4) saute à l'adresse vecteur. Tout en hardware, en 1 cycle !</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ QCM ═══════════════════════════════════ -->
+<section id="qcm">
+  <div class="sh">
+    <div class="tag tag-g">QCM · ENTRAÎNEMENT</div>
+    <h2>Questions à Choix Multiple — Révision rapide</h2>
+    <p>Testez vos connaissances avant l'examen. Cliquez sur votre réponse pour la corriger.</p>
+  </div>
+
+  <div id="score-wrap">
+    <span>Score :</span>
+    <span id="score-val">0/0</span>
+    <div id="score-bar"><div id="score-fill"></div></div>
+  </div>
+
+  <div class="qcm" id="q1">
+    <div class="qcm-q"><span>Q·01</span>Que fait l'instruction <code>SUBS</code> par rapport à <code>SUB</code> ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q1','A',false)">A. Elle soustrait seulement les registres généraux</button>
+      <button class="opt" onclick="ans('q1','B',true)">B. Elle soustrait ET met à jour les flags NZCV</button>
+      <button class="opt" onclick="ans('q1','C',false)">C. Elle soustrait une valeur immédiate uniquement</button>
+      <button class="opt" onclick="ans('q1','D',false)">D. Elle stocke le résultat en mémoire</button>
+    </div>
+    <div class="expl" id="expl-q1">Le suffixe S (Set flags) signifie que l'instruction met à jour les flags du CPSR. Sans S → pas de mise à jour des flags → les branchements conditionnels ne peuvent pas utiliser le résultat.</div>
+  </div>
+
+  <div class="qcm" id="q2">
+    <div class="qcm-q"><span>Q·02</span><code>BNE</code> branche si :</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q2','A',false)">A. N = 1</button>
+      <button class="opt" onclick="ans('q2','B',false)">B. Z = 1</button>
+      <button class="opt" onclick="ans('q2','C',true)">C. Z = 0</button>
+      <button class="opt" onclick="ans('q2','D',false)">D. C = 1</button>
+    </div>
+    <div class="expl" id="expl-q2">BNE = Branch if Not Equal = branche si le résultat n'était pas zéro → Z = 0. Si Z = 1 (résultat était 0), on ne branche pas.</div>
+  </div>
+
+  <div class="qcm" id="q3">
+    <div class="qcm-q"><span>Q·03</span>L'architecture ARM est basée sur quel modèle ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q3','A',false)">A. CISC</button>
+      <button class="opt" onclick="ans('q3','B',true)">B. RISC</button>
+      <button class="opt" onclick="ans('q3','C',false)">C. VLIW</button>
+      <button class="opt" onclick="ans('q3','D',false)">D. CISC modifié</button>
+    </div>
+    <div class="expl" id="expl-q3">ARM = Advanced RISC Machine. RISC = Reduced Instruction Set Computer. Caractéristiques : instructions simples, Load/Store, registres nombreux, longueur fixe.</div>
+  </div>
+
+  <div class="qcm" id="q4">
+    <div class="qcm-q"><span>Q·04</span>Combien de registres programmer-visibles ARM possède-t-il ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q4','A',false)">A. 8</button>
+      <button class="opt" onclick="ans('q4','B',false)">B. 12</button>
+      <button class="opt" onclick="ans('q4','C',true)">C. 16</button>
+      <button class="opt" onclick="ans('q4','D',false)">D. 32</button>
+    </div>
+    <div class="expl" id="expl-q4">ARM possède 16 registres visibles : R0–R12 (généraux), R13 (SP), R14 (LR), R15 (PC).</div>
+  </div>
+
+  <div class="qcm" id="q5">
+    <div class="qcm-q"><span>Q·05</span>Quel est l'avantage principal de l'architecture Harvard par rapport à Von Neumann ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q5','A',false)">A. Plus simple et moins cher</button>
+      <button class="opt" onclick="ans('q5','B',true)">B. Accès simultané aux données et instructions → plus rapide</button>
+      <button class="opt" onclick="ans('q5','C',false)">C. Utilise moins de mémoire</button>
+      <button class="opt" onclick="ans('q5','D',false)">D. Compatible avec plus de périphériques</button>
+    </div>
+    <div class="expl" id="expl-q5">Harvard = bus séparés pour données et instructions. Permet de lire une instruction ET des données en même temps. Von Neumann doit choisir l'un ou l'autre à chaque cycle (bottleneck).</div>
+  </div>
+
+  <div class="qcm" id="q6">
+    <div class="qcm-q"><span>Q·06</span>Que fait <code>LSL R0, R0, #1</code> si R0 = 4 (0b0100) ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q6','A',false)">A. R0 = 2</button>
+      <button class="opt" onclick="ans('q6','B',true)">B. R0 = 8</button>
+      <button class="opt" onclick="ans('q6','C',false)">C. R0 = 0</button>
+      <button class="opt" onclick="ans('q6','D',false)">D. R0 = 16</button>
+    </div>
+    <div class="expl" id="expl-q6">LSL #1 = ×2. 0b0100 décalé gauche de 1 = 0b1000 = 8. LSL vers la gauche multiplie par 2 à chaque décalage.</div>
+  </div>
+
+  <div class="qcm" id="q7">
+    <div class="qcm-q"><span>Q·07</span>Pourquoi le DHT22 nécessite-t-il une résistance pull-up ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q7','A',false)">A. Pour augmenter la vitesse de transmission</button>
+      <button class="opt" onclick="ans('q7','B',false)">B. Pour filtrer le bruit électronique</button>
+      <button class="opt" onclick="ans('q7','C',true)">C. La ligne DATA est open-drain, elle doit être tirée à VCC au repos</button>
+      <button class="opt" onclick="ans('q7','D',false)">D. Pour convertir 5V en 3.3V</button>
+    </div>
+    <div class="expl" id="expl-q7">Protocole open-drain : le capteur peut tirer la ligne vers GND mais ne peut pas la mettre à VCC seul. La résistance pull-up (10kΩ) assure l'état HAUT par défaut.</div>
+  </div>
+
+  <div class="qcm" id="q8">
+    <div class="qcm-q"><span>Q·08</span>Quelle famille ARM est utilisée dans les microcontrôleurs embarqués ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q8','A',false)">A. Cortex-A</button>
+      <button class="opt" onclick="ans('q8','B',false)">B. Cortex-R</button>
+      <button class="opt" onclick="ans('q8','C',true)">C. Cortex-M</button>
+      <button class="opt" onclick="ans('q8','D',false)">D. Neoverse</button>
+    </div>
+    <div class="expl" id="expl-q8">Cortex-M = Microcontrollers. Utilise Thumb-2 uniquement. Conçu pour systèmes embarqués bas-consommation (IoT, STM32...). Cortex-A pour smartphones, Cortex-R pour temps-réel critique.</div>
+  </div>
+
+  <div class="qcm" id="q9">
+    <div class="qcm-q"><span>Q·09</span>Quelle instruction transfère des données de la mémoire vers un registre ?</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q9','A',false)">A. STR</button>
+      <button class="opt" onclick="ans('q9','B',true)">B. LDR</button>
+      <button class="opt" onclick="ans('q9','C',false)">C. MOV</button>
+      <button class="opt" onclick="ans('q9','D',false)">D. ADD</button>
+    </div>
+    <div class="expl" id="expl-q9">LDR = Load Register : Mémoire → Registre. STR = Store Register : Registre → Mémoire. MOV transfère entre registres ou charge un immédiat (pas de mémoire).</div>
+  </div>
+
+  <div class="qcm" id="q10">
+    <div class="qcm-q"><span>Q·10</span>Le flag Z est mis à 1 après SUBS quand...</div>
+    <div class="opts">
+      <button class="opt" onclick="ans('q10','A',false)">A. Le résultat est négatif</button>
+      <button class="opt" onclick="ans('q10','B',true)">B. Le résultat est exactement 0</button>
+      <button class="opt" onclick="ans('q10','C',false)">C. Il y a un débordement</button>
+      <button class="opt" onclick="ans('q10','D',false)">D. Toujours après SUBS</button>
+    </div>
+    <div class="expl" id="expl-q10">Z = 1 uniquement quand le résultat de l'opération est 0. C'est la condition de sortie d'une boucle de décompte : quand le compteur atteint 0, Z=1, BNE ne branche plus.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ PIÈGES ═══════════════════════════════════ -->
+<section id="piege">
+  <div class="sh">
+    <div class="tag tag-o">PIÈGES & MÉMOS</div>
+    <h2>Erreurs fréquentes à éviter</h2>
+  </div>
+
+  <div class="g2">
+    <div class="card o">
+      <div class="ci">⚠️</div>
+      <h3>Erreurs classiques</h3>
+      <ul>
+        <li>Confondre <strong>ADD</strong> (no flags) et <strong>ADDS</strong> (flags) → les branchements conditionnels ne fonctionneront pas après ADD</li>
+        <li>Oublier que <strong>BNE</strong> teste Z=0, pas Z=1</li>
+        <li>Penser que <strong>MOV</strong> accède à la mémoire → Non ! Utiliser LDR/STR pour la mémoire</li>
+        <li>Omettre la <strong>résistance pull-up 10kΩ</strong> sur la ligne DATA du DHT22</li>
+        <li>Lire le DHT22 sans <strong>délai de 2 secondes</strong> minimum</li>
+        <li>Confondre <strong>LSL</strong> (×2ⁿ) et <strong>LSR</strong> (÷2ⁿ)</li>
+      </ul>
+    </div>
+    <div class="card g">
+      <div class="ci">✅</div>
+      <h3>Astuces mémo</h3>
+      <ul>
+        <li><strong style="color:var(--cyan)">Suffixe S</strong> = "Set flags" : SUBS, ADDS, MOVS, LSLS...</li>
+        <li><strong style="color:var(--orange)">BNE</strong> = "Tant que ≠ 0" → parfait pour les boucles de décompte</li>
+        <li><strong style="color:var(--violet)">LSL #n</strong> = multiplication par 2ⁿ (optimisation matérielle)</li>
+        <li><strong style="color:var(--green)">Harvard</strong> = Arduino AVR = bus séparés = plus rapide</li>
+        <li><strong style="color:var(--amber)">Cortex-M</strong> = Thumb-2 uniquement = microcontrôleurs</li>
+        <li><strong style="color:var(--sky)">R13=SP, R14=LR, R15=PC</strong> → les 3 registres spéciaux à retenir</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warn" style="margin-top:16px">
+    <strong>⚠️ Point critique examen :</strong> Les instructions <strong>sans le suffixe S</strong> (MOV, ADD, SUB...) ne modifient PAS les flags NZCV. Toujours vérifier si le branchement conditionnel qui suit pourra fonctionner !
+  </div>
+  <div class="tip">
+    <strong>💡 Conseil final :</strong> Pour les boucles, le trio magique est <strong>MOV</strong> (init) + <strong>SUBS</strong> (décrémente + met Z) + <strong>BNE</strong> (teste Z). Maîtrisez ce pattern et vous avez la moitié de l'exercice 1 !
+  </div>
+</section>
+
+</main>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer style="text-align:center;padding:36px 24px;border-top:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:11px">
+  Systèmes Embarqués · M1 ST · USTHB · Pr Fatma Zohra Chelali · Rattrapage Jan. 2026<br>
+  <span style="color:var(--cyan)">بالتوفيق ! 💪 bonne chance !</span>
+</footer>
+
+<script>
+// Progress bar + scroll
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  document.getElementById('prog').style.width = (s.scrollTop / (s.scrollHeight - s.clientHeight) * 100) + '%';
+  document.getElementById('btt').classList.toggle('vis', window.scrollY > 400);
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav a');
+  let cur = '';
+  secs.forEach(sc => { if (window.scrollY >= sc.offsetTop - 100) cur = sc.id; });
+  links.forEach(l => { l.classList.remove('act'); if (l.getAttribute('href') === '#' + cur) l.classList.add('act'); });
+});
+
+// QA accordion
+function toggleQA(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.qa.open').forEach(q => q.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+
+// QCM
+const qState = {};
+function ans(qid, opt, correct) {
+  if (qState[qid]) return;
+  qState[qid] = { correct };
+  const q = document.getElementById(qid);
+  q.querySelectorAll('.opt').forEach(b => {
+    const letter = b.textContent.trim()[0];
+    if (letter === opt) b.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct && b.getAttribute('onclick') && b.getAttribute('onclick').includes('true')) b.classList.add('reveal');
+  });
+  const expl = document.getElementById('expl-' + qid);
+  if (expl) expl.classList.add('show');
+  updateScore();
+}
+function updateScore() {
+  const total = Object.keys(qState).length;
+  const good = Object.values(qState).filter(x => x.correct).length;
+  const wrap = document.getElementById('score-wrap');
+  wrap.style.display = total ? 'flex' : 'none';
+  document.getElementById('score-val').textContent = good + '/' + total;
+  const pct = total ? good / total * 100 : 0;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 70 ? 'linear-gradient(90deg,var(--green),var(--cyan))' : pct >= 40 ? 'linear-gradient(90deg,var(--amber),var(--orange))' : 'linear-gradient(90deg,var(--red),var(--orange))';
+}
+</script>
+</body>
+</html>

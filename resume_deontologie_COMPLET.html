@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé Examen — Éthique & Déontologie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1927;
+    --card: #201f30;
+    --accent1: #e8c547;
+    --accent2: #ff6b6b;
+    --accent3: #4ecdc4;
+    --accent4: #a8e6cf;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --border: rgba(232,197,71,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1927 0%, #0f0e17 60%);
+    border-bottom: 2px solid var(--accent1);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(232,197,71,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(78,205,196,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--accent1);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 300;
+    position: relative; z-index: 1;
+  }
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .badge {
+    background: rgba(232,197,71,0.15);
+    border: 1px solid var(--accent1);
+    color: var(--accent1);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .badge-new {
+    background: rgba(255,107,107,0.15);
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+  }
+
+  main { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+  }
+  .toc-title { font-family: 'Playfair Display', serif; color: var(--accent1); font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; text-transform: uppercase; }
+  .toc ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+  .toc a { color: var(--muted); text-decoration: none; font-size: 0.88rem; padding: 3px 0; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+  .toc a:hover { color: var(--accent1); }
+  .toc a::before { content: '→'; color: var(--accent1); font-size: 0.75rem; }
+  .toc .new-tag { background: rgba(255,107,107,0.2); color: var(--accent2); font-size: 0.65rem; padding: 1px 6px; border-radius: 8px; font-weight: 700; }
+
+  .section { margin-bottom: 36px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .section-num { background: var(--accent1); color: var(--bg); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+  .section-num.red { background: var(--accent2); }
+  .section-num.teal { background: var(--accent3); }
+
+  h2 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--text); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 18px; transition: border-color 0.2s, transform 0.2s; }
+  .card:hover { border-color: rgba(232,197,71,0.4); transform: translateY(-2px); }
+  .card-title { font-weight: 600; color: var(--accent1); font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card p, .card ul { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+  .card ul { padding-left: 16px; }
+  .card li { margin-bottom: 3px; }
+
+  .highlight-box { background: linear-gradient(135deg, rgba(232,197,71,0.08), rgba(78,205,196,0.05)); border: 1px solid rgba(232,197,71,0.3); border-left: 4px solid var(--accent1); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 14px 0; }
+  .highlight-box strong { color: var(--accent1); }
+  .highlight-box p, .highlight-box li { color: #d0cfe8; font-size: 0.9rem; }
+
+  .red-box { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.3); border-left: 4px solid var(--accent2); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 14px 0; }
+  .red-box strong { color: var(--accent2); }
+  .red-box p, .red-box li { color: #d0cfe8; font-size: 0.9rem; }
+
+  .teal-box { background: rgba(78,205,196,0.08); border: 1px solid rgba(78,205,196,0.3); border-left: 4px solid var(--accent3); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 14px 0; }
+  .teal-box strong { color: var(--accent3); }
+  .teal-box p, .teal-box li { color: #d0cfe8; font-size: 0.9rem; }
+
+  .formula { background: #12111f; border: 1px solid rgba(78,205,196,0.3); border-radius: 8px; padding: 16px 20px; text-align: center; margin: 14px 0; font-family: 'Playfair Display', serif; color: var(--accent3); font-size: 1.05rem; letter-spacing: 1px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 14px 0; }
+  th { background: rgba(232,197,71,0.15); color: var(--accent1); padding: 10px 14px; text-align: left; font-weight: 600; letter-spacing: 0.5px; }
+  td { padding: 9px 14px; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
+
+  .tag { display: inline-block; background: rgba(168,230,207,0.12); color: var(--accent4); border: 1px solid rgba(168,230,207,0.25); padding: 2px 10px; border-radius: 12px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .tag-red { background: rgba(255,107,107,0.12); color: var(--accent2); border-color: rgba(255,107,107,0.25); }
+  .tag-yellow { background: rgba(232,197,71,0.12); color: var(--accent1); border-color: rgba(232,197,71,0.25); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .list-clean { list-style: none; padding: 0; }
+  .list-clean li { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--muted); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 8px; }
+  .list-clean li::before { content: '◆'; color: var(--accent1); font-size: 0.6rem; margin-top: 5px; flex-shrink: 0; }
+  .list-clean li span { color: var(--text); font-weight: 600; }
+
+  /* === VRAI/FAUX SECTION === */
+  .vf-section { background: var(--surface); border: 1px solid rgba(78,205,196,0.3); border-radius: 12px; padding: 24px 28px; margin-bottom: 36px; }
+  .vf-title { font-family: 'Playfair Display', serif; color: var(--accent3); font-size: 1.25rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .vf-subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+  .vf-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .vf-item:last-child { border-bottom: none; }
+  .vf-statement { flex: 1; color: #d0cfe8; font-size: 0.9rem; line-height: 1.5; }
+  .vf-badge { flex-shrink: 0; padding: 3px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; cursor: pointer; border: none; transition: opacity 0.2s; }
+  .vrai { background: rgba(78,205,196,0.2); color: var(--accent3); border: 1px solid var(--accent3); }
+  .faux { background: rgba(255,107,107,0.2); color: var(--accent2); border: 1px solid var(--accent2); }
+  .vf-hidden { filter: blur(6px); user-select: none; transition: filter 0.3s; cursor: pointer; }
+  .vf-hidden:hover { filter: blur(3px); }
+  .vf-reveal-btn { background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--muted); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; font-family: 'Source Sans 3', sans-serif; margin-top: 8px; display: block; }
+  .vf-reveal-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* === QCM SECTION === */
+  .qcm-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 36px; }
+  .qcm-title { font-family: 'Playfair Display', serif; color: var(--accent2); font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .qcm-item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .qcm-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .question { color: var(--text); font-weight: 600; margin-bottom: 10px; font-size: 0.93rem; }
+  .options label { display: block; padding: 7px 14px; border-radius: 6px; cursor: pointer; color: var(--muted); font-size: 0.87rem; transition: background 0.15s; margin-bottom: 4px; border: 1px solid transparent; }
+  .options input[type="radio"] { display: none; }
+  .options input[type="radio"]:checked + label { background: rgba(232,197,71,0.12); border-color: var(--accent1); color: var(--accent1); }
+  .options label:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+  .answer-btn { background: none; border: 1px solid var(--accent3); color: var(--accent3); padding: 5px 16px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; margin-top: 8px; transition: background 0.2s; font-family: 'Source Sans 3', sans-serif; }
+  .answer-btn:hover { background: rgba(78,205,196,0.12); }
+  .answer-reveal { display: none; background: rgba(78,205,196,0.10); border: 1px solid rgba(78,205,196,0.3); border-radius: 6px; padding: 10px 14px; margin-top: 8px; color: var(--accent3); font-size: 0.87rem; font-weight: 600; }
+
+  .reveal-all-btn { background: rgba(78,205,196,0.12); border: 1px solid var(--accent3); color: var(--accent3); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-family: 'Source Sans 3', sans-serif; margin-bottom: 20px; transition: background 0.2s; }
+  .reveal-all-btn:hover { background: rgba(78,205,196,0.22); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 1.6rem; }
+    .toc ul { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Éthique & Déontologie</h1>
+  <p class="subtitle">Résumé Complet — Version Mise à Jour</p>
+  <div class="badge-row">
+    <span class="badge">Master 1 Télécoms · USTHB</span>
+    <span class="badge">2026</span>
+    <span class="badge badge-new">✦ Mis à jour avec les examens</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- TABLE DES MATIÈRES -->
+  <div class="toc">
+    <div class="toc-title">📋 Sommaire</div>
+    <ul>
+      <li><a href="#s1">1. Éthique vs Déontologie</a></li>
+      <li><a href="#s2">2. Origines & Philosophes</a></li>
+      <li><a href="#s3">3. Exemples & Vertus déontologiques</a></li>
+      <li><a href="#s4">4. Éthique en entreprise</a></li>
+      <li><a href="#s5">5. Éthique professionnelle & Courants <span class="new-tag">NEW</span></a></li>
+      <li><a href="#s6">6. Enseignant-Chercheur & Rôle université</a></li>
+      <li><a href="#s7">7. Droits & Devoirs Étudiant</a></li>
+      <li><a href="#s8">8. Personnel administratif <span class="new-tag">NEW</span></a></li>
+      <li><a href="#s9">9. Déclaration de Singapour (2010)</a></li>
+      <li><a href="#s10">10. Propriété Intellectuelle</a></li>
+      <li><a href="#s11">11. Brevets</a></li>
+      <li><a href="#s12">12. Plagiat complet</a></li>
+      <li><a href="#s13">13. Conseil de déontologie <span class="new-tag">NEW</span></a></li>
+      <li><a href="#s14">14. Éthique IA & Environnementale <span class="new-tag">NEW</span></a></li>
+      <li><a href="#s15">15. Corruption & Infractions <span class="new-tag">NEW</span></a></li>
+      <li><a href="#vf">★ VRAI / FAUX — Entraînement</a></li>
+      <li><a href="#qcm">★ QCM — Entraînement</a></li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Éthique vs Déontologie — Définitions Clés</h2>
+    </div>
+    <div class="tag tag-yellow">FONDAMENTAL — TOUJOURS AU EXAMEN</div>
+
+    <table>
+      <tr><th>Concept</th><th>Définition</th><th>Nature</th></tr>
+      <tr><td><strong style="color:var(--accent1)">Éthique</strong></td><td>Ensemble de valeurs, référence à la culture organisationnelle. Renvoie à des notions surtout <strong>abstraites</strong>. Détermine ce qui est souhaitable.</td><td>Universelle, société</td></tr>
+      <tr><td><strong style="color:var(--accent3)">Déontologie</strong></td><td>Code de conduite propre à une profession. Fait appel à des notions <strong>pratiques</strong>. Existence réglementaire et juridique.</td><td>Profession spécifique</td></tr>
+      <tr><td><strong style="color:var(--accent4)">Morale</strong></td><td>Déterminée par la société, évolue avec elle. La loi morale ordonne de <strong>suivre ses valeurs</strong>.</td><td>Individuel / collectif</td></tr>
+      <tr><td><strong style="color:var(--accent2)">Loi</strong></td><td>Découle de la société via la morale. C'est <strong>la morale qui doit fonder le droit</strong>.</td><td>Juridique / obligatoire</td></tr>
+    </table>
+
+    <div class="highlight-box">
+      <strong>Relations essentielles :</strong>
+      <p>Société → détermine la Morale → détermine la Loi<br>
+      L'éthique <strong>suggère</strong> ce qui est souhaitable et condamne ce qui ne doit pas se faire.<br>
+      La déontologie <strong>utilise des outils administratifs</strong> pour garantir que la profession soit exercée en toute éthique.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Le mot "éthique" signifie :</strong> Manière de vivre / Mœurs / Valeurs / Principes<br>
+      <strong>Le mot "déontologie" signifie :</strong> La science de ce qu'il faut faire (du grec : devoir + science)
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">🌍 Domaines d'application de l'éthique</div>
+        <ul>
+          <li>Éthique des affaires</li><li>Bioéthique</li><li>Éthique de l'environnement</li>
+          <li>Éthique médicale</li><li>Éthique animale</li><li>Éthique et éducation</li>
+          <li>Éthique et gestion de l'État</li><li>Éthique des mathématiques</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📌 Éléments définissant la déontologie</div>
+        <ul>
+          <li>Pour les professionnels</li>
+          <li>Fait référence au Code des professions</li>
+          <li>Permet de distinguer le tolérable de l'intolérable</li>
+          <li>Établit les principes de la profession</li>
+          <li><strong style="color:var(--accent2)">NE définit PAS :</strong> Établit les valeurs de la profession</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>Origines Historiques & Philosophes</h2>
+    </div>
+    <div class="tag">HISTOIRE</div>
+    <div class="cards">
+      <div class="card"><div class="card-title">🏛️ Présocratiques</div><p>Thalès, Pythagore — premiers à étudier l'éthique. <strong>Socrate</strong> = 1er philosophe de l'éthique.</p></div>
+      <div class="card"><div class="card-title">💡 Platon</div><p>Penseur de l'<strong>Idée du Bien</strong> comme lumière et accès à la connaissance.</p></div>
+      <div class="card"><div class="card-title">⚖️ Kant (XVIIIe s.)</div><p><strong>Impératif catégorique (1785)</strong> : une action est moralement autorisée seulement si elle suit une loi universelle.</p></div>
+      <div class="card"><div class="card-title">📚 Jeremy Bentham (avant 1816)</div><p>Invente le mot "déontologie" comme synonyme d'éthique. Se concentre sur la <strong>nature de l'action</strong> plutôt que ses résultats.</p></div>
+      <div class="card"><div class="card-title">📖 Charlie Broad (1930)</div><p>Utilise le terme "déontologique" dans <em>Five Types of Ethical Theory</em> — définition spécialisée actuelle.</p></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Exemples & Vertus Déontologiques</h2>
+    </div>
+    <div class="tag tag-yellow">À RETENIR</div>
+    <div class="cards">
+      <div class="card"><div class="card-title">1. Honnêteté</div><p>Dire la vérité quoi qu'il arrive, même si cela conduit à des résultats défavorables.</p></div>
+      <div class="card"><div class="card-title">2. Respect</div><p>Honorer les souhaits et croyances d'autrui, même en désaccord.</p></div>
+      <div class="card"><div class="card-title">3. Responsabilité</div><p>Assumer les conséquences de ses actes. Ne pas cacher ni blâmer autrui.</p></div>
+      <div class="card"><div class="card-title">4. Équité</div><p>Traiter tout le monde équitablement, sans discrimination.</p></div>
+      <div class="card"><div class="card-title">5. Intégrité</div><p>Être honnête et cohérent dans son comportement en toutes circonstances.</p></div>
+      <div class="card"><div class="card-title">6. Non-violence</div><p>S'abstenir de la violence même si cela mène à un résultat souhaitable.</p></div>
+      <div class="card"><div class="card-title">7. Gratitude</div><p>Montrer l'appréciation de la générosité, même sans avantage immédiat.</p></div>
+      <div class="card"><div class="card-title">8. Humilité</div><p>Ne pas s'attribuer le mérite de ce qu'on n'a pas accompli seul.</p></div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:14px">
+      <strong>Les "savoir-être" sont :</strong>
+      <p>Des attitudes et des comportements <strong>en développement tout au long de notre vie</strong> (pas innés, pas imperméables aux expériences).</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>Éthique en Entreprise — Vertus & Décision</h2>
+    </div>
+    <div class="tag">ENTREPRISE</div>
+    <div class="formula">Décision Juste = (Situation/Projet) + (Éthique/Vertus) + (Déontologie/Métier/Valeurs)</div>
+    <div class="cards">
+      <div class="card"><div class="card-title">🎯 Prudence</div><p>Mesurer les conséquences positives et négatives avant toute décision, puis s'y tenir.</p></div>
+      <div class="card"><div class="card-title">⚖️ Tempérance</div><p>Utiliser avec modération son temps, argent, efforts selon des critères droits et vrais.</p></div>
+      <div class="card"><div class="card-title">💪 Courage</div><p>Résister aux influences nocives, faire face aux difficultés, surmonter les obstacles.</p></div>
+      <div class="card"><div class="card-title">⚡ Justice</div><p>Donner à chacun ce qui lui est dû pour qu'il puisse exercer ses droits en tant que personne.</p></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — NEW -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num red">5</div>
+      <h2>Éthique Professionnelle — Points Clés d'Examen</h2>
+    </div>
+    <div class="tag tag-red">NOUVEAU — TIRÉ DES EXAMENS</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">✅ Ce qu'est l'éthique professionnelle</div>
+        <ul>
+          <li>Porte davantage sur des <strong>principes moraux et valeurs</strong> qui encadrent la conduite</li>
+          <li>Est un processus de réflexion continu sur le sens et les <strong>conséquences multiples</strong> des décisions</li>
+          <li>Établit les obligations et les <strong>codes de conduite</strong> d'une profession</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">❌ Ce que l'éthique professionnelle n'est PAS</div>
+        <ul>
+          <li>Elle n'établit <strong>pas</strong> les valeurs de la profession (c'est la déontologie)</li>
+          <li>Elle n'est <strong>pas</strong> un processus passif ou imposé</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:14px">
+      <strong>But de l'étude de l'éthique :</strong>
+      <p>Exercer un jugement responsable et prendre des <strong>décisions raisonnées</strong>. Éviter les situations compromettantes.</p>
+    </div>
+
+    <p style="color:var(--accent1); font-weight:600; margin:16px 0 10px">Principaux courants éthiques :</p>
+    <table>
+      <tr><th>Courant</th><th>Description</th></tr>
+      <tr><td><strong style="color:var(--accent1)">La morale</strong></td><td>Principal courant en matière d'éthique</td></tr>
+      <tr><td>Courant religieux</td><td>Basé sur les principes religieux</td></tr>
+      <tr><td>Courant favorisant connaissance/science/progrès</td><td>Éthique scientifique</td></tr>
+      <tr><td>Courant favorisant famille et société</td><td>Éthique sociale</td></tr>
+    </table>
+
+    <div class="highlight-box">
+      <strong>Rôle de l'éthique dans la société :</strong>
+      <p>Être un <strong>guide dans les interactions entre humains</strong>. Développer notre sens de la moralité pour faire des choix.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>L'exercice du sens éthique d'une personne s'appuie d'abord sur :</strong>
+      <p><strong>Ses principes</strong> (réponse g dans l'examen)</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Référence universelle pour examiner une situation éthique :</strong>
+      <p>Un livre sacré, une charte des droits, un philosophe, une autorité gouvernementale, un guide d'éthique, un repère déontologique.<br>
+      <strong style="color:var(--accent2)">PAS un exemple de référence universelle :</strong> Un gain suite à la vente d'actions en bourse.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Composante d'une réflexion éthique :</strong>
+      <p><strong>Évaluer des options ou des actions possibles</strong></p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Ce qui n'est PAS développé dans l'apprentissage de l'éthique :</strong>
+      <p>Apprendre à débattre jusqu'à ce que l'on <strong>gagne</strong> son point.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Enseignant-Chercheur & Rôle de l'Université</h2>
+    </div>
+    <div class="tag">UNIVERSITÉ</div>
+    <div class="two-col">
+      <div>
+        <div class="teal-box">
+          <strong>Obligations pédagogiques</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Conscience professionnelle</li>
+            <li>Achever les programmes</li>
+            <li>Transparence dans l'évaluation</li>
+            <li>Être à jour (méthodes, connaissances)</li>
+            <li>Combiner enseignement et recherche</li>
+            <li>Quête sincère du savoir — attention au plagiat</li>
+            <li>Accepter la confrontation loyale des points de vue</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="highlight-box">
+          <strong>Vertus du rôle universitaire</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Bonne culture générale</li>
+            <li>Esprit novateur, créatif, imaginatif</li>
+            <li>Sens du rationnel / cartésien</li>
+            <li>Maîtrise des outils maths et statistiques</li>
+            <li>Réceptif aux langues étrangères</li>
+            <li>Esprit scientifiquement curieux</li>
+            <li>Tolérant, ouvert sur le monde</li>
+            <li>Sensibilité aux vertus universelles</li>
+            <li>Conscience des responsabilités du titre universitaire</li>
+            <li>Aptitude à assumer ses responsabilités en toute autonomie</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Droits & Devoirs de l'Étudiant</h2>
+    </div>
+    <div class="tag">ÉTUDIANT</div>
+    <div class="two-col">
+      <div>
+        <p style="color:var(--accent3); font-weight:600; margin-bottom:10px">✅ Droits</p>
+        <ul class="list-clean">
+          <li>Droit à un <span>enseignement et encadrement de qualité</span></li>
+          <li><span>Programme du cours</span> remis dès le début</li>
+          <li>Droit à une <span>évaluation juste, équitable et impartiale</span></li>
+          <li>Droit de <span>recours</span> si lésé dans la correction</li>
+          <li>Droit au <span>respect et à la dignité</span></li>
+          <li>Aucune <span>discrimination</span> de genre ou autre</li>
+          <li><span>Liberté d'expression</span> et d'opinion</li>
+          <li>Accès à la <span>bibliothèque</span> et aux ressources</li>
+          <li>Élire ses <span>représentants</span> aux comités pédagogiques</li>
+        </ul>
+      </div>
+      <div>
+        <p style="color:var(--accent2); font-weight:600; margin-bottom:10px">📋 Devoirs</p>
+        <ul class="list-clean">
+          <li>Respecter la <span>réglementation</span></li>
+          <li>Respecter la <span>dignité</span> de la communauté</li>
+          <li>Respecter les <span>résultats des jurys</span></li>
+          <li>Fournir des <span>informations exactes</span> à l'inscription</li>
+          <li>Faire preuve de <span>civisme et bonnes manières</span></li>
+          <li><span>Ne jamais frauder</span> ni plagier</li>
+          <li>Préserver les <span>locaux et matériels</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 — NEW -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-num red">8</div>
+      <h2>Droits & Obligations du Personnel Administratif</h2>
+    </div>
+    <div class="tag tag-red">NOUVEAU</div>
+    <div class="two-col">
+      <div>
+        <div class="teal-box">
+          <strong>Droits du personnel</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Être traité avec respect, considération, équité</li>
+            <li>Traitement objectif et impartial lors des promotions</li>
+            <li>Aucun harcèlement ni discrimination</li>
+            <li>Conditions adéquates pour accomplir sa mission</li>
+            <li>Formation continue et amélioration des qualifications</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="red-box">
+          <strong>Obligations (7 valeurs fondamentales)</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li><strong>Compétence</strong> — professionnalisme, responsabilité</li>
+            <li><strong>Impartialité</strong> — neutralité, objectivité, sans discrimination</li>
+            <li><strong>Intégrité</strong> — conduite juste et honnête</li>
+            <li><strong>Respect</strong> — courtoisie, écoute, discrétion</li>
+            <li><strong>Confidentialité</strong> — dossiers soumis à obligation</li>
+            <li><strong>Transparence</strong> — bonne circulation de l'information</li>
+            <li><strong>Performance</strong> — critères de qualité du service public</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>Important :</strong> Le personnel administratif doit s'interdire toute <strong>ingérence dans les actes pédagogiques et scientifiques</strong>.
+    </div>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2>Déclaration de Singapour (2010) — 14 Points</h2>
+    </div>
+    <div class="tag tag-yellow">TOUJOURS AU EXAMEN</div>
+
+    <div class="highlight-box">
+      <strong>4 principes généraux (résumé officiel) :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li>Honnêteté dans tous les aspects de la recherche</li>
+        <li>Conduite responsable de la recherche</li>
+        <li>Courtoisie et loyauté dans les relations de travail</li>
+        <li>Bonne gestion de la recherche pour le compte d'un tiers</li>
+      </ul>
+    </div>
+
+    <div class="cards">
+      <div class="card"><div class="card-title">1. Intégrité</div><p>Chercheurs responsables de la <strong>fiabilité</strong> de leur recherche.</p></div>
+      <div class="card"><div class="card-title">2. Respect des règles</div><p>Se tenir informés et respecter les textes législatifs.</p></div>
+      <div class="card"><div class="card-title">3. Méthodologie</div><p>Méthodes appropriées, communiquer objectivement et complètement.</p></div>
+      <div class="card"><div class="card-title">4. Conservation des données</div><p>Données brutes conservées pour permettre <strong>vérification et réplication</strong>.</p></div>
+      <div class="card"><div class="card-title">5. Communication des travaux</div><p>Communiquer rapidement pour établir la <strong>propriété intellectuelle et l'antériorité</strong>.</p></div>
+      <div class="card"><div class="card-title">6. Publication</div><p>Liste d'auteurs = <strong>ceux et seulement ceux</strong> qui remplissent les critères.</p></div>
+      <div class="card"><div class="card-title">7. Remerciements</div><p>Nommer les contributeurs ne remplissant pas les conditions d'auteur.</p></div>
+      <div class="card"><div class="card-title">8. Évaluation par les pairs</div><p>De façon <strong>équitable, rigoureuse</strong>, dans le respect de la confidentialité.</p></div>
+      <div class="card"><div class="card-title">9. Conflits d'intérêts</div><p>Déclarer tout conflit financier ou autre pouvant entacher la confiance.</p></div>
+      <div class="card"><div class="card-title">10. Communication publique</div><p>Limiter ses commentaires à son domaine. Distinguer expertise et opinion.</p></div>
+      <div class="card"><div class="card-title">11. Signalement des manquements</div><p>Informer l'autorité de tout soupçon de fabrication, fraude, plagiat.</p></div>
+      <div class="card"><div class="card-title">12-14. Responsabilité / Environnement / Société</div><p>Institutions : encourager l'intégrité. Chercheurs : prendre en compte bénéfices/risques.</p></div>
+    </div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <h2>Propriété Intellectuelle — Fondamentaux</h2>
+    </div>
+    <div class="tag">PROPRIÉTÉ INTELLECTUELLE</div>
+
+    <div class="highlight-box">
+      <strong>Définition :</strong> Œuvres de l'esprit = inventions, œuvres littéraires/artistiques, emblèmes, noms et images.<br>
+      <strong>2 volets :</strong> Propriété Littéraire & Artistique + Propriété Industrielle
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Droit moral (perpétuel)</div>
+        <ul>
+          <li>Droit de divulgation</li>
+          <li>Droit au respect de l'œuvre</li>
+          <li>Droit à la paternité</li>
+          <li><strong>Perpétuel, imprescriptible, inaliénable</strong></li>
+          <li>Ne peut PAS être cédé</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Droits patrimoniaux (cessibles)</div>
+        <ul>
+          <li>Interdiction de reproduire sans accord</li>
+          <li>Autorisation d'exhibition publique</li>
+          <li>Adaptation, traduction, distribution</li>
+          <li>Peuvent être <strong>cédés</strong> (≠ droit moral)</li>
+          <li>Ex : Un auteur autorise adaptation au cinéma = <strong>VRAI, c'est le droit patrimonial</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Droits connexes (50 ans)</div>
+        <ul>
+          <li>Artistes interprètes (acteurs, chanteurs)</li>
+          <li>Producteurs d'enregistrements sonores</li>
+          <li>Organismes de radiodiffusion</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Œuvres protégées — types</div>
+        <ul>
+          <li>Œuvres musicales, littéraires, artistiques</li>
+          <li>Œuvres chorégraphiques, cinématographiques</li>
+          <li>Créations publicitaires</li>
+          <li>Programmes d'ordinateur, logiciels, bases de données</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="red-box" style="margin-top:14px">
+      <strong>Points importants pour le Vrai/Faux :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li>Le droit moral est limité à 70 ans après la mort → <strong>FAUX</strong> (il est perpétuel)</li>
+        <li>Il est obligatoire de déposer un droit de PI → <strong>FAUX</strong> (le droit d'auteur naît avec la création)</li>
+        <li>Une invention peut faire l'objet de l'enregistrement de plusieurs droits → <strong>VRAI</strong></li>
+        <li>Quand une œuvre tombe dans le domaine public, on peut l'utiliser comme on veut → <strong>FAUX</strong> (le droit moral reste)</li>
+        <li>Les idées ne sont pas protégées par le droit d'auteur → <strong>VRAI</strong> (c'est la forme d'expression qui est protégée)</li>
+        <li>Dès que vous citez un extrait, vous devez demander l'autorisation → <strong>FAUX</strong> (courte citation tolérée)</li>
+      </ul>
+    </div>
+
+    <div class="teal-box" style="margin-top:14px">
+      <strong>Licences Creative Commons (4 conditions) :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li><strong>BY</strong> : mention de l'auteur</li>
+        <li><strong>ND</strong> : pas de modification</li>
+        <li><strong>NC</strong> : pas d'utilisation commerciale</li>
+        <li><strong>SA</strong> : œuvre dérivée sous la même licence</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 11 -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <h2>Brevets</h2>
+    </div>
+    <div class="tag">BREVETS</div>
+
+    <div class="two-col">
+      <div>
+        <div class="teal-box">
+          <strong>✅ Brevetable :</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Réalisations, procédés, machines</li>
+            <li>Fabrications, compositions de matières</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="red-box">
+          <strong>❌ Non brevetable :</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Méthodes de travail, traitements médicaux</li>
+            <li>Principes scientifiques, conceptions théoriques</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:14px">
+      <strong>4 conditions pour breveter :</strong> Nouvelle · Utile · Ingénieuse · Non évidente
+    </div>
+
+    <div class="red-box">
+      <strong>Points Vrai/Faux sur les brevets :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li>Durée protection = <strong>20 ans</strong> après la date de dépôt</li>
+        <li>L'employeur est premier titulaire seulement si la réalisation d'inventions fait partie <strong>des tâches attendues de l'employé</strong> → <strong>VRAI</strong></li>
+        <li>Un logiciel peut être protégé <strong>indirectement</strong> par un brevet sur une invention mise en œuvre par un logiciel → <strong>VRAI</strong></li>
+        <li>Avant de déposer un brevet, il est obligatoire de vérifier qu'un travail similaire n'a pas déjà été breveté → <strong>VRAI</strong></li>
+        <li>Une invention peut faire l'objet de l'enregistrement de <strong>plusieurs</strong> droits → <strong>VRAI</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 12 -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <div class="section-num">12</div>
+      <h2>Plagiat — Complet</h2>
+    </div>
+    <div class="tag tag-yellow">TRÈS IMPORTANT</div>
+
+    <div class="red-box">
+      <strong>Définition (Arrêté n°933, 28 juillet 2016) :</strong>
+      <p>Tout acte de falsification de résultats ou de fraude dans les travaux scientifiques ou toute publication, revendiqués par l'étudiant ou l'enseignant-chercheur.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Le plagiat correspond à :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li>Création de données de recherche non réelles (falsification)</li>
+        <li>Ajout non justifié d'une personne dans la liste des auteurs</li>
+        <li>Utilisation non autorisée des idées d'autrui</li>
+        <li>Vol de la propriété intellectuelle</li>
+      </ul>
+    </div>
+
+    <p style="color:var(--accent1); font-weight:600; margin:14px 0 10px">Types de plagiat — Auto-plagiat :</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Auto-plagiat</div>
+        <ul>
+          <li><strong>Double publication</strong></li>
+          <li><strong>Saucissonnage</strong> des résultats dans plusieurs publications</li>
+          <li>Infraction au copyright</li>
+          <li><strong>Recyclage</strong> d'un texte</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Causes — Étudiants</div>
+        <ul><li>Ignorance</li><li>Mauvaise organisation</li><li>Facilités numériques</li><li>Difficulté du travail</li><li>Mauvaise foi</li><li>Absence de sanctions</li></ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Causes — Enseignants-chercheurs</div>
+        <ul><li>Pression à la publication ("publish or perish")</li><li>Manque de temps</li><li>Facilités numériques</li><li>Soif de publications</li><li>Tolérance organisée</li></ul>
+      </div>
+    </div>
+
+    <p style="color:var(--accent2); font-weight:600; margin:16px 0 10px">Typologies (Bergadaa) :</p>
+    <table>
+      <tr><th>Type</th><th>Description</th></tr>
+      <tr><td><strong>A — Fraudeur</strong></td><td>Haute autonomie, faible moralité → à exclure formellement</td></tr>
+      <tr><td><strong>B — Tricheur</strong></td><td>Faible autonomie, faible moralité → miroir de la mission universitaire</td></tr>
+      <tr><td><strong>C — Manipulateur</strong></td><td>Faible autonomie, haute amoralité → empêcher de nuire</td></tr>
+      <tr><td><strong>D — Bricoleur</strong></td><td>Haute autonomie, créatif → canaliser sa créativité</td></tr>
+    </table>
+
+    <div class="red-box" style="margin-top:14px">
+      <strong>Sanctions (Arrêté n°933) :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li><strong>Art. 35 (Étudiants) :</strong> Annulation de la soutenance ou retrait du titre (licence, master, magistère, doctorat)</li>
+        <li><strong>Art. 36 (Enseignants-chercheurs) :</strong> Annulation/retrait du titre ou de la publication</li>
+      </ul>
+    </div>
+
+    <div class="teal-box" style="margin-top:14px">
+      <strong>Lutte contre le plagiat — 3 niveaux :</strong>
+      <ol style="padding-left:20px; margin-top:6px; color:#d0cfe8; font-size:0.9rem">
+        <li><strong>Formation et prévention</strong> — sensibilisation</li>
+        <li><strong>Dissuasion</strong> — certitude d'une sanction</li>
+        <li><strong>Détection et sanction</strong> — logiciels anti-plagiat</li>
+      </ol>
+    </div>
+
+    <p style="color:var(--accent1); font-weight:600; margin:16px 0 10px">Logiciels anti-plagiat :</p>
+    <div class="cards">
+      <div class="card"><div class="card-title">Payants (fiables)</div><ul><li>Turnitin</li><li>Compilatio</li><li>Urkund</li><li>Ephorus</li></ul></div>
+      <div class="card"><div class="card-title">Gratuits</div><ul><li>Duplicate Content (Positeo)</li><li>Plagiarisma</li><li>PlagTracker</li><li>Copyscape, Article Checker</li></ul></div>
+    </div>
+
+    <div class="red-box" style="margin-top:14px">
+      <strong>Points Vrai/Faux clés sur le plagiat :</strong>
+      <ul style="padding-left:16px; margin-top:6px">
+        <li>Une personne peut être sanctionnée pour plagiat seulement si elle avait l'intention de plagier → <strong>FAUX</strong> (intention non requise)</li>
+        <li>Ce n'est pas l'omission de citer la source qui est critiquable, mais la reproduction → <strong>FAUX</strong> (l'omission de citer EST critiquable)</li>
+        <li>La reformulation = utiliser les mêmes mots en réorganisant l'ordre → <strong>FAUX</strong> (reformuler = réécrire dans ses propres mots)</li>
+        <li>Si on paraphrase, on n'est pas obligé d'indiquer la référence → <strong>FAUX</strong> (toujours citer)</li>
+        <li>Falsifier les résultats d'un autre chercheur est du plagiat → <strong>VRAI</strong></li>
+        <li>Avoir l'accord d'un ami pour réutiliser son travail = pas du plagiat → <strong>FAUX</strong> (c'est quand même du plagiat)</li>
+        <li>Le plagiat inclut reprendre sans citer les propos d'un prof en cours ou d'une radio → <strong>VRAI</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 13 — NEW -->
+  <div class="section" id="s13">
+    <div class="section-header">
+      <div class="section-num red">13</div>
+      <h2>Le Conseil de Déontologie</h2>
+    </div>
+    <div class="tag tag-red">NOUVEAU — TIRÉ DES EXAMENS (Vrai/Faux)</div>
+
+    <div class="highlight-box">
+      <strong>Ce qu'il faut retenir absolument :</strong>
+      <p>Ces points sont directement tirés des examens Vrai/Faux de 2023-2024.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="teal-box">
+          <strong>✅ VRAI :</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Chaque établissement doit <strong>obligatoirement</strong> constituer un conseil de déontologie</li>
+            <li>Les membres du conseil sont <strong>élus par leurs collègues</strong></li>
+            <li>Le conseil adresse <strong>annuellement un bilan</strong> au responsable de l'établissement</li>
+            <li>L'enseignement de l'éthique/déontologie est obligatoire dans <strong>tous les cycles</strong> de l'université → (<strong>FAUX</strong> selon l'arrêté — vérifier)</li>
+            <li>Les règles relatives à la prévention du plagiat sont fixées par <strong>arrêté ministériel</strong> → <strong>VRAI</strong></li>
+            <li>En cas de signalement de plagiat, c'est le <strong>responsable de l'unité d'enseignement</strong> qui diligente une enquête</li>
+            <li>En cas de confirmation, le <strong>conseil de discipline</strong> saisit le conseil d'éthique et de déontologie</li>
+            <li>C'est le <strong>conseil scientifique</strong> qui décide des sanctions</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="red-box">
+          <strong>❌ FAUX :</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li>Le <strong>ministre de l'enseignement supérieur</strong> désigne le président du conseil de déontologie → <strong>FAUX</strong> (il est élu par ses collègues)</li>
+            <li>Un acte de falsification de résultats <strong>n'est pas</strong> un acte de plagiat → <strong>FAUX</strong> (c'est bien du plagiat)</li>
+            <li>L'enseignement de l'éthique et de la déontologie <strong>n'est pas obligatoire</strong> dans tous les cycles → <strong>FAUX</strong> (il est obligatoire)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:14px">
+      <strong>Procédure en cas de plagiat (ordre) :</strong>
+      <ol style="padding-left:20px; margin-top:6px; color:#d0cfe8; font-size:0.9rem">
+        <li>Signalement → <strong>responsable de l'unité d'enseignement</strong> diligente une enquête</li>
+        <li>Confirmation → <strong>conseil de discipline</strong> saisit le conseil d'éthique et de déontologie</li>
+        <li>Décision des sanctions → <strong>conseil scientifique</strong></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 14 — NEW -->
+  <div class="section" id="s14">
+    <div class="section-header">
+      <div class="section-num red">14</div>
+      <h2>Éthique en IA & Éthique Environnementale</h2>
+    </div>
+    <div class="tag tag-red">NOUVEAU — TIRÉ DES EXAMENS</div>
+
+    <div class="two-col">
+      <div>
+        <div class="highlight-box">
+          <strong>Comportement éthique en Intelligence Artificielle (8 points) :</strong>
+          <ol style="padding-left:20px; margin-top:6px; color:#d0cfe8; font-size:0.9rem">
+            <li>Droits de l'homme</li>
+            <li>Bien-être</li>
+            <li>Protection des données</li>
+            <li>Efficacité</li>
+            <li>Transparence</li>
+            <li>Responsabilité</li>
+            <li>Prudence</li>
+            <li>Compétence</li>
+          </ol>
+        </div>
+      </div>
+      <div>
+        <div class="teal-box">
+          <strong>Éthique Environnementale — Théories :</strong>
+          <ul style="padding-left:16px; margin-top:6px">
+            <li><strong>Biocentrique</strong> : toutes les formes de vie ont le droit d'exister</li>
+            <li><strong>Écocentrique</strong> : l'environnement a une valeur morale</li>
+            <li><strong>Anthropocentrique</strong> : l'humain est au centre</li>
+          </ul>
+          <br>
+          <strong>Développement durable :</strong>
+          <p>Un développement <strong>qui peut se poursuivre indéfiniment</strong> tout en permettant à la nature de se reconstituer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 15 — NEW -->
+  <div class="section" id="s15">
+    <div class="section-header">
+      <div class="section-num red">15</div>
+      <h2>Corruption & Infractions Éthiques</h2>
+    </div>
+    <div class="tag tag-red">NOUVEAU — TIRÉ DES EXAMENS</div>
+
+    <table>
+      <tr><th>Infraction</th><th>Définition / Exemple</th></tr>
+      <tr><td><strong style="color:var(--accent2)">Corruption passive</strong></td><td>Vous êtes sollicité par un tiers pour initier une relation d'affaires en échange d'un cadeau qu'il vous propose.</td></tr>
+      <tr><td><strong>Corruption active</strong></td><td>Vous proposez vous-même un avantage pour obtenir quelque chose.</td></tr>
+      <tr><td><strong>Détournement de fonds publics</strong></td><td>Un agent de police prend des enveloppes d'argent liquide confisquées et placées sous scellés.</td></tr>
+      <tr><td><strong>Corruption</strong></td><td>Un brigadier accepte de fermer les yeux sur une infraction contre deux places de match (valeur 300€).</td></tr>
+      <tr><td><strong>Favoritisme</strong></td><td>Le restaurant municipal attribué à un candidat devenu ensuite compagnon de la fille du premier adjoint.</td></tr>
+      <tr><td><strong>Trafic d'influence</strong></td><td>Utiliser son influence ou sa position pour obtenir des avantages indus.</td></tr>
+      <tr><td><strong>Prise illégale d'intérêt</strong></td><td>Prendre une décision officielle dans un domaine où on a un intérêt personnel.</td></tr>
+    </table>
+
+    <div class="highlight-box" style="margin-top:14px">
+      <strong>Relation Enseignant-Étudiant — doit être :</strong>
+      <p>Une <strong>sagesse devant une maladresse</strong> / Une <strong>compétence devant une ignorance</strong> / Une <strong>conscience devant une confiance</strong>.<br>
+      <strong style="color:var(--accent2)">PAS :</strong> Un supérieur devant un inférieur.</p>
+    </div>
+  </div>
+
+  <!-- ======= SECTION VRAI/FAUX ======= -->
+  <div class="vf-section" id="vf">
+    <div class="vf-title">✅ Entraînement — VRAI / FAUX (style examen)</div>
+    <div class="vf-subtitle">Cliquez sur la réponse pour la révéler. Basé sur les vrais examens 2023-2024.</div>
+    <button class="reveal-all-btn" onclick="revealAll()">👁️ Tout révéler</button>
+
+    <!-- ÉTHIQUE & DÉONTOLOGIE -->
+    <p style="color:var(--accent1); font-weight:700; font-size:0.9rem; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px">— Éthique & Déontologie —</p>
+
+    <div class="vf-item">
+      <div class="vf-statement">L'éthique permet de déterminer les valeurs qui constituent des raisons d'agir acceptables par l'ensemble de la société.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le code d'éthique renvoie à des notions surtout abstraites tandis que le code de déontologie fait appel à des notions plus pratiques.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">La déontologie compte sur les outils administratifs afin de garantir que la profession soit exercée en toute éthique.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">L'éthique établit les obligations et les codes de conduite d'une profession.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le mot "déontologie" signifie "la science de ce qu'il faut faire".</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">En matière d'éthique, le principal courant est la morale.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">C'est le droit qui doit fonder la morale.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">La loi morale m'ordonne de suivre mes valeurs.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Une faute éthique conduit au licenciement.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Une faute éthique doit être mentionnée et expliquée à l'employeur.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Les savoir-être sont innés et imperméables aux interventions éducatives.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">L'enseignement de l'éthique et de la déontologie est obligatoire dans tous les cycles de l'université.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+
+    <!-- PROPRIÉTÉ INTELLECTUELLE -->
+    <p style="color:var(--accent1); font-weight:700; font-size:0.9rem; margin:18px 0 12px; text-transform:uppercase; letter-spacing:1px">— Propriété Intellectuelle & Brevets —</p>
+
+    <div class="vf-item">
+      <div class="vf-statement">Un logiciel peut être protégé indirectement par un brevet sur une invention (procédé, appareil) "mise en œuvre" par un logiciel.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Il est obligatoire de déposer un droit de propriété intellectuelle.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Une invention peut faire l'objet de l'enregistrement de plusieurs droits.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">L'employeur est le premier titulaire d'un brevet seulement si la réalisation d'inventions fait partie des attendues de l'employé.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Avant de déposer pour un brevet, il est obligatoire de faire une vérification dans la littérature spécialisée qu'un travail similaire n'a pas déjà été breveté.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le droit moral est limité à 70 ans après la mort de l'auteur.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Lorsqu'une œuvre tombe dans le domaine public, vous pouvez l'utiliser comme bon vous semble.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Dès que vous citez l'extrait d'une œuvre dans vos travaux, vous devez demander l'autorisation à son auteur.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Les idées ne sont pas protégées en tant que telles par le droit d'auteur et constituent un fonds commun.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Un auteur autorise l'adaptation de son œuvre au cinéma moyennant rémunération : c'est le droit patrimonial.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+
+    <!-- PLAGIAT -->
+    <p style="color:var(--accent1); font-weight:700; font-size:0.9rem; margin:18px 0 12px; text-transform:uppercase; letter-spacing:1px">— Plagiat —</p>
+
+    <div class="vf-item">
+      <div class="vf-statement">Falsifier les résultats d'un autre chercheur est considéré comme plagiat.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Un acte de falsification de résultats dans les travaux scientifiques n'est pas un acte de plagiat.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Les règles relatives à la prévention et la lutte contre le plagiat sont fixées par arrêté ministériel.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Une personne peut être sanctionnée pour plagiat seulement si elle avait l'intention de plagier.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Ce n'est pas l'omission de citer la source d'où les données sont tirées qui est critiquable, mais leur reproduction.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">La reformulation implique d'utiliser les mêmes mots de quelqu'un d'autre, mais de réorganiser l'ordre de ces mots dans la phrase.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Si vous reformulez une information en la résumant, il n'est pas nécessaire d'indiquer la référence dans le texte, seulement dans la bibliographie.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Lorsqu'on rédige un travail, il n'est pas nécessaire de donner la référence si on paraphrase.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Pour faire une bonne paraphrase, il suffit simplement de remplacer tous les mots par des synonymes.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Un élément-clé de la citation : les auteurs ne doivent pas présenter le travail de quelqu'un d'autre comme s'il était le leur.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Vous avez l'accord de votre ami pour réutiliser son travail dans votre cours. Il ne s'agit pas de plagiat.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le plagiat inclut aussi le fait de reprendre sans mentionner la source les propos d'un professeur en cours ou d'une émission radio.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Vous pouvez utiliser des informations de 5 sources citées dans un article sans lire les articles originaux.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Vous pouvez utiliser les propos d'un conférencier dans un travail écrit sans en noter la source.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+
+    <!-- CONSEIL DE DÉONTOLOGIE -->
+    <p style="color:var(--accent1); font-weight:700; font-size:0.9rem; margin:18px 0 12px; text-transform:uppercase; letter-spacing:1px">— Conseil de Déontologie —</p>
+
+    <div class="vf-item">
+      <div class="vf-statement">Chaque établissement doit obligatoirement constituer un conseil de déontologie.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Les membres du conseil de déontologie sont élus par leurs collègues.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le ministre de l'enseignement supérieur désigne le président du conseil de déontologie.</div>
+      <button class="vf-badge faux vf-hidden" onclick="this.classList.remove('vf-hidden')">FAUX</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">Le conseil de déontologie adresse annuellement un bilan au responsable de l'établissement.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">En cas de signalement de plagiat, c'est le responsable de l'unité d'enseignement qui diligente une enquête pour vérifier les faits.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">En cas de confirmation d'acte de plagiat, le conseil de discipline saisit le conseil d'éthique et de déontologie.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+    <div class="vf-item">
+      <div class="vf-statement">C'est le conseil scientifique qui décide des sanctions à l'encontre de la personne ayant commis un acte de plagiat.</div>
+      <button class="vf-badge vrai vf-hidden" onclick="this.classList.remove('vf-hidden')">VRAI</button>
+    </div>
+  </div>
+
+  <!-- QCM -->
+  <div class="qcm-section" id="qcm">
+    <div class="qcm-title">★ QCM d'Entraînement — Inspiré des Examens</div>
+
+    <div class="qcm-item">
+      <div class="question">1. Le mot "déontologie" signifie :</div>
+      <div class="options">
+        <input type="radio" name="q1" id="q1a"><label for="q1a">A) La science de ce qu'il faut dire</label>
+        <input type="radio" name="q1" id="q1b"><label for="q1b">B) La science de ce qu'il faut faire</label>
+        <input type="radio" name="q1" id="q1c"><label for="q1c">C) La science de ce qu'il faut retenir</label>
+        <input type="radio" name="q1" id="q1d"><label for="q1d">D) La science de ce qu'il faut comprendre</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a1')">Voir la réponse</button>
+      <div class="answer-reveal" id="a1">✅ B — La science de ce qu'il faut faire (du grec : devoir + science).</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">2. Quel élément ne définit PAS la déontologie ?</div>
+      <div class="options">
+        <input type="radio" name="q2" id="q2a"><label for="q2a">A) Pour les professionnels, fait référence au Code des professions</label>
+        <input type="radio" name="q2" id="q2b"><label for="q2b">B) Établit les valeurs de la profession</label>
+        <input type="radio" name="q2" id="q2c"><label for="q2c">C) Permet de distinguer le tolérable de l'intolérable</label>
+        <input type="radio" name="q2" id="q2d"><label for="q2d">D) Établit les principes de la profession</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a2')">Voir la réponse</button>
+      <div class="answer-reveal" id="a2">✅ B — "Établit les valeurs de la profession" ne définit pas la déontologie, c'est l'éthique qui le fait.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">3. En matière d'éthique, le principal courant est :</div>
+      <div class="options">
+        <input type="radio" name="q3" id="q3a"><label for="q3a">A) Le courant religieux</label>
+        <input type="radio" name="q3" id="q3b"><label for="q3b">B) Le courant qui favorise la connaissance et la science</label>
+        <input type="radio" name="q3" id="q3c"><label for="q3c">C) La morale</label>
+        <input type="radio" name="q3" id="q3d"><label for="q3d">D) Le courant wahhabite</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a3')">Voir la réponse</button>
+      <div class="answer-reveal" id="a3">✅ C — La morale est le principal courant en matière d'éthique.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">4. L'arrêté n°933 du 28 juillet 2016 a pour objet de :</div>
+      <div class="options">
+        <input type="radio" name="q4" id="q4a"><label for="q4a">A) Fixer les règles de prévention du plagiat uniquement</label>
+        <input type="radio" name="q4" id="q4b"><label for="q4b">B) Fixer les règles relatives à la prévention ET la lutte contre le plagiat</label>
+        <input type="radio" name="q4" id="q4c"><label for="q4c">C) Arrêter des mesures de contrôle</label>
+        <input type="radio" name="q4" id="q4d"><label for="q4d">D) Fixer les règles de lutte contre le plagiat uniquement</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a4')">Voir la réponse</button>
+      <div class="answer-reveal" id="a4">✅ B — Il fixe les règles relatives à la PRÉVENTION ET LA LUTTE contre le plagiat.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">5. Pour insérer un extrait d'un texte dans votre travail sans plagier, vous devez :</div>
+      <div class="options">
+        <input type="radio" name="q5" id="q5a"><label for="q5a">A) Le copier-coller entre guillemets uniquement</label>
+        <input type="radio" name="q5" id="q5b"><label for="q5b">B) Le copier-coller en italique uniquement</label>
+        <input type="radio" name="q5" id="q5c"><label for="q5c">C) Le copier-coller entre guillemets ET indiquer la source</label>
+        <input type="radio" name="q5" id="q5d"><label for="q5d">D) Le copier-coller entre parenthèses ET indiquer la source</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a5')">Voir la réponse</button>
+      <div class="answer-reveal" id="a5">✅ C — Guillemets + indication de la source.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">6. Parmi ces propositions, laquelle peut être considérée comme de l'auto-plagiat ?</div>
+      <div class="options">
+        <input type="radio" name="q6" id="q6a"><label for="q6a">A) Copier le travail d'un ami</label>
+        <input type="radio" name="q6" id="q6b"><label for="q6b">B) Double publication de ses propres résultats</label>
+        <input type="radio" name="q6" id="q6c"><label for="q6c">C) Utiliser Wikipédia sans citer</label>
+        <input type="radio" name="q6" id="q6d"><label for="q6d">D) Traduire un article sans citer l'auteur</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a6')">Voir la réponse</button>
+      <div class="answer-reveal" id="a6">✅ B — La double publication, le saucissonnage des résultats et le recyclage d'un texte sont des formes d'auto-plagiat.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">7. La théorie éthique selon laquelle toutes les formes de vie ont le droit d'exister est :</div>
+      <div class="options">
+        <input type="radio" name="q7" id="q7a"><label for="q7a">A) Anthropocentrique</label>
+        <input type="radio" name="q7" id="q7b"><label for="q7b">B) Écocentrique</label>
+        <input type="radio" name="q7" id="q7c"><label for="q7c">C) Biocentrique</label>
+        <input type="radio" name="q7" id="q7d"><label for="q7d">D) Individualiste</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a7')">Voir la réponse</button>
+      <div class="answer-reveal" id="a7">✅ C — Biocentrique : toutes les formes de vie ont le droit d'exister.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">8. Un agent de police accepte de fermer les yeux sur une infraction contre 2 places de match. C'est :</div>
+      <div class="options">
+        <input type="radio" name="q8" id="q8a"><label for="q8a">A) Trafic d'influence</label>
+        <input type="radio" name="q8" id="q8b"><label for="q8b">B) Détournement de fonds publics</label>
+        <input type="radio" name="q8" id="q8c"><label for="q8c">C) Corruption</label>
+        <input type="radio" name="q8" id="q8d"><label for="q8d">D) Favoritisme</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a8')">Voir la réponse</button>
+      <div class="answer-reveal" id="a8">✅ C — Corruption (échange d'un avantage contre la fermeture des yeux sur une infraction).</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">9. Les 4 points de l'intégrité de recherche (Déclaration de Singapour 2010) sont :</div>
+      <div class="options">
+        <input type="radio" name="q9" id="q9a"><label for="q9a">A) Intégrité, Respect, Honnêteté, Transparence</label>
+        <input type="radio" name="q9" id="q9b"><label for="q9b">B) Honnêteté, Conduite responsable, Courtoisie et loyauté, Bonne gestion pour un tiers</label>
+        <input type="radio" name="q9" id="q9c"><label for="q9c">C) Conservation des données, Publication, Conflits d'intérêts, Signalement</label>
+        <input type="radio" name="q9" id="q9d"><label for="q9d">D) Intégrité, Méthodologie, Évaluation par les pairs, Communication</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a9')">Voir la réponse</button>
+      <div class="answer-reveal" id="a9">✅ B — Les 4 principes généraux : Honnêteté · Conduite responsable · Courtoisie et loyauté · Bonne gestion pour le compte d'un tiers.</div>
+    </div>
+
+    <div class="qcm-item">
+      <div class="question">10. En cas de confirmation d'acte de plagiat, qui saisit le conseil d'éthique et de déontologie ?</div>
+      <div class="options">
+        <input type="radio" name="q10" id="q10a"><label for="q10a">A) Le ministre de l'enseignement supérieur</label>
+        <input type="radio" name="q10" id="q10b"><label for="q10b">B) Le responsable de l'unité d'enseignement</label>
+        <input type="radio" name="q10" id="q10c"><label for="q10c">C) Le conseil de discipline</label>
+        <input type="radio" name="q10" id="q10d"><label for="q10d">D) Le conseil scientifique</label>
+      </div>
+      <button class="answer-btn" onclick="toggleAnswer('a10')">Voir la réponse</button>
+      <div class="answer-reveal" id="a10">✅ C — Le conseil de DISCIPLINE saisit le conseil d'éthique et de déontologie. C'est ensuite le conseil scientifique qui décide des sanctions.</div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function revealAll() {
+  document.querySelectorAll('.vf-hidden').forEach(el => el.classList.remove('vf-hidden'));
+}
+</script>
+
+</body>
+</html>

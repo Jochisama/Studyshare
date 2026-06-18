@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Éthique & Déontologie — USTHB Master 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d14;
+  --surface: #13131f;
+  --surface2: #1a1a2e;
+  --gold: #d4a843;
+  --gold2: #f0cc7a;
+  --teal: #2dd4bf;
+  --violet: #7c3aed;
+  --border: rgba(212,168,67,0.15);
+  --text: #e8e6df;
+  --muted: #7b7a8a;
+  --green: #10b981;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --radius: 14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.75;
+}
+.arabic-font{font-family:'Noto Naskh Arabic',serif;direction:rtl;text-align:right;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(13,13,20,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0;
+  padding:0 1.5rem;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+.nav-brand{
+  font-family:'Cormorant Garamond',serif;
+  color:var(--gold);
+  font-size:16px;
+  font-weight:700;
+  padding:0.9rem 1.25rem 0.9rem 0;
+  border-right:1px solid var(--border);
+  margin-right:0.75rem;
+  flex-shrink:0;
+  letter-spacing:0.03em;
+}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:12.5px;
+  font-weight:500;
+  padding:0.9rem 0.75rem;
+  transition:color 0.2s;
+  letter-spacing:0.02em;
+}
+nav a:hover{color:var(--gold);}
+
+/* GLOBAL LANG TOGGLE */
+.global-lang-bar{
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  padding:0.6rem 1.5rem;
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;color:var(--muted);
+}
+.global-lang-bar span{margin-left:auto;}
+.lang-toggle-all{
+  background:linear-gradient(135deg,var(--gold),#b8882a);
+  color:#0d0d14;
+  border:none;
+  padding:5px 18px;
+  border-radius:20px;
+  font-size:12px;font-weight:700;
+  cursor:pointer;
+  letter-spacing:0.04em;
+  transition:opacity 0.2s;
+}
+.lang-toggle-all:hover{opacity:0.85;}
+
+/* HERO */
+.hero{
+  min-height:78vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:4rem 1.5rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,67,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(124,58,237,0.07) 0%, transparent 60%),
+    var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4a843' fill-opacity='0.03'%3E%3Cpath d='M40 0L43 14H57L46 23L49 37L40 28L31 37L34 23L23 14H37Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner{position:relative;max-width:680px;margin:0 auto;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,168,67,0.1);
+  border:1px solid rgba(212,168,67,0.25);
+  color:var(--gold2);
+  font-size:11px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:5px 16px;border-radius:20px;
+  margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:700;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:1rem;
+}
+.hero h1 em{color:var(--gold);font-style:normal;}
+.hero-sub{
+  color:var(--muted);
+  font-size:14.5px;
+  max-width:480px;margin:0 auto 2.5rem;
+  line-height:1.7;
+}
+.hero-chips{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.chip{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:0.6rem 1.25rem;
+  text-align:center;
+}
+.chip strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);}
+.chip span{font-size:11px;color:var(--muted);letter-spacing:0.04em;}
+
+/* LAYOUT */
+.wrap{max-width:880px;margin:0 auto;padding:0 1.5rem;}
+
+/* PART */
+.part{padding:4.5rem 0 2rem;}
+.part-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:2rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
+}
+.part-num{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold),#8a5e1a);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:700;color:#0d0d14;
+  flex-shrink:0;
+}
+.part-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.85rem;font-weight:700;color:#fff;
+}
+
+/* BLOCK = a translatable paragraph unit */
+.block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin-bottom:1rem;
+  position:relative;
+}
+.block-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;
+}
+.block-content{flex:1;}
+.block-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:600;color:var(--gold2);
+  margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:8px;
+}
+.block-title::before{
+  content:'';display:inline-block;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;
+}
+.block-fr{font-size:14px;color:#ccc;line-height:1.75;}
+.block-ar{
+  font-family:'Noto Naskh Arabic',serif;
+  direction:rtl;text-align:right;
+  font-size:15px;color:#e2d9c5;line-height:2;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  display:none;
+}
+.block-ar.visible{display:block;}
+.block ul{padding-right:1.25rem;padding-left:0;list-style:none;}
+.block ul li{
+  padding:3px 0;font-size:14px;color:#ccc;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.block ul li::before{content:'›';color:var(--gold);font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* TRANSLATE BUTTON */
+.btn-translate{
+  flex-shrink:0;
+  background:transparent;
+  border:1px solid rgba(212,168,67,0.3);
+  color:var(--gold);
+  font-size:11px;font-weight:600;
+  padding:4px 12px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  letter-spacing:0.03em;
+  display:flex;align-items:center;gap:5px;
+}
+.btn-translate:hover{background:rgba(212,168,67,0.1);}
+.btn-translate.active{background:rgba(212,168,67,0.15);border-color:var(--gold);}
+.btn-translate .icon{font-size:13px;}
+
+/* FORMULA */
+.formula{
+  background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(45,212,191,0.08));
+  border:1px solid rgba(124,58,237,0.25);
+  border-radius:var(--radius);
+  padding:1.25rem 1.5rem;
+  margin:1rem 0;
+  text-align:center;
+}
+.formula p{font-size:15px;font-weight:600;color:var(--teal);}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:600px){.g2{grid-template-columns:1fr;}}
+
+/* ACCENT COLORS */
+.block.gold{border-left:3px solid var(--gold);}
+.block.teal{border-left:3px solid var(--teal);}
+.block.violet{border-left:3px solid var(--violet);}
+.block.red{border-left:3px solid var(--red);}
+.block.blue{border-left:3px solid var(--blue);}
+.block.green{border-left:3px solid var(--green);}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem;}
+.tag{
+  font-size:11.5px;font-weight:600;
+  padding:3px 11px;border-radius:20px;
+  background:rgba(212,168,67,0.1);color:var(--gold2);
+  border:1px solid rgba(212,168,67,0.2);
+}
+.tag.t{background:rgba(45,212,191,0.1);color:var(--teal);border-color:rgba(45,212,191,0.2);}
+.tag.v{background:rgba(124,58,237,0.1);color:#a78bfa;border-color:rgba(124,58,237,0.2);}
+.tag.r{background:rgba(248,113,113,0.1);color:#fca5a5;border-color:rgba(248,113,113,0.2);}
+.tag.b{background:rgba(96,165,250,0.1);color:#93c5fd;border-color:rgba(96,165,250,0.2);}
+.tag.g{background:rgba(16,185,129,0.1);color:#6ee7b7;border-color:rgba(16,185,129,0.2);}
+
+/* SINGAPORE */
+.sing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.75rem;margin-top:1rem;}
+.sing-item{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:0.75rem 1rem;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.sing-n{
+  background:var(--gold);color:#0d0d14;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:12px;
+  min-width:26px;height:26px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sing-item p{font-size:13px;color:#bbb;line-height:1.5;}
+.sing-item p strong{color:var(--gold2);}
+
+/* ========== QUIZ ========== */
+#quiz{
+  padding:5rem 0 4rem;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,58,237,0.06) 0%,transparent 70%),
+    var(--surface);
+  border-top:1px solid var(--border);
+  margin-top:2rem;
+}
+.quiz-hd{text-align:center;margin-bottom:3rem;}
+.quiz-hd h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:700;color:#fff;
+  margin-bottom:0.4rem;
+}
+.quiz-hd h2 span{color:var(--gold);}
+.quiz-hd p{color:var(--muted);font-size:14px;}
+.q-prog-bg{background:rgba(255,255,255,0.07);height:4px;border-radius:2px;margin-bottom:2.5rem;overflow:hidden;}
+.q-prog-fill{background:linear-gradient(90deg,var(--gold),var(--teal));height:4px;border-radius:2px;transition:width 0.4s;}
+.q-count{text-align:right;font-size:12px;color:var(--muted);margin-bottom:6px;}
+.qcard{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  padding:1.25rem 1.5rem;
+  margin-bottom:0.85rem;
+  transition:border-color 0.2s;
+}
+.qcard:hover{border-color:rgba(212,168,67,0.2);}
+.qt{display:flex;gap:12px;align-items:flex-start;margin-bottom:0.9rem;}
+.qn{
+  background:linear-gradient(135deg,var(--gold),#8a5e1a);
+  color:#0d0d14;font-weight:700;font-size:11px;
+  min-width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.qq{color:rgba(255,255,255,0.85);font-size:14px;line-height:1.65;flex:1;}
+.qbtns{display:flex;gap:8px;}
+.bv,.bf{
+  flex:1;padding:8px;border-radius:9px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  color:rgba(255,255,255,0.65);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all 0.15s;
+}
+.bv:hover{background:rgba(16,185,129,0.12);border-color:var(--green);color:#6ee7b7;}
+.bf:hover{background:rgba(248,113,113,0.12);border-color:var(--red);color:#fca5a5;}
+.bv.sv{background:rgba(16,185,129,0.15);border-color:var(--green);color:#6ee7b7;}
+.bf.sf{background:rgba(248,113,113,0.15);border-color:var(--red);color:#fca5a5;}
+.qfb{display:none;margin-top:9px;font-size:13px;padding:8px 12px;border-radius:8px;line-height:1.55;}
+.qfb.ok{display:block;background:rgba(16,185,129,0.1);color:#6ee7b7;border:1px solid rgba(16,185,129,0.25);}
+.qfb.ko{display:block;background:rgba(248,113,113,0.1);color:#fca5a5;border:1px solid rgba(248,113,113,0.25);}
+.q-sub-row{text-align:center;margin-top:2.5rem;}
+.btn-sub{
+  padding:13px 48px;
+  background:linear-gradient(135deg,var(--gold),#8a5e1a);
+  color:#0d0d14;font-weight:700;font-size:15px;
+  border:none;border-radius:50px;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.03em;
+  box-shadow:0 4px 24px rgba(212,168,67,0.25);
+}
+.btn-sub:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,168,67,0.35);}
+.btn-sub:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
+.q-rem{font-size:12px;color:var(--muted);margin-top:0.6rem;}
+
+/* SCORE */
+.score-box{
+  display:none;margin-top:2.5rem;
+  background:rgba(212,168,67,0.05);
+  border:1px solid rgba(212,168,67,0.2);
+  border-radius:20px;padding:2.5rem;text-align:center;
+}
+.score-box.show{display:block;}
+.score-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:700;color:var(--gold);
+  line-height:1;margin-bottom:0.25rem;
+}
+.score-pct{font-size:1rem;color:var(--muted);margin-bottom:0.75rem;}
+.score-emoji{font-size:1.5rem;margin-bottom:0.5rem;}
+.score-msg-txt{font-size:1.1rem;color:#fff;margin-bottom:0.35rem;font-family:'Cormorant Garamond',serif;}
+.score-stats{display:flex;justify-content:center;gap:2rem;margin:1.25rem 0 1.75rem;flex-wrap:wrap;}
+.sc-stat strong{display:block;font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);}
+.sc-stat span{font-size:12px;color:var(--muted);}
+.btn-restart{
+  padding:9px 30px;border:1px solid rgba(212,168,67,0.4);
+  background:transparent;color:var(--gold);
+  border-radius:50px;cursor:pointer;font-size:14px;font-weight:600;
+  transition:all 0.2s;
+}
+.btn-restart:hover{background:rgba(212,168,67,0.08);}
+
+footer{
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  text-align:center;padding:1.5rem;
+  font-size:12px;color:var(--muted);
+}
+footer span{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">الأخلاق والمهنية</div>
+  <a href="#p1">الجزء ١</a>
+  <a href="#p2">الجزء ٢</a>
+  <a href="#p3">سنغافورة</a>
+  <a href="#p4">الإدارة</a>
+  <a href="#p5">الملكية</a>
+  <a href="#p6">الانتحال</a>
+  <a href="#quiz">Quiz 40 سؤال</a>
+</nav>
+
+<div class="global-lang-bar">
+  <span style="color:var(--text);font-size:13px;">🌐 ترجمة شاملة للملخص</span>
+  <button class="lang-toggle-all" onclick="toggleAll()" id="globalBtn">عرض الترجمة العربية لكل الفقرات</button>
+  <span id="globalStatus" style="font-size:12px;"></span>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">✦ USTHB · FGE · Master 1 Télécommunications ✦</div>
+    <h1>Éthique &amp; <em>Déontologie</em></h1>
+    <p class="hero-sub">ملخص شامل للمقياس مع ترجمة عربية لكل فقرة + اختبار 40 سؤال على غرار الامتحان النهائي</p>
+    <div class="hero-chips">
+      <div class="chip"><strong>6</strong><span>أجزاء</span></div>
+      <div class="chip"><strong>40</strong><span>سؤال Quiz</span></div>
+      <div class="chip"><strong>🌐</strong><span>عربي / فرنسي</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:2rem 0 4rem;">
+<div class="wrap">
+
+<!-- ===== PARTIE 1 ===== -->
+<div class="part" id="p1">
+  <div class="part-header">
+    <div class="part-num">١</div>
+    <div class="part-title">Éthique et Déontologie — Fondements / الأسس النظرية</div>
+  </div>
+
+  <div class="g2">
+    <div class="block gold">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Éthique — الأخلاق</div>
+          <div class="block-fr">Ensemble de valeurs rattaché à la <strong>culture organisationnelle</strong>. Elle détermine les raisons d'agir acceptables pour l'ensemble de la société. Les règles éthiques évoluent avec la société.</div>
+          <div class="block-ar">مجموعة من القيم مرتبطة بـ<strong>الثقافة التنظيمية</strong>. تحدد الأسباب المقبولة للتصرف من قِبَل المجتمع ككل. تتطور القواعد الأخلاقية مع تطور المجتمع.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block teal">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Déontologie — المهنية / الواجب</div>
+          <div class="block-fr">Rattachée à la <strong>culture d'une profession</strong>. Donne une existence réglementaire et juridique aux règles de conduite. Compte sur les <strong>outils administratifs</strong> pour garantir que la profession soit exercée en toute éthique.</div>
+          <div class="block-ar">مرتبطة بـ<strong>ثقافة المهنة</strong>. تُعطي وجوداً تنظيمياً وقانونياً لقواعد السلوك. تعتمد على <strong>الأدوات الإدارية</strong> لضمان ممارسة المهنة بأخلاقية كاملة.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="block violet">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Origines philosophiques — الأصول الفلسفية</div>
+        <div class="block-fr">
+          <ul>
+            <li><strong>Présocratiques</strong> (Thalès, Pythagore) — premiers à étudier l'éthique</li>
+            <li><strong>Socrate</strong> — premier philosophe de l'éthique</li>
+            <li><strong>Platon</strong> — penseur de l'Idée du Bien</li>
+            <li><strong>Kant (XVIIIe s.)</strong> — lois morales universelles fondées sur la raison</li>
+            <li><strong>Jeremy Bentham</strong> (avant 1816) — invente le terme déontologie</li>
+            <li><strong>Charlie Broad (1930)</strong> — lui donne sa définition spécialisée actuelle</li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li>ما قبل سقراط (طاليس، فيثاغورس) — أوائل من درسوا الأخلاق</li>
+            <li><strong>سقراط</strong> — أول فيلسوف للأخلاق</li>
+            <li><strong>أفلاطون</strong> — مفكّر فكرة الخير</li>
+            <li><strong>كانط (القرن 18)</strong> — القوانين الأخلاقية الكونية المبنية على العقل</li>
+            <li><strong>جيريمي بينثام</strong> (قبل 1816) — اخترع مصطلح "الديونتولوجيا"</li>
+            <li><strong>تشارلي برود (1930)</strong> — أعطاه تعريفه المتخصص الحالي</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="block blue">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Principes fondamentaux — المبادئ الأساسية</div>
+        <div class="block-fr">La moralité d'une action dépend de sa <strong>nature intrinsèque</strong>, non de ses conséquences. Une action bonne doit être faite même si son résultat est négatif ; une action mauvaise ne doit pas être faite même si son résultat est positif.</div>
+        <div class="block-ar">أخلاقية الفعل تعتمد على <strong>طبيعته الجوهرية</strong> لا على نتائجه. الفعل الحسن يجب القيام به حتى لو كانت نتيجته سلبية؛ والفعل السيئ يجب تجنبه حتى لو كانت نتيجته إيجابية.</div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+    <div class="tags">
+      <span class="tag">Honnêteté</span><span class="tag">Respect</span>
+      <span class="tag t">Intégrité</span><span class="tag t">Équité</span>
+      <span class="tag v">Non-violence</span><span class="tag v">Humilité</span>
+      <span class="tag r">Responsabilité</span><span class="tag g">Modération</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTIE 2 ===== -->
+<div class="part" id="p2">
+  <div class="part-header">
+    <div class="part-num">٢</div>
+    <div class="part-title">Éthique dans le monde du travail / الأخلاق في بيئة العمل</div>
+  </div>
+
+  <div class="formula">
+    <p>⚖️ Décision juste = (situation/projet) + (éthique/vertus) + (déontologie/métier/valeurs)</p>
+    <p style="font-family:'Noto Naskh Arabic',serif;direction:rtl;margin-top:6px;font-size:14px;color:var(--muted);">القرار العادل = (الوضع/المشروع) + (الأخلاق/الفضائل) + (المهنية/القيم)</p>
+  </div>
+
+  <div class="g2">
+    <div class="block gold">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Prudence — الحكمة</div>
+          <div class="block-fr">Mesurer les conséquences positives et négatives avant d'agir, puis s'en tenir à la décision prise.</div>
+          <div class="block-ar">قياس النتائج الإيجابية والسلبية قبل اتخاذ القرار، ثم الالتزام بالقرار المتخذ.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block teal">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Tempérance — الاعتدال</div>
+          <div class="block-fr">Distinguer ce qui est raisonnable et utiliser avec modération son temps, son argent et ses efforts.</div>
+          <div class="block-ar">التمييز بين ما هو معقول وما هو غير ذلك، واستخدام الوقت والمال والجهد باعتدال.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block violet">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Courage — الشجاعة</div>
+          <div class="block-fr">Résister aux influences nocives, faire face aux difficultés et surmonter les obstacles.</div>
+          <div class="block-ar">مقاومة التأثيرات الضارة، ومواجهة الصعوبات، والتغلب على العقبات.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block blue">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Justice — العدالة</div>
+          <div class="block-fr">Donner à chacun ce qui lui est dû pour qu'il puisse exercer ses droits et faire face à ses devoirs.</div>
+          <div class="block-ar">إعطاء كل شخص حقه حتى يتمكن من ممارسة حقوقه والوفاء بواجباته.</div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="block green">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Vertus de l'enseignant-chercheur — فضائل الأستاذ الباحث</div>
+        <div class="block-fr">
+          <ul>
+            <li>Faire preuve de conscience professionnelle et de disponibilité</li>
+            <li>Actualiser ses connaissances et méthodes d'enseignement</li>
+            <li>Combiner enseignement et recherche selon les normes universelles</li>
+            <li>Transparence dans l'évaluation · Encadrement adéquat</li>
+            <li>Fonder ses travaux sur une quête sincère du savoir — <strong>attention au plagiat</strong></li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li>إظهار الضمير المهني والتوفر للطلاب</li>
+            <li>تحديث المعارف وأساليب التدريس</li>
+            <li>الجمع بين التدريس والبحث وفق المعايير الكونية</li>
+            <li>الشفافية في التقييم · الإشراف الملائم</li>
+            <li>بناء الأعمال على طلب صادق للمعرفة — <strong>تجنب الانتحال</strong></li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="block blue">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Droits de l'étudiant — حقوق الطالب</div>
+          <div class="block-fr">
+            <ul>
+              <li>Droit à un enseignement et encadrement de qualité</li>
+              <li>Droit à une évaluation juste et impartiale</li>
+              <li>Droit de présenter un <strong>recours</strong> s'il estime être lésé</li>
+              <li>Droit à la liberté d'expression et d'opinion</li>
+              <li>Droit à la sécurité et à l'hygiène</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>الحق في تعليم وإشراف عالي الجودة</li>
+              <li>الحق في تقييم عادل ونزيه</li>
+              <li>الحق في تقديم <strong>طعن</strong> إذا رأى أنه مظلوم</li>
+              <li>الحق في حرية التعبير والرأي</li>
+              <li>الحق في الأمن والنظافة</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block red">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Devoirs de l'étudiant — واجبات الطالب</div>
+          <div class="block-fr">
+            <ul>
+              <li>Respecter la réglementation en vigueur</li>
+              <li>Respecter la dignité de la communauté universitaire</li>
+              <li>Respecter les résultats des jurys</li>
+              <li><strong>Ne jamais frauder ni plagier</strong></li>
+              <li>Fournir des informations exactes lors de l'inscription</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>احترام الأنظمة السارية المفعول</li>
+              <li>احترام كرامة وسلامة المجتمع الجامعي</li>
+              <li>احترام نتائج لجان المداولات</li>
+              <li><strong>عدم الغش أو الانتحال مطلقاً</strong></li>
+              <li>تقديم معلومات دقيقة عند التسجيل</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTIE 3 ===== -->
+<div class="part" id="p3">
+  <div class="part-header">
+    <div class="part-num">٣</div>
+    <div class="part-title">Déclaration de Singapour (2010) / إعلان سنغافورة</div>
+  </div>
+
+  <div class="block gold">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Contexte — السياق</div>
+        <div class="block-fr">Établie lors de la 2e Conférence mondiale sur l'intégrité en recherche — Singapour, 21-24 juillet 2010. Quatre valeurs fondatrices : Honnêteté · Responsabilité · Courtoisie/Loyauté · Bonne gestion de la recherche.</div>
+        <div class="block-ar">صدر في المؤتمر العالمي الثاني لنزاهة البحث العلمي — سنغافورة، 21-24 يوليو 2010. أربع قيم أساسية: الأمانة · المسؤولية · التهذيب/الولاء · حسن إدارة البحث.</div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="block teal">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">14 Principes — 14 مبدأ</div>
+        <div class="block-fr">
+          <div class="sing-grid">
+            <div class="sing-item"><div class="sing-n">1</div><p><strong>Intégrité</strong> — responsabilité de la fiabilité</p></div>
+            <div class="sing-item"><div class="sing-n">2</div><p><strong>Respect des règles</strong> — respecter les textes législatifs</p></div>
+            <div class="sing-item"><div class="sing-n">3</div><p><strong>Méthodologie</strong> — méthodes appropriées et objectives</p></div>
+            <div class="sing-item"><div class="sing-n">4</div><p><strong>Conservation des données</strong> — permettre vérification et réplication</p></div>
+            <div class="sing-item"><div class="sing-n">5</div><p><strong>Communication</strong> — rapidement pour établir l'antériorité</p></div>
+            <div class="sing-item"><div class="sing-n">6</div><p><strong>Publication</strong> — inclure seulement les vrais auteurs</p></div>
+            <div class="sing-item"><div class="sing-n">7</div><p><strong>Remerciements</strong> — citer les contributeurs non-auteurs</p></div>
+            <div class="sing-item"><div class="sing-n">8</div><p><strong>Évaluation par les pairs</strong> — équitable et confidentielle</p></div>
+            <div class="sing-item"><div class="sing-n">9</div><p><strong>Conflits d'intérêts</strong> — déclarer tout conflit financier</p></div>
+            <div class="sing-item"><div class="sing-n">10</div><p><strong>Communication publique</strong> — limiter à son domaine</p></div>
+            <div class="sing-item"><div class="sing-n">11</div><p><strong>Signalement</strong> — informer de tout soupçon de fraude</p></div>
+            <div class="sing-item"><div class="sing-n">12</div><p><strong>Responsabilité</strong> — institutions répondent aux plaintes</p></div>
+            <div class="sing-item"><div class="sing-n">13</div><p><strong>Environnement</strong> — encourager l'intégrité via formation</p></div>
+            <div class="sing-item"><div class="sing-n">14</div><p><strong>Recherche & Société</strong> — prendre en compte bénéfices/risques</p></div>
+          </div>
+        </div>
+        <div class="block-ar">
+          <div class="sing-grid">
+            <div class="sing-item"><div class="sing-n">1</div><p><strong>النزاهة</strong> — المسؤولية عن موثوقية البحث</p></div>
+            <div class="sing-item"><div class="sing-n">2</div><p><strong>احترام القواعد</strong> — الالتزام بالنصوص التشريعية</p></div>
+            <div class="sing-item"><div class="sing-n">3</div><p><strong>المنهجية</strong> — أساليب ملائمة ونتائج موضوعية</p></div>
+            <div class="sing-item"><div class="sing-n">4</div><p><strong>حفظ البيانات</strong> — تمكين التحقق وإعادة الإنتاج</p></div>
+            <div class="sing-item"><div class="sing-n">5</div><p><strong>التواصل</strong> — نشر النتائج سريعاً لتأسيس الأولوية</p></div>
+            <div class="sing-item"><div class="sing-n">6</div><p><strong>النشر</strong> — تضمين المؤلفين الحقيقيين فقط</p></div>
+            <div class="sing-item"><div class="sing-n">7</div><p><strong>الشكر</strong> — ذكر المساهمين غير المؤلفين</p></div>
+            <div class="sing-item"><div class="sing-n">8</div><p><strong>التحكيم</strong> — تقييم عادل وسري</p></div>
+            <div class="sing-item"><div class="sing-n">9</div><p><strong>تضارب المصالح</strong> — الإفصاح عن كل تعارض مالي</p></div>
+            <div class="sing-item"><div class="sing-n">10</div><p><strong>التواصل العام</strong> — الاقتصار على مجال الخبرة</p></div>
+            <div class="sing-item"><div class="sing-n">11</div><p><strong>الإبلاغ</strong> — إخطار الجهة المختصة بأي شبهة احتيال</p></div>
+            <div class="sing-item"><div class="sing-n">12</div><p><strong>المسؤولية</strong> — المؤسسات تتعامل مع الشكاوى</p></div>
+            <div class="sing-item"><div class="sing-n">13</div><p><strong>البيئة</strong> — تشجيع النزاهة عبر التكوين</p></div>
+            <div class="sing-item"><div class="sing-n">14</div><p><strong>البحث والمجتمع</strong> — مراعاة المخاطر والفوائد</p></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTIE 4 ===== -->
+<div class="part" id="p4">
+  <div class="part-header">
+    <div class="part-num">٤</div>
+    <div class="part-title">Personnel administratif et technique / الطاقم الإداري والتقني</div>
+  </div>
+
+  <div class="g2">
+    <div class="block green">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Droits — الحقوق</div>
+          <div class="block-fr">
+            <ul>
+              <li>Être traité avec respect et équité</li>
+              <li>Traitement objectif lors des recrutements et promotions</li>
+              <li>Aucun harcèlement ni discrimination dans la carrière</li>
+              <li>Formation continue et amélioration des qualifications</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>المعاملة باحترام وإنصاف</li>
+              <li>معالجة موضوعية عند التوظيف والترقية</li>
+              <li>لا تحرش ولا تمييز في المسار المهني</li>
+              <li>التكوين المستمر وتحسين المؤهلات</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block red">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">6 Valeurs obligatoires — 6 قيم إلزامية</div>
+          <div class="block-fr">
+            <ul>
+              <li><strong>Compétence</strong> — professionnalisme</li>
+              <li><strong>Impartialité</strong> — neutralité et objectivité</li>
+              <li><strong>Intégrité</strong> — conduite juste et honnête</li>
+              <li><strong>Respect</strong> — <em>interdiction d'ingérence dans les actes pédagogiques</em></li>
+              <li><strong>Confidentialité</strong> — dossiers confidentiels</li>
+              <li><strong>Transparence</strong> — bonne circulation de l'information</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li><strong>الكفاءة</strong> — الاحترافية</li>
+              <li><strong>الحياد</strong> — الموضوعية والنزاهة</li>
+              <li><strong>النزاهة</strong> — السلوك العادل والأمين</li>
+              <li><strong>الاحترام</strong> — <em>حظر التدخل في الأعمال البيداغوجية</em></li>
+              <li><strong>السرية</strong> — الملفات سرية</li>
+              <li><strong>الشفافية</strong> — حسن تداول المعلومات</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTIE 5 ===== -->
+<div class="part" id="p5">
+  <div class="part-header">
+    <div class="part-num">٥</div>
+    <div class="part-title">Propriété Intellectuelle / الملكية الفكرية</div>
+  </div>
+
+  <div class="block gold">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Origines historiques — التاريخ</div>
+        <div class="block-fr">Première législation à <strong>Venise en 1474</strong>. Premières lois modernes : <strong>1790 aux États-Unis</strong>, <strong>1791 en France</strong>. Deux volets : propriété <strong>littéraire et artistique</strong> (droit d'auteur) et propriété <strong>industrielle</strong> (brevets, marques).</div>
+        <div class="block-ar">أول تشريع في <strong>البندقية عام 1474</strong>. أول قوانين حديثة: <strong>1790 في الولايات المتحدة</strong>، <strong>1791 في فرنسا</strong>. فرعان: الملكية <strong>الأدبية والفنية</strong> (حق المؤلف) والملكية <strong>الصناعية</strong> (براءات الاختراع، العلامات).</div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="block blue">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Droit moral — الحق المعنوي</div>
+          <div class="block-fr">
+            <ul>
+              <li>Droit de divulgation (rendre public)</li>
+              <li>Droit au respect de l'œuvre</li>
+              <li>Droit à la paternité</li>
+              <li><strong>Perpétuel, imprescriptible et inaliénable</strong></li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>حق الإفصاح (نشر العمل للعموم)</li>
+              <li>حق احترام العمل</li>
+              <li>حق الأبوة الفكرية</li>
+              <li><strong>دائم وغير قابل للتقادم أو التنازل</strong></li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block teal">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Droits patrimoniaux — الحقوق المادية</div>
+          <div class="block-fr">
+            <ul>
+              <li>Droits de reproduction, représentation, adaptation, traduction</li>
+              <li>Protègent les intérêts économiques de l'auteur</li>
+              <li><strong>Ces droits peuvent être cédés</strong></li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>حقوق النسخ، التمثيل، التكييف، الترجمة</li>
+              <li>تحمي المصالح الاقتصادية للمؤلف</li>
+              <li><strong>هذه الحقوق قابلة للتنازل</strong></li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="block violet">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Brevets — براءات الاختراع</div>
+        <div class="block-fr">
+          <ul>
+            <li>L'invention doit être <strong>nouvelle, utile, non triviale</strong> et non évidente</li>
+            <li>Un logiciel protégé <strong>indirectement</strong> par un brevet sur une invention mise en œuvre par lui</li>
+            <li>Durée : <strong>20 ans</strong> après la date de dépôt</li>
+            <li>Protection valable <strong>seulement dans le pays</strong> qui délivre le brevet</li>
+            <li>L'employeur titulaire <strong>seulement si</strong> l'invention fait partie des tâches de l'employé</li>
+            <li>Le dépôt n'est <strong>pas obligatoire</strong></li>
+            <li>Une invention peut faire l'objet de l'enregistrement de <strong>plusieurs droits</strong></li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li>يجب أن يكون الاختراع <strong>جديداً، مفيداً، غير بديهي</strong></li>
+            <li>البرمجيات محمية <strong>بصفة غير مباشرة</strong> ببراءة اختراع على عمل منجز بها</li>
+            <li>المدة: <strong>20 سنة</strong> من تاريخ الإيداع</li>
+            <li>الحماية سارية <strong>فقط في البلد</strong> الذي منح البراءة</li>
+            <li>صاحب العمل هو أول مالك <strong>فقط إذا كان</strong> الاختراع ضمن مهام الموظف</li>
+            <li>الإيداع <strong>ليس إلزامياً</strong></li>
+            <li>يمكن لاختراع واحد أن يكون موضوع تسجيل <strong>حقوق متعددة</strong></li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="block green">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Droits connexes & Creative Commons — الحقوق المجاورة</div>
+        <div class="block-fr">Les droits connexes concernent les <strong>intermédiaires</strong> (artistes, producteurs, radiodiffuseurs) — pas le créateur. Durée : <strong>50 ans</strong>. Licences CC : BY (attribution) · ND (pas de modification) · NC (non commercial) · SA (partage identique).</div>
+        <div class="block-ar">الحقوق المجاورة تخص <strong>الوسطاء</strong> (الفنانين، المنتجين، المذيعين) — لا المنشئ نفسه. المدة: <strong>50 سنة</strong>. رخص كريتف كومنز: BY (نسب) · ND (بدون تعديل) · NC (غير تجاري) · SA (المشاركة بالمثل).</div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTIE 6 ===== -->
+<div class="part" id="p6">
+  <div class="part-header">
+    <div class="part-num">٦</div>
+    <div class="part-title">Plagiat universitaire / الانتحال الأكاديمي</div>
+  </div>
+
+  <div class="block red">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Définition — التعريف (Arrêté n° 933 / 28 juillet 2016)</div>
+        <div class="block-fr">Tout acte de <strong>falsification de résultats ou de fraude</strong> revendiqués dans les travaux scientifiques ou pédagogiques. En clair : copier, résumer, paraphraser, traduire, ou faire faire le travail par quelqu'un d'autre <strong>sans indiquer sa source</strong>.</div>
+        <div class="block-ar">كل عمل يتضمن <strong>تزوير نتائج أو غش</strong> في الأعمال العلمية أو التربوية. بعبارة واضحة: النسخ، التلخيص، إعادة الصياغة، الترجمة، أو تكليف شخص آخر بالعمل <strong>دون الإشارة إلى المصدر</strong>.</div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="block gold">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Causes étudiants — أسباب لدى الطلاب</div>
+          <div class="block-fr">
+            <ul>
+              <li>Ignorance · Mauvaise organisation</li>
+              <li>Facilités offertes par l'ère numérique</li>
+              <li>Difficulté du travail · Mauvaise foi</li>
+              <li>Absence de sanctions</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>الجهل · سوء التنظيم</li>
+              <li>سهولة العصر الرقمي</li>
+              <li>صعوبة العمل · سوء النية</li>
+              <li>غياب العقوبات</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+    <div class="block violet">
+      <div class="block-header">
+        <div class="block-content">
+          <div class="block-title">Causes enseignants-chercheurs — أسباب لدى الأساتذة</div>
+          <div class="block-fr">
+            <ul>
+              <li>Pression à la publication (<em>publish or perish</em>)</li>
+              <li>Manque de temps · Soif de publications</li>
+              <li>Tolérance institutionnelle</li>
+            </ul>
+          </div>
+          <div class="block-ar">
+            <ul>
+              <li>ضغط النشر (<em>انشر أو اندثر</em>)</li>
+              <li>ضيق الوقت · الشغف بالنشر</li>
+              <li>التسامح المؤسسي</li>
+            </ul>
+          </div>
+        </div>
+        <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="block blue">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Typologies de Bergadaà — تصنيفات برغدا</div>
+        <div class="block-fr">
+          <ul>
+            <li><strong>A — Fraudeur</strong> : autonome et amoral</li>
+            <li><strong>B — Tricheur</strong> : discipliné mais amoral</li>
+            <li><strong>C — Bricoleur</strong> : autonome mais pas malveillant</li>
+            <li><strong>D — Manipulateur</strong> : le plus dangereux</li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li><strong>أ — المحتال</strong>: مستقل وغير أخلاقي</li>
+            <li><strong>ب — الغشاش</strong>: منضبط لكن غير أخلاقي</li>
+            <li><strong>ج — المرتجل</strong>: مستقل لكن غير خبيث</li>
+            <li><strong>د — المتلاعب</strong>: الأكثر خطورة</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="block green">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Prévention & Détection — الوقاية والكشف</div>
+        <div class="block-fr">
+          <ul>
+            <li>Module déontologie <strong>obligatoire dans tous les cycles</strong></li>
+            <li>Mention sur la carte étudiant rappelant l'intégrité scientifique</li>
+            <li><strong>Logiciels payants</strong> : Turnitin, Compilatio, Urkund</li>
+            <li><strong>Gratuits</strong> : Copyscape, PlagTracker, Plagiarisma</li>
+            <li>Wikipedia = source <strong>tertiaire</strong> uniquement, pas une source primaire</li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li>وحدة المهنية <strong>إلزامية في جميع الأطوار</strong></li>
+            <li>ذكر على بطاقة الطالب لتذكيره بالنزاهة العلمية</li>
+            <li><strong>برامج مدفوعة</strong>: Turnitin, Compilatio, Urkund</li>
+            <li><strong>مجانية</strong>: Copyscape, PlagTracker, Plagiarisma</li>
+            <li>ويكيبيديا = مصدر <strong>ثالثي</strong> فقط، لا مصدر أولي</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+
+  <div class="block red">
+    <div class="block-header">
+      <div class="block-content">
+        <div class="block-title">Sanctions & Procédure — العقوبات والإجراءات (Arrêté n° 933)</div>
+        <div class="block-fr">
+          <ul>
+            <li><strong>Art. 35 — Étudiants</strong> : annulation de la soutenance ou retrait du titre (licence, master, magistère, doctorat)</li>
+            <li><strong>Art. 36 — Enseignants-chercheurs</strong> : annulation/retrait du titre ou de la publication</li>
+            <li>Signalement → <strong>responsable de l'unité</strong> diligente une enquête</li>
+            <li>Confirmation → <strong>conseil de discipline</strong> saisi → saisit le <strong>conseil d'éthique et de déontologie</strong></li>
+            <li>Membres du conseil <strong>élus par leurs collègues</strong></li>
+            <li>Conseil adresse <strong>annuellement un bilan</strong> au responsable de l'établissement</li>
+          </ul>
+        </div>
+        <div class="block-ar">
+          <ul>
+            <li><strong>المادة 35 — الطلاب</strong>: إلغاء المناقشة أو سحب اللقب (ليسانس، ماستر، ماجستير، دكتوراه)</li>
+            <li><strong>المادة 36 — الأساتذة الباحثون</strong>: إلغاء/سحب اللقب أو المنشور</li>
+            <li>الإبلاغ → <strong>مسؤول الوحدة</strong> يُجري تحقيقاً</li>
+            <li>التأكيد → <strong>مجلس الانضباط</strong> يُحال → يُحيل إلى <strong>مجلس الأخلاقيات والمهنية</strong></li>
+            <li>أعضاء المجلس <strong>منتخبون من قِبَل زملائهم</strong></li>
+            <li>المجلس يرفع <strong>تقريراً سنوياً</strong> إلى مسؤول المؤسسة</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn-translate" onclick="toggleBlock(this)"><span class="icon">🌐</span> عربي</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- wrap -->
+</div><!-- padding -->
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz">
+<div class="wrap">
+  <div class="quiz-hd">
+    <h2>Quiz <span>Vrai / Faux</span></h2>
+    <p>40 سؤال على غرار الامتحان النهائي — Éthique, Déontologie & Propriété Intellectuelle</p>
+  </div>
+  <div class="q-count" id="qcount">0 / 40</div>
+  <div class="q-prog-bg"><div class="q-prog-fill" id="qprog" style="width:0%"></div></div>
+  <div id="qbody"></div>
+  <div class="q-sub-row">
+    <button class="btn-sub" id="bsub" disabled onclick="submitQ()">Soumettre — تقديم الإجابات</button>
+    <div class="q-rem" id="qrem">أجب على كل الأسئلة للمتابعة</div>
+  </div>
+  <div class="score-box" id="scorebox">
+    <div class="score-num" id="sfrac"></div>
+    <div class="score-pct" id="spct"></div>
+    <div class="score-emoji" id="semoji"></div>
+    <div class="score-msg-txt" id="smsg"></div>
+    <div class="score-stats">
+      <div class="sc-stat"><strong id="sok"></strong><span>صحيح</span></div>
+      <div class="sc-stat"><strong id="sko"></strong><span>خطأ</span></div>
+    </div>
+    <button class="btn-restart" onclick="restartQ()">إعادة المحاولة ↺</button>
+  </div>
+</div>
+</div>
+
+<footer>USTHB · FGE Télécommunications · Master 1 · <span>Éthique, Déontologie & Propriété Intellectuelle</span> · 2023-2024</footer>
+
+<script>
+// ===== TRANSLATION LOGIC =====
+function toggleBlock(btn) {
+  const block = btn.closest('.block');
+  const ar = block.querySelector('.block-ar');
+  if (!ar) return;
+  const visible = ar.classList.toggle('visible');
+  btn.classList.toggle('active', visible);
+  btn.innerHTML = visible
+    ? '<span class="icon">🌐</span> فرنسي'
+    : '<span class="icon">🌐</span> عربي';
+}
+
+let allVisible = false;
+function toggleAll() {
+  allVisible = !allVisible;
+  document.querySelectorAll('.block-ar').forEach(ar => {
+    ar.classList.toggle('visible', allVisible);
+  });
+  document.querySelectorAll('.btn-translate').forEach(btn => {
+    btn.classList.toggle('active', allVisible);
+    btn.innerHTML = allVisible
+      ? '<span class="icon">🌐</span> فرنسي'
+      : '<span class="icon">🌐</span> عربي';
+  });
+  const gb = document.getElementById('globalBtn');
+  gb.textContent = allVisible ? 'إخفاء الترجمة العربية' : 'عرض الترجمة العربية لكل الفقرات';
+  document.getElementById('globalStatus').textContent = allVisible ? '✓ كل الفقرات مترجمة' : '';
+}
+
+// ===== QUIZ LOGIC =====
+const QS = [
+  {q:"L'éthique fait référence à la culture d'une profession tandis que la déontologie fait référence à la culture organisationnelle.",r:false,e:"العكس صحيح: الأخلاق مرتبطة بالثقافة التنظيمية، والمهنية مرتبطة بثقافة المهنة."},
+  {q:"La société détermine la morale et, à travers elle, directement la loi.",r:true,e:""},
+  {q:"Selon la déontologie, la moralité d'une action peut être modifiée par ses conséquences positives.",r:false,e:"لا. تحدد المهنية أن أخلاقية الفعل تعتمد على طبيعته فقط، لا على نتائجه."},
+  {q:"Socrate peut être considéré comme le premier philosophe de l'éthique.",r:true,e:""},
+  {q:"C'est Jeremy Bentham qui a donné au terme déontologique sa définition spécialisée actuelle en 1930.",r:false,e:"هو تشارلي برود الذي أعطى المصطلح تعريفه المتخصص في كتابه عام 1930."},
+  {q:"L'éthique des affaires, la bioéthique et l'éthique médicale sont des domaines d'application de l'éthique.",r:true,e:""},
+  {q:"Kant croyait qu'une action est moralement autorisée si elle suit une loi universelle.",r:true,e:""},
+  {q:"La déontologie admet qu'une action mauvaise peut être accomplie si son résultat est positif.",r:false,e:"المهنية ترفض ذلك تماماً: الفعل السيء لا يُرتكب حتى لو كانت نتيجته إيجابية."},
+  {q:"L'éthique suggère ce qui est souhaitable tandis que la déontologie compte sur les outils administratifs.",r:true,e:""},
+  {q:"La formule de la décision juste inclut la situation, l'éthique/vertus et la déontologie.",r:true,e:""},
+  {q:"La tempérance est la vertu qui consiste à donner à chacun ce qui lui est dû.",r:false,e:"هذه هي العدالة. الاعتدال يعني التصرف بتوازن واستخدام الوقت والمال بحكمة."},
+  {q:"L'enseignant-chercheur doit combiner enseignement et recherche selon les normes universelles.",r:true,e:""},
+  {q:"L'étudiant a le droit de présenter un recours s'il s'estime lésé dans la correction.",r:true,e:""},
+  {q:"L'étudiant doit respecter les résultats des jurys de délibération.",r:true,e:""},
+  {q:"Il est interdit à l'étudiant de créer des associations scientifiques ou culturelles à l'université.",r:false,e:"يحق للطالب إنشاء جمعيات طلابية علمية وثقافية ورياضية وفق التشريعات السارية."},
+  {q:"La persévérance peut être considérée comme une vertu pour les chefs de projet.",r:true,e:""},
+  {q:"La Déclaration de Singapour sur l'intégrité en recherche a été établie en 2010.",r:true,e:""},
+  {q:"Selon la Déclaration de Singapour, les chercheurs peuvent publier sans conserver les données brutes.",r:false,e:"المبدأ 4: يجب الحفاظ على البيانات الخام بشفافية للسماح بالتحقق وإعادة الإنتاج."},
+  {q:"Selon la Déclaration de Singapour, la liste des auteurs doit inclure toutes les personnes ayant participé.",r:false,e:"المبدأ 6: تضم القائمة فقط من تتوفر فيهم شروط المؤلف."},
+  {q:"Selon la Déclaration de Singapour, les chercheurs doivent limiter leurs commentaires à leur domaine.",r:true,e:""},
+  {q:"La Déclaration de Singapour exige la déclaration des conflits d'intérêts financiers.",r:true,e:""},
+  {q:"Selon la Déclaration de Singapour, un chercheur peut garder secret un soupçon de fraude.",r:false,e:"المبدأ 11: يجب إخطار السلطة المختصة بأي شبهة احتيال أو انتحال."},
+  {q:"Le personnel administratif doit s'interdire toute ingérence dans les actes pédagogiques.",r:true,e:""},
+  {q:"La confidentialité des dossiers est une obligation du personnel administratif et technique.",r:true,e:""},
+  {q:"La première véritable législation sur la propriété intellectuelle a été mise en place à Venise en 1474.",r:true,e:""},
+  {q:"Le droit moral de l'auteur est perpétuel, imprescriptible et inaliénable.",r:true,e:""},
+  {q:"Les droits patrimoniaux de l'auteur peuvent être cédés, contrairement au droit moral.",r:true,e:""},
+  {q:"Les droits connexes concernent directement la personne à l'origine de la création de l'œuvre.",r:false,e:"الحقوق المجاورة تخص الوسطاء (الفنانين، المنتجين، المذيعين) لا المنشئ نفسه."},
+  {q:"La durée de protection des droits connexes est de 50 ans.",r:true,e:""},
+  {q:"Un brevet offre une protection valable dans tous les pays du monde dès sa délivrance.",r:false,e:"براءة الاختراع صالحة فقط في البلد الذي منحها. يجب تقديم طلب منفصل لكل بلد."},
+  {q:"La durée de protection d'un brevet est de 20 ans à compter de la date de dépôt.",r:true,e:""},
+  {q:"Il est obligatoire de déposer un droit de propriété intellectuelle.",r:false,e:"الإيداع ليس إلزامياً، لكنه مستحسن لحماية الإبداع وضمان الحصرية."},
+  {q:"Un logiciel peut être protégé indirectement par un brevet sur une invention mise en œuvre par ce logiciel.",r:true,e:""},
+  {q:"L'employeur est premier titulaire du brevet seulement si l'invention fait partie des tâches de l'employé.",r:true,e:""},
+  {q:"Une invention peut faire l'objet de l'enregistrement de plusieurs droits.",r:true,e:""},
+  {q:"Falsifier les résultats d'un autre chercheur est considéré comme plagiat selon l'arrêté n° 933.",r:true,e:""},
+  {q:"L'insertion d'un module déontologie est obligatoire dans tous les cycles de formation supérieure.",r:true,e:""},
+  {q:"Les règles de prévention contre le plagiat sont fixées par arrêté ministériel.",r:true,e:""},
+  {q:"Chaque établissement doit obligatoirement constituer un conseil de déontologie.",r:true,e:""},
+  {q:"Les membres du conseil de déontologie sont nommés par le ministre de l'enseignement supérieur.",r:false,e:"أعضاء مجلس المهنية منتخبون من قِبَل زملائهم في المؤسسة."}
+];
+
+const ANS = new Array(QS.length).fill(null);
+let done = false;
+
+function renderQ(){
+  const b=document.getElementById('qbody');
+  b.innerHTML='';
+  QS.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';d.id='qc'+i;
+    d.innerHTML=`<div class="qt"><div class="qn">${i+1}</div><div class="qq">${q.q}</div></div>
+    <div class="qbtns">
+      <button class="bv${ANS[i]===true?' sv':''}" id="bv${i}" onclick="pick(${i},true)">✓ Vrai — صح</button>
+      <button class="bf${ANS[i]===false?' sf':''}" id="bf${i}" onclick="pick(${i},false)">✗ Faux — خطأ</button>
+    </div>
+    <div class="qfb" id="fb${i}"></div>`;
+    b.appendChild(d);
+  });
+  upProg();
+}
+
+function pick(i,v){
+  if(done)return;
+  ANS[i]=v;
+  document.getElementById('bv'+i).className='bv'+(v===true?' sv':'');
+  document.getElementById('bf'+i).className='bf'+(v===false?' sf':'');
+  upProg();
+}
+
+function upProg(){
+  const c=ANS.filter(a=>a!==null).length;
+  const p=Math.round(c/QS.length*100);
+  document.getElementById('qprog').style.width=p+'%';
+  document.getElementById('qcount').textContent=c+' / '+QS.length;
+  const bs=document.getElementById('bsub');
+  bs.disabled=c<QS.length;
+  document.getElementById('qrem').textContent=c===QS.length?'جميع الأسئلة أُجيب عليها — جاهز للتقديم!':(QS.length-c)+' سؤال متبقٍ';
+}
+
+function submitQ(){
+  done=true;
+  let ok=0;
+  QS.forEach((q,i)=>{
+    const correct=ANS[i]===q.r;
+    if(correct)ok++;
+    const fb=document.getElementById('fb'+i);
+    document.getElementById('bv'+i).disabled=true;
+    document.getElementById('bf'+i).disabled=true;
+    if(correct){fb.className='qfb ok';fb.textContent='✓ صحيح!';}
+    else{fb.className='qfb ko';fb.textContent='✗ خطأ. الجواب الصحيح: '+(q.r?'VRAI — صح':'FAUX — خطأ')+(q.e?' — '+q.e:'');}
+  });
+  const pct=Math.round(ok/QS.length*100);
+  document.getElementById('qprog').style.width='100%';
+  const sb=document.getElementById('scorebox');
+  sb.classList.add('show');
+  document.getElementById('sfrac').textContent=ok+'/'+QS.length;
+  document.getElementById('spct').textContent=pct+'%';
+  document.getElementById('semoji').textContent=pct>=80?'🏆':pct>=60?'👍':'📚';
+  document.getElementById('smsg').textContent=pct>=80?'ممتاز! أنت متقن للمادة.':pct>=60?'جيد! راجع النقاط التي أخطأت فيها.':'أعد قراءة الملخص وحاول مجدداً.';
+  document.getElementById('sok').textContent=ok;
+  document.getElementById('sko').textContent=QS.length-ok;
+  document.getElementById('bsub').style.display='none';
+  sb.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function restartQ(){
+  done=false;ANS.fill(null);
+  document.getElementById('scorebox').classList.remove('show');
+  document.getElementById('bsub').style.display='';
+  renderQ();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+
+renderQ();
+</script>
+</body>
+</html>

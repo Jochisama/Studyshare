@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page introuvable · StudyShare</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══ TOKENS (identiques à index.html) ══ */
+:root {
+  --bg:     #0d0810;
+  --card:   #1e1428;
+  --border: rgba(142,96,128,.18);
+  --bord2:  rgba(142,96,128,.35);
+  --plum:   #8E6080;
+  --plum-l: #b580a0;
+  --acc1:   #c490b0;
+  --acc2:   #7a50a0;
+  --acc3:   #50a0a0;
+  --snow:   #FFFAFA;
+  --t2:     #c0aab8;
+  --t3:     #6a5060;
+  --mono:   'DM Mono','Space Mono',monospace;
+  --display:'Outfit',sans-serif;
+}
+
+/* ══ RESET ══ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--snow);
+  min-height:100vh;
+  overflow:hidden; /* pas de scroll sur la 404 */
+}
+
+/* ══ CANVAS BACKGROUND (même que index.html) ══ */
+#telecom-canvas{
+  position:fixed;inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+}
+
+/* ══ HUD CORNERS (4 coins animés) ══ */
+.hud-corner{
+  position:fixed;
+  width:28px;height:28px;
+  border-color:rgba(142,96,128,.55);
+  border-style:solid;
+  z-index:2;
+  animation:cornerPulse 2s ease-in-out infinite;
+}
+.hud-corner.tl{top:20px;left:20px; border-width:2px 0 0 2px}
+.hud-corner.tr{top:20px;right:20px; border-width:2px 2px 0 0}
+.hud-corner.bl{bottom:20px;left:20px; border-width:0 0 2px 2px}
+.hud-corner.br{bottom:20px;right:20px; border-width:0 2px 2px 0}
+@keyframes cornerPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ══ SCANLINES (effet CRT subtil) ══ */
+.hud-scanlines{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 2px,
+    rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px
+  );
+}
+
+/* ══ CONTENU CENTRÉ ══ */
+.page-404{
+  position:relative;z-index:3;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;
+  padding:40px 20px;
+}
+
+/* Badge "SIGNAL PERDU" */
+.badge-404{
+  display:inline-block;
+  font-family:var(--mono);font-size:9px;
+  color:var(--plum-l);letter-spacing:4px;
+  border:1px solid var(--bord2);
+  padding:5px 16px;border-radius:10px;
+  background:rgba(142,96,128,.07);
+  margin-bottom:24px;
+  animation:fadeUp .5s ease both;
+}
+/* Point clignotant dans le badge */
+.badge-404::before{
+  content:'';display:inline-block;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--acc1);
+  margin-right:8px;vertical-align:middle;
+  animation:pulseDot 2s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(.4)}}
+
+/* Grand "404" en gradient */
+.num-404{
+  font-family:var(--display);
+  font-size:clamp(80px,20vw,180px);
+  font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--plum-l),var(--acc1),var(--acc2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fadeUp .5s .1s ease both;
+  /* Légère lueur */
+  filter:drop-shadow(0 0 40px rgba(196,144,176,.25));
+}
+
+/* Titre */
+.title-404{
+  font-family:var(--display);
+  font-size:clamp(18px,3vw,30px);
+  font-weight:800;color:var(--snow);
+  margin:16px 0 8px;
+  animation:fadeUp .5s .2s ease both;
+}
+
+/* Sous-texte */
+.sub-404{
+  font-family:var(--mono);font-size:12px;
+  color:var(--t3);line-height:1.9;
+  max-width:380px;margin-bottom:36px;
+  animation:fadeUp .5s .3s ease both;
+}
+
+/* Bouton retour */
+.btn-home{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:1px;
+  background:rgba(142,96,128,.12);
+  border:1px solid var(--bord2);
+  color:var(--plum-l);
+  padding:13px 30px;border-radius:10px;
+  text-decoration:none;
+  transition:background .2s,border-color .2s,transform .2s;
+  animation:fadeUp .5s .4s ease both;
+}
+.btn-home:hover{
+  background:rgba(142,96,128,.25);
+  border-color:rgba(142,96,128,.6);
+  transform:translateY(-2px);
+}
+/* Flèche animée */
+.btn-home .arrow{
+  display:inline-block;
+  transition:transform .2s;
+}
+.btn-home:hover .arrow{transform:translateX(-4px)}
+
+/* Ligne de coordonnées HUD en bas */
+.hud-coords{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9px;color:rgba(142,96,128,.35);
+  letter-spacing:2px;z-index:3;white-space:nowrap;
+}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- Canvas background (réseau télécom animé) -->
+<canvas id="telecom-canvas"></canvas>
+
+<!-- Effet scanlines CRT -->
+<div class="hud-scanlines"></div>
+
+<!-- 4 coins HUD -->
+<div class="hud-corner tl"></div>
+<div class="hud-corner tr"></div>
+<div class="hud-corner bl"></div>
+<div class="hud-corner br"></div>
+
+<!-- Contenu principal -->
+<div class="page-404">
+
+  <div class="badge-404">SIGNAL PERDU · CODE 404</div>
+
+  <div class="num-404">404</div>
+
+  <div class="title-404">Page introuvable</div>
+
+  <p class="sub-404">
+    La fréquence demandée est hors portée.<br>
+    Signal non détecté dans la base de données.<br>
+    <span style="color:rgba(142,96,128,.5)">ERR_ROUTE_NOT_FOUND</span>
+  </p>
+
+  <a href="index.html" class="btn-home">
+    <span class="arrow">←</span> RETOUR AU COCKPIT
+  </a>
+
+</div>
+
+<!-- Coordonnées HUD en bas (décoratif) -->
+<div class="hud-coords" id="hud-coords">LAT 36.7538° N · LON 3.0588° E · ALT 742m · SIG LOST</div>
+
+<!-- ══ SCRIPT : Canvas télécom (copié de index.html) ══ -->
+<script>
+(function initCanvas(){
+  const canvas = document.getElementById('telecom-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes=[], waves=[], packets=[];
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function mkNodes(){
+    nodes = [];
+    const count = Math.floor((W*H)/28000);
+    for(let i=0;i<count;i++){
+      nodes.push({
+        x: Math.random()*W, y: Math.random()*H,
+        vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
+        r: Math.random()*2+1,
+        pulse: Math.random()*Math.PI*2,
+      });
+    }
+  }
+  mkNodes();
+
+  waves = Array.from({length:3},(_,i)=>({
+    x: W*.15+i*W*.35, y: H*.4+i*(H*.15),
+    r:0, maxR:120+i*40, speed:0.6+i*.2, alpha:0,
+  }));
+
+  function mkPacket(a,b){
+    packets.push({ ax:a.x,ay:a.y, bx:b.x,by:b.y, t:0, speed:.008+Math.random()*.006 });
+  }
+
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    frame++;
+    const plum = 'rgba(142,96,128,';
+    const acc1 = 'rgba(196,144,176,';
+    const acc2 = 'rgba(122,80,160,';
+
+    nodes.forEach(n=>{
+      n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1;
+      if(n.y<0||n.y>H) n.vy*=-1;
+      n.pulse+=.02;
+    });
+
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<160){
+          const alpha=(.18*(1-dist/160)).toFixed(3);
+          ctx.strokeStyle=plum+alpha+')';
+          ctx.lineWidth=.6;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.stroke();
+          if(frame%120===0 && Math.random()<.06) mkPacket(nodes[i],nodes[j]);
+        }
+      }
+    }
+
+    nodes.forEach(n=>{
+      const pulse=Math.sin(n.pulse)*.5+.5;
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=acc1+(0.3+pulse*.4)+')';
+      ctx.fill();
+    });
+
+    packets = packets.filter(p=>{
+      p.t+=p.speed;
+      const x=p.ax+(p.bx-p.ax)*p.t;
+      const y=p.ay+(p.by-p.ay)*p.t;
+      ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2);
+      ctx.fillStyle=acc2+'0.85)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
+      ctx.fillStyle=acc2+'0.18)'; ctx.fill();
+      return p.t<1;
+    });
+
+    waves.forEach(w=>{
+      w.r+=w.speed;
+      w.alpha=Math.max(0, .5*(1-w.r/w.maxR));
+      if(w.r>w.maxR){ w.r=0; w.x=Math.random()*W; w.y=Math.random()*H; }
+      ctx.beginPath(); ctx.arc(w.x,w.y,w.r,0,Math.PI*2);
+      ctx.strokeStyle=plum+w.alpha.toFixed(3)+')';
+      ctx.lineWidth=1; ctx.stroke();
+      if(w.r<8){
+        ctx.beginPath(); ctx.arc(w.x,w.y,3,0,Math.PI*2);
+        ctx.fillStyle=acc1+'0.7)'; ctx.fill();
+      }
+    });
+
+    if(frame%4===0){
+      const bx=Math.floor(Math.random()*W);
+      const by=Math.floor(Math.random()*H*.8);
+      ctx.fillStyle=plum+'0.06)';
+      ctx.font='10px Space Mono,monospace';
+      ctx.fillText(Math.random()>.5?'1':'0',bx,by);
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

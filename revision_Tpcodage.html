@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Révision – Codage & Compression</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --purple: #a371f7;
+    --orange: #ffa657;
+    --teal: #39d353;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,17,23,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 4px;
+    padding: 8px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  nav button:hover { border-color: var(--border); color: var(--text); }
+  nav button.active { background: var(--accent); color: #0d1117; border-color: var(--accent); font-weight: 600; }
+
+  /* LAYOUT */
+  .page { display: none; padding: 32px 24px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: 28px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 20px; font-weight: 600; color: var(--text); margin: 28px 0 14px; padding-left: 12px; border-left: 3px solid var(--accent); }
+  h3 { font-size: 16px; font-weight: 600; color: var(--orange); margin: 20px 0 8px; }
+  p { color: var(--muted); margin-bottom: 10px; }
+  strong { color: var(--text); font-weight: 600; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* CODE */
+  pre {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .kw { color: #ff7b72; }
+  .fn { color: #d2a8ff; }
+  .str { color: #a5d6ff; }
+  .cm { color: #6e7681; font-style: italic; }
+  .num { color: #79c0ff; }
+  .var { color: #ffa657; }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .tag-blue { background: #1f3a5f; color: #58a6ff; }
+  .tag-green { background: #1a3a2a; color: #3fb950; }
+  .tag-red { background: #3d1a1a; color: #f85149; }
+  .tag-purple { background: #2d1f4a; color: #a371f7; }
+  .tag-orange { background: #3d2810; color: #ffa657; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th { background: var(--bg3); color: var(--accent); padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--muted); }
+  tr:hover td { background: var(--bg2); }
+
+  /* ALERT BOXES */
+  .alert {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    border-left: 4px solid;
+  }
+  .alert-info { background: #0d2137; border-color: var(--accent); }
+  .alert-warn { background: #2e2108; border-color: var(--yellow); }
+  .alert-success { background: #0d2a15; border-color: var(--green); }
+  .alert-danger { background: #2a0d0d; border-color: var(--red); }
+  .alert p { margin: 0; }
+  .alert-info p { color: #a0c8f0; }
+  .alert-warn p { color: #d8b869; }
+  .alert-success p { color: #7ee2a0; }
+  .alert-danger p { color: #f0a0a0; }
+
+  /* QUIZ */
+  .quiz-q {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .quiz-q .qtext { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 14px; }
+  .quiz-opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 10px 14px;
+    margin: 6px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .quiz-opt:hover { border-color: var(--accent); color: var(--text); }
+  .quiz-opt.correct { background: #0d2a15; border-color: var(--green); color: #7ee2a0; }
+  .quiz-opt.wrong { background: #2a0d0d; border-color: var(--red); color: #f0a0a0; }
+  .quiz-opt.reveal { background: #1a3a2a; border-color: var(--green); color: #7ee2a0; }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: 6px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-score { font-size: 18px; font-weight: 600; text-align: center; padding: 20px; color: var(--accent); }
+  #quiz-nav { display: flex; gap: 10px; align-items: center; margin-top: 20px; flex-wrap: wrap; }
+  #quiz-nav button { padding: 8px 18px; border-radius: 6px; border: 1px solid var(--accent); background: none; color: var(--accent); font-family: inherit; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  #quiz-nav button:hover { background: var(--accent); color: #0d1117; }
+  #quiz-progress { color: var(--muted); font-size: 13px; }
+
+  /* EXAMEN */
+  .exo {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .exo-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .exo-num {
+    background: var(--accent);
+    color: #0d1117;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .exo-title { font-weight: 600; color: var(--text); font-size: 16px; }
+  .toggle-btn {
+    margin-top: 12px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .hidden { display: none; }
+  .solution { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* GRID 2 cols */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* STEP LIST */
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li {
+    counter-increment: step;
+    padding: 10px 10px 10px 46px;
+    position: relative;
+    border-left: 2px solid var(--border);
+    margin-left: 16px;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: -16px;
+    top: 10px;
+    background: var(--accent);
+    color: #0d1117;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+
+  /* FORMULA */
+  .formula {
+    background: var(--bg3);
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--purple);
+    text-align: center;
+  }
+
+  /* DIFF TABLE */
+  .diff-badge { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .diff-txt { background: #1f3a5f; color: #58a6ff; }
+  .diff-aud { background: #2d1f4a; color: #a371f7; }
+  .diff-img { background: #1a3a2a; color: #3fb950; }
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="active" onclick="showPage('home',this)">🏠 Accueil</button>
+  <button onclick="showPage('tp1',this)">TP1 – Entropie</button>
+  <button onclick="showPage('tp2',this)">TP2 – Huffman</button>
+  <button onclick="showPage('tp3',this)">TP3 – Arithmétique</button>
+  <button onclick="showPage('tp4',this)">TP4 – Canal</button>
+  <button onclick="showPage('quiz',this)">🧠 Quiz</button>
+  <button onclick="showPage('examen',this)">📝 Exercices d'examen</button>
+  <button onclick="showPage('cheatsheet',this)">📋 Mémo rapide</button>
+  <button onclick="showPage('lignes',this)">🔍 Ligne par ligne</button>
+  <button onclick="showPage('tp1_lignes',this)">📄 TP1 détaillé</button>
+</nav>
+
+<!-- ========== HOME ========== -->
+<div id="home" class="page active">
+  <h1>Codage &amp; Compression</h1>
+  <p>Révision complète pour l'examen de TP — Master 1 ST · Pr. SERIR Amina</p>
+
+  <div class="alert alert-warn">
+    <p>⚠️ <strong>Conseil examen :</strong> On te donnera un code aléatoire tiré des TP. Tu dois être capable d'identifier chaque bloc (lecture, calcul symboles, entropie, codage, décodage, vérification) et d'expliquer chaque ligne importante.</p>
+  </div>
+
+  <div class="grid2" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-title">4 TP couverts</div>
+      <p><strong>TP1</strong> – Lecture fichiers &amp; entropie</p>
+      <p><strong>TP2</strong> – Codage de Huffman</p>
+      <p><strong>TP3</strong> – Codage Arithmétique</p>
+      <p><strong>TP4</strong> – Canal bruité &amp; correcteur d'erreur (MATLAB)</p>
+    </div>
+    <div class="card">
+      <div class="card-title">3 types de données</div>
+      <p>📄 <strong>Texte</strong> – caractères ASCII</p>
+      <p>🎵 <strong>Audio</strong> – octets WAV bruts (float)</p>
+      <p>🖼️ <strong>Image</strong> – pixels niveaux de gris BMP (0–255)</p>
+    </div>
+  </div>
+
+  <h2>Structure type d'un programme</h2>
+  <ol class="steps">
+    <li><strong>Lecture</strong> du fichier source → liste <code>valeurs[]</code></li>
+    <li><strong>Calcul symboles &amp; probabilités</strong> → <code>Symb_Prob[]</code></li>
+    <li><strong>Calcul entropie H</strong></li>
+    <li><strong>Codage</strong> (Huffman ou Arithmétique) → fichier compressé</li>
+    <li><strong>Décodage</strong> → données reconstituées</li>
+    <li><strong>Vérification</strong> (MSE, PSNR, ou comparaison directe)</li>
+  </ol>
+
+  <h2>Formules clés à connaître</h2>
+  <div class="formula">H = Σ P(si) × log₂(1/P(si))  bits/symbole</div>
+  <div class="formula">Taux de compression = (N × bpp_original) / (N_codes × 32)</div>
+  <div class="formula">Débit = (N_codes × 32) / N  bits/échantillon</div>
+  <div class="formula">MSE = mean( (original - reconstruit)² )</div>
+  <div class="formula">PSNR = 20 × log₁₀(255 / √MSE)  dB</div>
+</div>
+
+<!-- ========== TP1 ========== -->
+<div id="tp1" class="page">
+  <h1>TP1 – Entropie &amp; Lecture de fichiers</h1>
+
+  <h2>Lecture selon le type de fichier</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title diff-badge diff-txt">Texte (caractères)</div>
+      <pre><code><span class="fn">file</span> = <span class="fn">open</span>(<span class="str">"fichier5.txt"</span>,<span class="str">"r"</span>)
+<span class="var">message</span> = <span class="fn">file</span>.read()
+<span class="fn">file</span>.close()
+<span class="var">valeurs</span> = []
+<span class="kw">for</span> <span class="var">elem</span> <span class="kw">in</span> <span class="var">message</span>:
+    <span class="var">valeurs</span>.append(<span class="var">elem</span>)</code></pre>
+      <p>Chaque <code>elem</code> est un <strong>caractère</strong> ('a','b',' '…)</p>
+    </div>
+    <div class="card">
+      <div class="card-title diff-badge diff-txt">Texte (entiers séparés espaces)</div>
+      <pre><code><span class="fn">file</span> = <span class="fn">open</span>(<span class="str">"fichier1.txt"</span>,<span class="str">"r"</span>)
+<span class="var">message</span> = <span class="fn">file</span>.read()
+<span class="fn">file</span>.close()
+<span class="var">valeurs</span> = <span class="var">message</span>.split()</code></pre>
+      <p><code>split()</code> découpe sur les espaces/retours ligne → liste de strings</p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title diff-badge diff-aud">Audio WAV</div>
+      <pre><code><span class="var">wave</span> = <span class="fn">open</span>(<span class="str">"puls.wav"</span>,<span class="str">"rb"</span>)
+<span class="var">audio</span> = <span class="var">wave</span>.read()
+<span class="var">wave</span>.close()
+<span class="var">valeurs</span> = []
+<span class="kw">for</span> <span class="var">elem</span> <span class="kw">in</span> <span class="var">audio</span>:
+    <span class="var">x</span> = <span class="fn">float</span>(<span class="var">elem</span>)
+    <span class="var">valeurs</span>.append(<span class="var">x</span>)</code></pre>
+      <p>Mode <code>"rb"</code> (binaire) → chaque <code>elem</code> est un octet 0–255, converti en float</p>
+    </div>
+    <div class="card">
+      <div class="card-title diff-badge diff-img">Image BMP (OpenCV)</div>
+      <pre><code><span class="kw">import</span> cv2
+<span class="var">image</span> = cv2.<span class="fn">imread</span>(<span class="str">"img151.bmp"</span>)
+<span class="kw">if</span> <span class="var">canaux</span>==<span class="num">3</span>:
+    <span class="var">Imgray</span>=cv2.<span class="fn">cvtColor</span>(
+        <span class="var">image</span>,cv2.COLOR_BGR2GRAY)
+<span class="var">valeurs</span>=[]
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">nl</span>):
+  <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">nc</span>):
+    <span class="var">valeurs</span>.append(<span class="var">Imgray</span>[<span class="var">i</span>,<span class="var">j</span>])</code></pre>
+      <p>Parcours pixel par pixel, valeurs 0–255 (niveaux de gris)</p>
+    </div>
+  </div>
+
+  <h2>Calcul des symboles et probabilités — <code>Compt_symb_prob(L)</code></h2>
+  <div class="card">
+    <p>Cette fonction est <strong>commune aux 3 types</strong> (texte, audio, image). Elle construit une liste de dictionnaires <code>[{'Symb': x, 'Prob': p}, …]</code></p>
+    <pre><code><span class="kw">def</span> <span class="fn">Compt_symb_prob</span>(<span class="var">L</span>):
+    <span class="var">N</span> = <span class="fn">len</span>(<span class="var">L</span>)          <span class="cm"># Nombre total d'éléments</span>
+    <span class="var">Symb</span> = []
+    <span class="var">Symb</span>.append(<span class="var">L</span>[<span class="num">0</span>])   <span class="cm"># Premier symbole distinct</span>
+    <span class="var">F</span> = np.<span class="fn">zeros</span>(<span class="var">N</span>)    <span class="cm"># Tableau de fréquences</span>
+    <span class="var">F</span>[<span class="num">0</span>] = <span class="num">1</span>
+    <span class="var">k</span> = <span class="num">1</span>               <span class="cm"># Compteur de symboles distincts</span>
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>,<span class="var">N</span>):
+        <span class="var">u</span> = <span class="num">0</span>
+        <span class="cm"># Cherche si L[i] est déjà dans Symb</span>
+        <span class="kw">while</span> (<span class="var">u</span> &lt; <span class="var">k</span>) <span class="kw">and</span> (<span class="var">L</span>[<span class="var">i</span>]!=<span class="var">Symb</span>[<span class="var">u</span>]):
+            <span class="var">u</span>=<span class="var">u</span>+<span class="num">1</span>
+        <span class="kw">if</span> (<span class="var">u</span>==<span class="var">k</span>):        <span class="cm"># Nouveau symbole</span>
+            <span class="var">Symb</span>.append(<span class="var">L</span>[<span class="var">i</span>])
+            <span class="var">F</span>[<span class="var">k</span>] = <span class="num">1</span>
+            <span class="var">k</span>=<span class="var">k</span>+<span class="num">1</span>
+        <span class="kw">else</span>:              <span class="cm"># Symbole existant → incrémenter</span>
+            <span class="var">F</span>[<span class="var">u</span>]=<span class="var">F</span>[<span class="var">u</span>]+<span class="num">1</span>
+    <span class="var">Symb_Prob</span>=[]
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">k</span>):
+        <span class="var">D</span>={}
+        <span class="var">D</span>[<span class="str">'Symb'</span>]=<span class="var">Symb</span>[<span class="var">i</span>]
+        <span class="var">D</span>[<span class="str">'Prob'</span>]=<span class="var">F</span>[<span class="var">i</span>]/<span class="var">N</span>  <span class="cm"># Probabilité = fréquence/total</span>
+        <span class="var">Symb_Prob</span>.append(<span class="var">D</span>)
+    <span class="kw">return</span> <span class="var">Symb_Prob</span></code></pre>
+    <div class="alert alert-info">
+      <p>📌 <strong>Logique :</strong> Pour chaque élément L[i], on parcourt la liste des symboles déjà trouvés. Si u atteint k (fin de liste sans trouver) → nouveau symbole. Sinon → incrémenter le compteur du symbole trouvé à l'indice u.</p>
+    </div>
+  </div>
+
+  <h2>Calcul de l'entropie</h2>
+  <pre><code><span class="var">H</span> = <span class="num">0</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">Nb</span>):
+    <span class="var">H</span> = <span class="var">H</span> + <span class="var">Symb_Prob</span>[<span class="var">i</span>][<span class="str">'Prob'</span>] * np.<span class="fn">log2</span>(<span class="num">1</span>/<span class="var">Symb_Prob</span>[<span class="var">i</span>][<span class="str">'Prob'</span>])
+<span class="fn">print</span>(<span class="str">f"Entropie={H}"</span>)</code></pre>
+
+  <h2>Interprétation de l'entropie</h2>
+  <table>
+    <tr><th>Entropie H</th><th>Signification</th><th>Compressibilité</th></tr>
+    <tr><td>H ≈ 0</td><td>Source très prévisible (quasi-un symbole)</td><td>Très bonne</td></tr>
+    <tr><td>H élevé (proche log₂(Nb))</td><td>Symboles équiprobables, aléatoire</td><td>Très faible</td></tr>
+    <tr><td>H ≈ log₂(Nb)</td><td>Distribution uniforme, entropie maximale</td><td>Nulle</td></tr>
+  </table>
+  <div class="alert alert-success">
+    <p>✅ <strong>Règle :</strong> Le débit du codage entropique ne peut pas descendre sous H (borne théorique). Huffman et Arithmétique tendent vers H.</p>
+  </div>
+</div>
+
+<!-- ========== TP2 ========== -->
+<div id="tp2" class="page">
+  <h1>TP2 – Codage de Huffman</h1>
+
+  <h2>Principe</h2>
+  <p>Attribuer des codes binaires <strong>courts aux symboles fréquents</strong>, longs aux rares. Code préfixe (aucun code n'est le préfixe d'un autre).</p>
+
+  <ol class="steps">
+    <li>Calculer les <strong>fréquences</strong> de chaque symbole</li>
+    <li>Construire un <strong>arbre binaire</strong> (tas min) : fusionner les deux noeuds de plus faible fréquence</li>
+    <li><strong>Générer les codes</strong> : gauche = 0, droite = 1</li>
+    <li><strong>Encoder</strong> : remplacer chaque symbole par son code</li>
+    <li><strong>Décoder</strong> : parcourir l'arbre bit par bit</li>
+  </ol>
+
+  <h2>Classe Node et construction de l'arbre</h2>
+  <pre><code><span class="kw">class</span> <span class="fn">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">char</span>, <span class="var">freq</span>):
+        <span class="var">self</span>.char = <span class="var">char</span>
+        <span class="var">self</span>.freq = <span class="var">freq</span>
+        <span class="var">self</span>.left = <span class="kw">None</span>
+        <span class="var">self</span>.right = <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="fn">__lt__</span>(<span class="var">self</span>, <span class="var">other</span>):   <span class="cm"># Permet la comparaison dans heapq</span>
+        <span class="kw">return</span> <span class="var">self</span>.freq &lt; <span class="var">other</span>.freq
+
+<span class="kw">def</span> <span class="fn">build_huffman_tree</span>(<span class="var">valeurs</span>):
+    <span class="var">frequency</span> = <span class="fn">Compt_symb_freq</span>(<span class="var">valeurs</span>)
+    <span class="var">heap</span> = []
+    <span class="kw">for</span> <span class="var">elem</span> <span class="kw">in</span> <span class="var">frequency</span>:
+        <span class="var">heap</span>.append(<span class="fn">Node</span>(<span class="var">elem</span>[<span class="str">'char'</span>], <span class="var">elem</span>[<span class="str">'Freq'</span>]))
+    heapq.<span class="fn">heapify</span>(<span class="var">heap</span>)          <span class="cm"># Transforme en tas min</span>
+    <span class="kw">while</span> <span class="fn">len</span>(<span class="var">heap</span>) &gt; <span class="num">1</span>:
+        <span class="var">left</span>  = heapq.<span class="fn">heappop</span>(<span class="var">heap</span>)  <span class="cm"># Freq la plus faible</span>
+        <span class="var">right</span> = heapq.<span class="fn">heappop</span>(<span class="var">heap</span>)  <span class="cm"># 2e freq la plus faible</span>
+        <span class="var">merged</span> = <span class="fn">Node</span>(<span class="kw">None</span>, <span class="var">left</span>.freq + <span class="var">right</span>.freq)
+        <span class="var">merged</span>.left = <span class="var">left</span>
+        <span class="var">merged</span>.right = <span class="var">right</span>
+        heapq.<span class="fn">heappush</span>(<span class="var">heap</span>, <span class="var">merged</span>)
+    <span class="kw">return</span> <span class="var">heap</span>[<span class="num">0</span>]                 <span class="cm"># Racine de l'arbre</span></code></pre>
+
+  <h2>Génération des codes &amp; Encodage / Décodage</h2>
+  <pre><code><span class="kw">def</span> <span class="fn">build_huffman_codes</span>(<span class="var">root</span>):
+    <span class="var">codes</span> = {}
+    <span class="kw">def</span> <span class="fn">generate_codes</span>(<span class="var">node</span>, <span class="var">current_code</span>):
+        <span class="kw">if</span> <span class="var">node</span> <span class="kw">is</span> <span class="kw">None</span>: <span class="kw">return</span>
+        <span class="kw">if</span> <span class="var">node</span>.char <span class="kw">is not None</span>:   <span class="cm"># Feuille = symbole</span>
+            <span class="var">codes</span>[<span class="var">node</span>.char] = <span class="var">current_code</span>
+        <span class="fn">generate_codes</span>(<span class="var">node</span>.left,  <span class="var">current_code</span>+<span class="str">"0"</span>)
+        <span class="fn">generate_codes</span>(<span class="var">node</span>.right, <span class="var">current_code</span>+<span class="str">"1"</span>)
+    <span class="fn">generate_codes</span>(<span class="var">root</span>, <span class="str">""</span>)
+    <span class="kw">return</span> <span class="var">codes</span>
+
+<span class="kw">def</span> <span class="fn">huffman_encode</span>(<span class="var">text</span>, <span class="var">codes</span>):
+    <span class="kw">return</span> <span class="str">''</span>.join(<span class="var">codes</span>[<span class="var">char</span>] <span class="kw">for</span> <span class="var">char</span> <span class="kw">in</span> <span class="var">text</span>)
+
+<span class="kw">def</span> <span class="fn">huffman_decode</span>(<span class="var">encoded_text</span>, <span class="var">root</span>):
+    <span class="var">decoded</span> = []
+    <span class="var">node</span> = <span class="var">root</span>
+    <span class="kw">for</span> <span class="var">bit</span> <span class="kw">in</span> <span class="var">encoded_text</span>:
+        <span class="kw">if</span> <span class="var">bit</span> == <span class="str">'0'</span>: <span class="var">node</span> = <span class="var">node</span>.left
+        <span class="kw">else</span>:          <span class="var">node</span> = <span class="var">node</span>.right
+        <span class="kw">if</span> <span class="var">node</span>.char <span class="kw">is not None</span>:  <span class="cm"># Feuille atteinte</span>
+            <span class="var">decoded</span>.append(<span class="var">node</span>.char)
+            <span class="var">node</span> = <span class="var">root</span>           <span class="cm"># Remonter à la racine</span>
+    <span class="kw">return</span> <span class="str">''</span>.join(<span class="var">decoded</span>)</code></pre>
+
+  <div class="alert alert-info">
+    <p>📌 <strong>Décodage :</strong> On parcourt l'arbre bit par bit. Quand on atteint une feuille (noeud.char ≠ None), on a trouvé un symbole, on repart de la racine.</p>
+  </div>
+
+  <h2>Taux de compression et débit</h2>
+  <pre><code><span class="fn">print</span>(<span class="str">f"Taux={len(valeurs)*8/len(encoded_text)}"</span>)
+<span class="cm"># len(valeurs)*8 = taille originale en bits (8 bits/octet)</span>
+<span class="cm"># len(encoded_text) = taille après Huffman en bits</span>
+<span class="cm"># Taux > 1 → compression efficace</span></code></pre>
+
+  <h2>Différences entre les 3 versions</h2>
+  <table>
+    <tr><th>Aspect</th><th class="diff-badge diff-txt">Texte</th><th class="diff-badge diff-aud">Audio</th><th class="diff-badge diff-img">Image</th></tr>
+    <tr><td>Lecture</td><td>open("r")</td><td>open("rb")</td><td>cv2.imread</td></tr>
+    <tr><td>Type de valeurs</td><td>char</td><td>float(octet)</td><td>uint8 pixel</td></tr>
+    <tr><td>Symboles max</td><td>variable</td><td>256</td><td>256</td></tr>
+    <tr><td>Vérification</td><td>message == decoded</td><td>MSE &lt; seuil</td><td>PSNR</td></tr>
+    <tr><td>Histogramme</td><td>manuel</td><td>manuel</td><td>cv2.calcHist</td></tr>
+  </table>
+</div>
+
+<!-- ========== TP3 ========== -->
+<div id="tp3" class="page">
+  <h1>TP3 – Codage Arithmétique</h1>
+
+  <h2>Principe général</h2>
+  <p>Au lieu de coder symbole par symbole, on encode <strong>un paquet entier</strong> par un nombre réel dans [0,1[. Chaque symbole raffine l'intervalle.</p>
+
+  <div class="card">
+    <div class="card-title">Étape 1 — Créer les intervalles de symboles</div>
+    <pre><code><span class="kw">def</span> <span class="fn">create_Symb_Interval</span>(<span class="var">Symb_Prob</span>):
+    <span class="var">Nb</span>=<span class="fn">len</span>(<span class="var">Symb_Prob</span>)
+    <span class="var">IS</span>=np.<span class="fn">zeros</span>(<span class="var">Nb</span>*<span class="num">2</span>)
+    <span class="var">IS</span>.shape=(<span class="var">Nb</span>,<span class="num">2</span>)   <span class="cm"># Matrice Nb×2 : [borne_inf, borne_sup]</span>
+    <span class="var">IS</span>[<span class="num">0</span>,<span class="num">0</span>]=<span class="num">0</span>
+    <span class="var">IS</span>[<span class="num">0</span>,<span class="num">1</span>]=<span class="var">Symb_Prob</span>[<span class="num">0</span>][<span class="str">'Prob'</span>]
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>,<span class="var">Nb</span>):
+        <span class="var">IS</span>[<span class="var">i</span>,<span class="num">0</span>]=<span class="var">IS</span>[<span class="var">i</span>-<span class="num">1</span>,<span class="num">1</span>]           <span class="cm"># Borne inf = borne sup du précédent</span>
+        <span class="var">IS</span>[<span class="var">i</span>,<span class="num">1</span>]=<span class="var">IS</span>[<span class="var">i</span>,<span class="num">0</span>]+<span class="var">Symb_Prob</span>[<span class="var">i</span>][<span class="str">'Prob'</span>]
+    <span class="kw">return</span> <span class="var">IS</span>  <span class="cm"># Intervalles contigus qui couvrent [0,1]</span></code></pre>
+    <div class="alert alert-info">
+      <p>📌 Résultat : chaque symbole sᵢ est associé à [ISᵢ,₀ ; ISᵢ,₁[. La largeur de l'intervalle = P(sᵢ).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Étape 2 — Encodage par paquets</div>
+    <pre><code><span class="kw">def</span> <span class="fn">Arithm_encode</span>(<span class="var">L</span>, <span class="var">Symb_Prob</span>, <span class="var">IS</span>, <span class="var">nomf_comp</span>):
+    <span class="var">Long</span>=<span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Longueur du paquet :"</span>))
+    <span class="var">N</span>=<span class="fn">len</span>(<span class="var">L</span>)
+    <span class="var">r</span>=<span class="var">N</span>%<span class="var">Long</span>    <span class="cm"># Reste (dernier paquet incomplet)</span>
+    <span class="var">Np</span>=<span class="var">N</span>//<span class="var">Long</span>  <span class="cm"># Nombre de paquets complets</span>
+
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">Np</span>):
+        <span class="var">Paquet</span>=<span class="var">L</span>[<span class="var">i</span>*<span class="var">Long</span>:(<span class="var">i</span>+<span class="num">1</span>)*<span class="var">Long</span>]
+        <span class="var">Iinf</span>=<span class="num">0</span>; <span class="var">Isup</span>=<span class="num">0</span>; <span class="var">Largeur</span>=<span class="num">1</span>
+        <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">Long</span>):
+            <span class="var">u</span>=<span class="num">0</span>
+            <span class="cm"># Trouver quel symbole = Paquet[j]</span>
+            <span class="kw">while</span>(<span class="var">u</span>&lt;<span class="var">Nb</span>) <span class="kw">and</span> (<span class="var">Paquet</span>[<span class="var">j</span>]!=<span class="var">Symb_Prob</span>[<span class="var">u</span>][<span class="str">'Symb'</span>]):
+                <span class="var">u</span>=<span class="var">u</span>+<span class="num">1</span>
+            <span class="cm"># Réduire l'intervalle</span>
+            <span class="var">Isup</span>=<span class="var">Iinf</span>+<span class="var">Largeur</span>*<span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>]
+            <span class="var">Iinf</span>=<span class="var">Iinf</span>+<span class="var">Largeur</span>*<span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>]
+            <span class="var">Largeur</span>=<span class="var">Isup</span>-<span class="var">Iinf</span>
+        <span class="var">Code</span>[<span class="var">i</span>]=(<span class="var">Iinf</span>+<span class="var">Isup</span>)/<span class="num">2</span>  <span class="cm"># Milieu de l'intervalle final</span></code></pre>
+    <div class="alert alert-warn">
+      <p>⚠️ <strong>Ligne clé examen :</strong> <code>Isup=Iinf+Largeur*IS[u,1]</code> et <code>Iinf=Iinf+Largeur*IS[u,0]</code> → réduction de l'intervalle courant au sous-intervalle du symbole u. La <strong>largeur</strong> diminue à chaque symbole.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Étape 3 — Décodage</div>
+    <pre><code><span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">Long</span>):
+    <span class="var">u</span>=<span class="num">0</span>
+    <span class="cm"># Trouver dans quel intervalle tombe Code[i]</span>
+    <span class="kw">while</span> (<span class="var">u</span>&lt;<span class="var">Nb</span>) <span class="kw">and</span> (<span class="var">Code</span>[<span class="var">i</span>]&lt;<span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>] <span class="kw">or</span> <span class="var">Code</span>[<span class="var">i</span>]&gt;<span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>]):
+        <span class="var">u</span>=<span class="var">u</span>+<span class="num">1</span>
+    <span class="var">Donnees</span>.append(<span class="var">Symb_Prob</span>[<span class="var">u</span>][<span class="str">'Symb'</span>])
+    <span class="cm"># Mise à jour du code (normalisation)</span>
+    <span class="var">Code</span>[<span class="var">i</span>]=(<span class="var">Code</span>[<span class="var">i</span>]-<span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>])/(<span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>]-<span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>])</code></pre>
+    <div class="alert alert-info">
+      <p>📌 <strong>Mise à jour du code :</strong> On ramène Code[i] dans [0,1] en soustrayant la borne inf du symbole trouvé et en divisant par sa largeur d'intervalle. C'est l'opération inverse de l'encodage.</p>
+    </div>
+  </div>
+
+  <h2>Questions clés du TP3</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Q1 — Appartenance à un intervalle</div>
+      <p>Lignes de décodage : le <code>while</code> cherche u tel que <code>IS[u,0] ≤ Code[i] ≤ IS[u,1]</code>. Le symbole u est alors l'élément décodé.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Q2 — Mise à jour du code</div>
+      <p><code>Code[i] = (Code[i] - IS[u,0]) / (IS[u,1] - IS[u,0])</code> — normalisation dans [0,1] pour décoder le symbole suivant.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Q3 — Vérification exacte (texte)</div>
+      <p>Comparaison directe : <code>if Chaine == chaine1: print("Réussie")</code></p>
+    </div>
+    <div class="card">
+      <div class="card-title">Q4 — Vérification approchée (audio/image)</div>
+      <p>Audio : <code>MSE &lt; 10⁻¹</code> → acceptable. Image : PSNR en dB (plus élevé = meilleur). Arithmétique sur float → erreurs d'arrondi inévitables.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title">Q5 — Pourquoi les erreurs augmentent avec Long ?</div>
+    <p>Plus le paquet est long, plus la largeur de l'intervalle diminue exponentiellement (<strong>Largeur → 0</strong>). La précision des flottants Python (64 bits) ne suffit plus → erreurs de décodage à partir d'une certaine longueur.</p>
+  </div>
+
+  <h2>Différences entre les 3 programmes</h2>
+  <table>
+    <tr><th>Point de différence</th><th class="diff-badge diff-txt">Texte</th><th class="diff-badge diff-aud">Audio</th><th class="diff-badge diff-img">Image</th></tr>
+    <tr><td>Type de valeurs</td><td>char</td><td>float(byte)</td><td>uint8 pixel</td></tr>
+    <tr><td>Bits/symbole original</td><td>8</td><td>16 (WAV)</td><td>8</td></tr>
+    <tr><td>Vérification</td><td>Chaine==chaine1</td><td>MSE &lt; 0.1</td><td>PSNR / valeurs==Donnees</td></tr>
+    <tr><td>Paramètre N dans fichier</td><td>N=len(valeurs)</td><td>N=len(valeurs)</td><td>N=nl×nc</td></tr>
+    <tr><td>Fonction decode retourne</td><td>modifie Chaine</td><td>vérifie MSE</td><td>retourne Donnees</td></tr>
+  </table>
+</div>
+
+<!-- ========== TP4 ========== -->
+<div id="tp4" class="page">
+  <h1>TP4 – Canal bruité &amp; Codage correcteur (MATLAB)</h1>
+
+  <h2>Objectif</h2>
+  <p>Comparer les performances (BER) de transmissions <strong>avec et sans codage correcteur d'erreur</strong> dans un canal AWGN (bruit gaussien blanc additif).</p>
+
+  <h2>Concepts clés</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">BER — Bit Error Rate</div>
+      <p>Taux d'erreur binaire = nombre de bits erronés / nombre total de bits transmis.</p>
+      <div class="formula">BER = erreurs / N_bits</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Canal AWGN</div>
+      <p>Additive White Gaussian Noise. Le bruit ajouté suit une loi gaussienne. Paramètre : Eb/N0 (rapport signal sur bruit en dB).</p>
+    </div>
+  </div>
+
+  <h2>Structure du programme de simulation</h2>
+  <ol class="steps">
+    <li>Générer N=10⁶ bits aléatoires : <code>x = randi([0,1], 1, Nb)</code></li>
+    <li>Encoder avec le code choisi (linéaire, Hamming, cyclique, convolutif)</li>
+    <li>Passer dans le canal bruité : <code>y = awgn(signal, snr, 'measured')</code></li>
+    <li>Décider (seuil 0) puis calculer le BER</li>
+    <li>Décoder avec la fonction correspondante</li>
+    <li>Tracer BER vs Eb/N0 (échelle semilog)</li>
+  </ol>
+
+  <h2>Les 4 codes étudiés</h2>
+  <table>
+    <tr><th>Code</th><th>Encodage MATLAB</th><th>Décodage MATLAB</th></tr>
+    <tr><td><strong>Linéaire C(7,4)</strong></td><td><code>encode(x,7,4,'linear/fmt',genmat)</code></td><td><code>decode(ndata,7,4,'linear/fmt',genmat)</code></td></tr>
+    <tr><td><strong>Hamming C(7,4)</strong></td><td><code>encode(x,7,4,'hamming/binary')</code></td><td><code>decode(ndata,7,4,'hamming')</code></td></tr>
+    <tr><td><strong>Cyclique C(7,4)</strong></td><td><code>encode(x,7,4,'cyclic/binary')</code></td><td><code>decode(ndata,7,4,'cyclic')</code></td></tr>
+    <tr><td><strong>Convolutif (3, 1/2)</strong></td><td><code>convenc(x, poly2trellis(3,[6 7]))</code></td><td><code>vitdec(ndata,trel,tblen,'cont','hard')</code></td></tr>
+  </table>
+
+  <h2>Matrice génératrice code linéaire</h2>
+  <pre><code><span class="var">G</span> = [ <span class="num">1 1 0 1 0 0 0</span>; 
+      <span class="num">0 1 1 0 1 0 0</span>; 
+      <span class="num">1 1 1 0 0 1 0</span>; 
+      <span class="num">1 0 1 0 0 0 1</span>];  <span class="cm">% Matrice 4×7 : k=4 bits info → n=7 bits codés</span></code></pre>
+
+  <h2>Canal BSC (Binary Symmetric Channel)</h2>
+  <pre><code><span class="cm">% bsc simule un canal à erreurs binaires</span>
+[<span class="var">ndata</span>,<span class="var">err</span>] = <span class="fn">bsc</span>(<span class="var">code_l</span>, <span class="var">ber_temp</span>);</code></pre>
+
+  <h2>Transmission d'image</h2>
+  <ol class="steps">
+    <li>Lire l'image : <code>I1 = rgb2gray(imread('img157.bmp'))</code></li>
+    <li>Convertir en bits (8 bits/pixel, MSB en premier)</li>
+    <li>Coder → transmettre dans canal AWGN → décoder</li>
+    <li>Reconvertir les bits en image</li>
+    <li>Visualiser avec <code>imshow(uint8(I2))</code></li>
+  </ol>
+  <div class="alert alert-success">
+    <p>✅ À partir d'un certain Eb/N0, le codage correcteur élimine les erreurs visibles. Le code convolutif performe mieux que le code linéaire simple.</p>
+  </div>
+</div>
+
+<!-- ========== QUIZ ========== -->
+<div id="quiz" class="page">
+  <h1>🧠 Quiz de révision</h1>
+  <p>Testez vos connaissances. <strong id="quiz-score-line"></strong></p>
+
+  <div id="quiz-container"></div>
+
+  <div id="quiz-nav">
+    <button onclick="prevQ()">← Précédent</button>
+    <span id="quiz-progress"></span>
+    <button onclick="nextQ()">Suivant →</button>
+    <button onclick="resetQuiz()" style="margin-left:auto; border-color: var(--red); color: var(--red)">↺ Recommencer</button>
+  </div>
+</div>
+
+<!-- ========== EXAMEN ========== -->
+<div id="examen" class="page">
+  <h1>📝 Exercices type examen</h1>
+  <p>Ces exercices simulent ce qu'on pourrait vous demander à l'examen : on vous donne un extrait de code et vous devez l'expliquer ou le compléter.</p>
+
+  <!-- EXO 1 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">1</div>
+      <div class="exo-title">Analyser la fonction <code>Compt_symb_prob</code></div>
+    </div>
+    <span class="tag tag-blue">TP1</span> <span class="tag tag-green">Analyse de code</span>
+    <pre><code><span class="kw">while</span> (<span class="var">u</span> &lt; <span class="var">k</span>) <span class="kw">and</span> (<span class="var">L</span>[<span class="var">i</span>] != <span class="var">Symb</span>[<span class="var">u</span>]):
+    <span class="var">u</span> = <span class="var">u</span> + <span class="num">1</span>
+<span class="kw">if</span> (<span class="var">u</span> == <span class="var">k</span>):
+    <span class="var">Symb</span>.append(<span class="var">L</span>[<span class="var">i</span>])
+    <span class="var">F</span>[<span class="var">k</span>] = <span class="num">1</span>
+    <span class="var">k</span> = <span class="var">k</span> + <span class="num">1</span>
+<span class="kw">else</span>:
+    <span class="var">F</span>[<span class="var">u</span>] = <span class="var">F</span>[<span class="var">u</span>] + <span class="num">1</span></code></pre>
+    <p><strong>Question :</strong> Que fait ce bloc ? Quel est le rôle de <code>u == k</code> ? Que contient <code>F[u]</code> à la fin ?</p>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <div class="alert alert-success">
+        <p><strong>Explication :</strong> La boucle <code>while</code> parcourt les symboles déjà connus (Symb[0…k-1]) pour vérifier si L[i] est déjà présent. Si u atteint k sans trouver une correspondance → c'est un <strong>nouveau symbole</strong> : on l'ajoute à Symb et on initialise sa fréquence F[k]=1. Sinon (u&lt;k, on a trouvé) → le symbole existe à l'indice u → on incrémente F[u]. À la fin, F[u] contient le <strong>nombre d'occurrences</strong> du symbole Symb[u].</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 2 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">2</div>
+      <div class="exo-title">Expliquer l'encodage arithmétique</div>
+    </div>
+    <span class="tag tag-purple">TP3</span> <span class="tag tag-green">Analyse de code</span>
+    <pre><code><span class="var">Isup</span> = <span class="var">Iinf</span> + <span class="var">Largeur</span> * <span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>]
+<span class="var">Iinf</span> = <span class="var">Iinf</span> + <span class="var">Largeur</span> * <span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>]
+<span class="var">Largeur</span> = <span class="var">Isup</span> - <span class="var">Iinf</span>
+<span class="var">Code</span>[<span class="var">i</span>] = (<span class="var">Iinf</span> + <span class="var">Isup</span>) / <span class="num">2</span></code></pre>
+    <p><strong>Question :</strong> Expliquez chaque ligne. Pourquoi <code>Isup</code> est calculé avant <code>Iinf</code> ? Que représente <code>Code[i]</code> ?</p>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <div class="alert alert-success">
+        <p><strong>Ligne 1 :</strong> La nouvelle borne supérieure = ancienne borne inf + largeur actuelle × borne sup de l'intervalle du symbole u dans IS. On doit calculer Isup <em>avant</em> de modifier Iinf car les deux dépendent de l'ancien Iinf.</p>
+        <p><strong>Ligne 2 :</strong> Nouvelle borne inférieure, calculée avec l'ancien Iinf.</p>
+        <p><strong>Ligne 3 :</strong> Mise à jour de la largeur = Isup - Iinf. Elle diminue à chaque symbole (multiplication par IS[u,1]-IS[u,0] = P(symbole u)).</p>
+        <p><strong>Ligne 4 :</strong> Le code du paquet = milieu de l'intervalle final. On peut décoder tous les symboles du paquet à partir de ce seul nombre.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 3 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">3</div>
+      <div class="exo-title">Expliquer le décodage arithmétique</div>
+    </div>
+    <span class="tag tag-purple">TP3</span> <span class="tag tag-orange">Décodage</span>
+    <pre><code><span class="kw">while</span> (<span class="var">u</span> &lt; <span class="var">Nb</span>) <span class="kw">and</span> (<span class="var">Code</span>[<span class="var">i</span>] &lt; <span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>] <span class="kw">or</span> <span class="var">Code</span>[<span class="var">i</span>] &gt; <span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>]):
+    <span class="var">u</span> = <span class="var">u</span> + <span class="num">1</span>
+<span class="var">Donnees</span>.append(<span class="var">Symb_Prob</span>[<span class="var">u</span>][<span class="str">'Symb'</span>])
+<span class="var">Code</span>[<span class="var">i</span>] = (<span class="var">Code</span>[<span class="var">i</span>] - <span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>]) / (<span class="var">IS</span>[<span class="var">u</span>,<span class="num">1</span>] - <span class="var">IS</span>[<span class="var">u</span>,<span class="num">0</span>])</code></pre>
+    <p><strong>Question :</strong> Comment sait-on quel symbole décoder ? Pourquoi normalise-t-on Code[i] après ?</p>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <div class="alert alert-success">
+        <p><strong>Recherche de l'intervalle :</strong> On cherche u tel que Code[i] appartienne à [IS[u,0] ; IS[u,1]]. Le while s'arrête quand la condition d'appartenance est vérifiée (Code[i] n'est plus hors de l'intervalle). Le symbole décodé est Symb_Prob[u]['Symb'].</p>
+        <p><strong>Normalisation :</strong> <code>(Code[i] - IS[u,0]) / (IS[u,1] - IS[u,0])</code> est l'opération inverse de l'encodage. Elle ramène Code[i] dans [0,1] pour pouvoir décoder le symbole suivant dans le paquet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 4 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">4</div>
+      <div class="exo-title">Identifier les parties du programme audio</div>
+    </div>
+    <span class="tag tag-purple">TP3</span> <span class="tag tag-blue">Audio</span>
+    <p><strong>Question :</strong> Dans <code>codage_Arithmetique_Audio.py</code>, identifiez et donnez les lignes correspondant à : (1) lecture du fichier, (2) calcul des symboles, (3) calcul de l'entropie, (4) encodage, (5) décodage, (6) vérification.</p>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <div class="alert alert-success">
+        <p><strong>1. Lecture :</strong> <code>wave = open(nomf,"rb")</code> → boucle for → <code>valeurs.append(float(elem))</code></p>
+        <p><strong>2. Symboles :</strong> <code>Symb_Prob = Compt_symb_prob(valeurs)</code> + <code>IS = create_Symb_Interval(Symb_Prob)</code></p>
+        <p><strong>3. Entropie :</strong> Boucle for avec <code>H += Symb_Prob[i]['Prob'] * np.log2(...)</code></p>
+        <p><strong>4. Encodage :</strong> Appel de <code>Arithm_encode(valeurs, Symb_Prob, IS, 'fichier_compresse.txt')</code></p>
+        <p><strong>5. Décodage :</strong> Appel de <code>Arithm_decode('fichier_compresse.txt', Symb_Prob, IS, nomf)</code></p>
+        <p><strong>6. Vérification :</strong> Dans Arithm_decode → <code>MSE = np.square(np.subtract(Donnees,valeurs)).mean()</code> → <code>if MSE &lt; 10**(-1): print("Réussie")</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 5 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">5</div>
+      <div class="exo-title">Compléter le code — calcul d'entropie image</div>
+    </div>
+    <span class="tag tag-green">Image</span> <span class="tag tag-orange">À compléter</span>
+    <p><strong>Question :</strong> Complétez le code suivant pour calculer l'entropie d'une image à partir de son histogramme :</p>
+    <pre><code><span class="var">hist</span> = cv2.<span class="fn">calcHist</span>([<span class="var">Imgray</span>], [<span class="num">0</span>], <span class="kw">None</span>, [<span class="num">256</span>], [<span class="num">0</span>, <span class="num">256</span>])
+<span class="var">P</span> = <span class="var">hist</span> / (<span class="var">nl</span> * <span class="var">nc</span>)   <span class="cm"># Probabilités</span>
+<span class="var">H</span> = <span class="num">0</span>
+<span class="cm"># ??? Compléter ici ???</span>
+<span class="fn">print</span>(<span class="str">f"Entropie={H}"</span>)</code></pre>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <pre><code><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">256</span>):
+    <span class="kw">if</span> <span class="var">P</span>[<span class="var">i</span>] &gt; <span class="num">0</span>:  <span class="cm"># Éviter log2(0)</span>
+        <span class="var">H</span> = <span class="var">H</span> + <span class="fn">float</span>(<span class="var">P</span>[<span class="var">i</span>]) * np.<span class="fn">log2</span>(<span class="num">1</span>/<span class="fn">float</span>(<span class="var">P</span>[<span class="var">i</span>]))</code></pre>
+      <div class="alert alert-warn">
+        <p>⚠️ Attention : avec calcHist, P[i] est un tableau numpy. Il faut le convertir en float et vérifier qu'il n'est pas nul avant de calculer le logarithme.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 6 -->
+  <div class="exo">
+    <div class="exo-header">
+      <div class="exo-num">6</div>
+      <div class="exo-title">Expliquer la gestion du dernier paquet</div>
+    </div>
+    <span class="tag tag-purple">TP3</span> <span class="tag tag-orange">Logique</span>
+    <pre><code><span class="var">N</span>=<span class="fn">len</span>(<span class="var">L</span>)
+<span class="var">r</span>=<span class="var">N</span>%<span class="var">Long</span>
+<span class="var">Np</span>=<span class="var">N</span>//<span class="var">Long</span>
+<span class="cm">... (traitement des Np paquets complets) ...</span>
+<span class="kw">if</span> <span class="var">r</span>!=<span class="num">0</span>:
+    <span class="var">i</span>=<span class="var">Np</span>
+    <span class="var">Paquet</span>=<span class="var">L</span>[<span class="var">i</span>*<span class="var">Long</span>:<span class="var">i</span>*<span class="var">Long</span>+<span class="var">r</span>]
+    <span class="cm">... traitement du dernier paquet incomplet ...</span>
+    <span class="var">Np</span>=<span class="var">Np</span>+<span class="num">1</span></code></pre>
+    <p><strong>Question :</strong> Pourquoi gère-t-on le cas <code>r != 0</code> séparément ? Qu'est-ce que <code>r</code> ?</p>
+    <button class="toggle-btn" onclick="toggleSol(this)">Voir la solution</button>
+    <div class="solution hidden">
+      <div class="alert alert-success">
+        <p><code>r = N % Long</code> est le <strong>reste de la division</strong> de N (taille totale) par Long (taille d'un paquet). Si r ≠ 0, il existe un dernier paquet incomplet de r symboles. Ce cas doit être traité séparément car la boucle principale traite uniquement des paquets complets de taille Long. Le dernier paquet de taille r est extrait avec <code>L[i*Long : i*Long+r]</code> et Np est incrémenté pour compter ce paquet supplémentaire.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CHEATSHEET ========== -->
+<div id="cheatsheet" class="page">
+  <h1>📋 Mémo rapide</h1>
+
+  <h2>Fonctions essentielles à connaître</h2>
+  <table>
+    <tr><th>Fonction</th><th>Rôle</th><th>TP</th></tr>
+    <tr><td><code>Compt_symb_prob(L)</code></td><td>Symboles + probabilités → liste de dicts</td><td>1,2,3</td></tr>
+    <tr><td><code>create_Symb_Interval(SP)</code></td><td>Matrice IS[Nb×2] des intervalles [0,1]</td><td>3</td></tr>
+    <tr><td><code>Arithm_encode(L,SP,IS,f)</code></td><td>Encode par paquets → fichier texte de flottants</td><td>3</td></tr>
+    <tr><td><code>Arithm_decode(f,SP,IS)</code></td><td>Lit le fichier et reconstruit les données</td><td>3</td></tr>
+    <tr><td><code>build_huffman_tree(v)</code></td><td>Construit l'arbre de Huffman (heapq)</td><td>2</td></tr>
+    <tr><td><code>build_huffman_codes(root)</code></td><td>Dict {symbole: code_binaire}</td><td>2</td></tr>
+    <tr><td><code>huffman_encode(text, codes)</code></td><td>Texte → chaîne binaire</td><td>2</td></tr>
+    <tr><td><code>huffman_decode(bits, root)</code></td><td>Chaîne binaire → texte original</td><td>2</td></tr>
+    <tr><td><code>PSNR(original, compressed)</code></td><td>Qualité image en dB</td><td>3</td></tr>
+  </table>
+
+  <h2>Variables importantes</h2>
+  <table>
+    <tr><th>Variable</th><th>Type</th><th>Contenu</th></tr>
+    <tr><td><code>valeurs</code></td><td>list</td><td>Données source (chars, floats, ou ints)</td></tr>
+    <tr><td><code>Symb_Prob</code></td><td>list[dict]</td><td>[{'Symb':x, 'Prob':p}, …]</td></tr>
+    <tr><td><code>IS</code></td><td>ndarray [Nb×2]</td><td>Intervalles des symboles dans [0,1]</td></tr>
+    <tr><td><code>Nb</code></td><td>int</td><td>Nombre de symboles distincts</td></tr>
+    <tr><td><code>N</code></td><td>int</td><td>Nombre total de symboles/échantillons</td></tr>
+    <tr><td><code>Long</code></td><td>int</td><td>Longueur d'un paquet (entrée utilisateur)</td></tr>
+    <tr><td><code>Np</code></td><td>int</td><td>Nombre de paquets complets</td></tr>
+    <tr><td><code>r</code></td><td>int</td><td>Reste (taille du dernier paquet partiel)</td></tr>
+    <tr><td><code>Code</code></td><td>ndarray</td><td>Valeurs flottantes encodées (un par paquet)</td></tr>
+    <tr><td><code>H</code></td><td>float</td><td>Entropie en bits/symbole</td></tr>
+  </table>
+
+  <h2>Format du fichier compressé</h2>
+  <div class="card">
+    <p>Le fichier <code>fichier_compresse.txt</code> contient une seule ligne :</p>
+    <pre><code>N,Nb,Long,Code[0],Code[1],Code[2],...,Code[Np-1],</code></pre>
+    <p>Exemple : <code>50,6,10,0.3241567,0.1289034,...</code></p>
+    <table>
+      <tr><th>Position</th><th>Valeur</th></tr>
+      <tr><td>A[0]</td><td>N (nombre total de symboles)</td></tr>
+      <tr><td>A[1]</td><td>Nb (nombre de symboles distincts)</td></tr>
+      <tr><td>A[2]</td><td>Long (longueur du paquet)</td></tr>
+      <tr><td>A[3], A[4], …</td><td>Les codes (flottants)</td></tr>
+    </table>
+  </div>
+
+  <h2>Pièges courants</h2>
+  <div class="alert alert-danger">
+    <p>🚫 <strong>Piège 1 :</strong> Oublier que <code>Nb</code> est une variable globale dans les programmes originaux. Dans <code>Arithm_encode</code>, le while utilise <code>Nb</code> sans qu'il soit passé en paramètre.</p>
+  </div>
+  <div class="alert alert-danger">
+    <p>🚫 <strong>Piège 2 :</strong> L'ordre de calcul dans l'encodage : <code>Isup</code> doit être calculé avant <code>Iinf</code> car <code>Isup</code> utilise l'ancien <code>Iinf</code>.</p>
+  </div>
+  <div class="alert alert-danger">
+    <p>🚫 <strong>Piège 3 :</strong> Pour l'audio, le fichier est ouvert en mode <code>"rb"</code> (binaire) alors que le fichier compressé est ouvert en mode <code>"w"</code> et <code>"r"</code> (texte).</p>
+  </div>
+  <div class="alert alert-warn">
+    <p>⚠️ <strong>Limite :</strong> Le codage arithmétique avec flottants Python est limité. À partir d'une certaine longueur de paquet (Long ≈ 12–15 pour texte), la précision numérique génère des erreurs de décodage.</p>
+  </div>
+
+  <h2>Interprétation des métriques</h2>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Taux de compression</div>
+      <p><strong>Texte :</strong> <code>N×8 / (Np×32)</code></p>
+      <p><strong>Audio :</strong> <code>N×16 / (Np×32)</code></p>
+      <p><strong>> 1</strong> → compression efficace</p>
+      <p><strong>&lt; 1</strong> → expansion (mauvais)</p>
+    </div>
+    <div class="card">
+      <div class="card-title">PSNR Image</div>
+      <p><strong>&gt; 40 dB</strong> → excellent</p>
+      <p><strong>30–40 dB</strong> → bon</p>
+      <p><strong>20–30 dB</strong> → acceptable</p>
+      <p><strong>&lt; 20 dB</strong> → mauvais</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+function toggleSol(btn) {
+  const sol = btn.nextElementSibling;
+  if(sol.classList.contains('hidden')) {
+    sol.classList.remove('hidden');
+    btn.textContent = 'Masquer la solution';
+  } else {
+    sol.classList.add('hidden');
+    btn.textContent = 'Voir la solution';
+  }
+}
+
+const questions = [
+  {q:"Quelle formule calcule l'entropie d'une source ?",
+   opts:["H = Σ P(si) × log₂(1/P(si))","H = Σ P(si) × log₂(P(si))","H = N × log₂(Nb)","H = Nb / N"],
+   ans:0, exp:"L'entropie de Shannon est H = Σ P(si) × log₂(1/P(si)) = -Σ P(si) × log₂(P(si)). Elle mesure l'information moyenne en bits/symbole."},
+  {q:"Dans Compt_symb_prob, que signifie u == k à la fin de la boucle while ?",
+   opts:["Le symbole existe déjà","C'est un nouveau symbole non trouvé dans la liste","Il y a une erreur","k est la probabilité du symbole"],
+   ans:1, exp:"Si u atteint k sans trouver le symbole, c'est que L[i] n'est pas dans Symb[0…k-1]. C'est donc un nouveau symbole qu'on ajoute."},
+  {q:"Pour lire un fichier audio WAV brut en Python, quel mode d'ouverture utilise-t-on ?",
+   opts:["open(f,'r')","open(f,'w')","open(f,'rb')","wavfile.read(f)"],
+   ans:2, exp:"Mode 'rb' = read binary. On lit le fichier WAV octet par octet, chaque octet étant converti en float."},
+  {q:"Dans le codage arithmétique, que représente la variable 'Largeur' ?",
+   opts:["Le nombre de symboles dans le paquet","La taille de l'intervalle courant","La longueur du paquet","La probabilité du symbole courant"],
+   ans:1, exp:"Largeur = Isup - Iinf. Elle représente la taille de l'intervalle courant. Elle se réduit à chaque symbole encodé, multipliant par la probabilité du symbole."},
+  {q:"Quelle est l'opération de mise à jour du code lors du décodage arithmétique ?",
+   opts:["Code[i] = Code[i] * (IS[u,1] - IS[u,0]) + IS[u,0]","Code[i] = (Code[i] - IS[u,0]) / (IS[u,1] - IS[u,0])","Code[i] = Code[i] - IS[u,0]","Code[i] = IS[u,0] + IS[u,1]"],
+   ans:1, exp:"C'est la normalisation inverse. On soustrait la borne inférieure et on divise par la largeur de l'intervalle du symbole trouvé, pour ramener Code[i] dans [0,1]."},
+  {q:"Dans Huffman, que fait heapq.heappop(heap) ?",
+   opts:["Ajoute un noeud au tas","Retire et retourne le noeud de plus grande fréquence","Retire et retourne le noeud de plus petite fréquence","Réorganise le tas"],
+   ans:2, exp:"heapq implémente un tas min (min-heap). heappop retourne et retire l'élément de plus petite valeur, donc le noeud de plus faible fréquence."},
+  {q:"Le taux de compression pour un fichier texte (ASCII) est calculé par :",
+   opts:["len(valeurs)*8 / len(encoded_text)","len(valeurs)*32 / len(encoded_text)","len(encoded_text) / len(valeurs)","len(valeurs) / len(encoded_text)*8"],
+   ans:0, exp:"Chaque caractère ASCII = 8 bits. La chaîne encodée par Huffman = len(encoded_text) bits. Taux = taille_originale / taille_compressée."},
+  {q:"Pourquoi y a-t-il des erreurs de décodage arithmétique pour de grandes longueurs de paquet ?",
+   opts:["Le fichier compressé est trop grand","La précision des flottants 64 bits est insuffisante (l'intervalle devient trop petit)","Le nombre de symboles est trop grand","La fonction log2 est imprécise"],
+   ans:1, exp:"À chaque symbole, la largeur se multiplie par P(symbole) < 1. Après Long multiplications, l'intervalle devient extrêmement petit, dépassant la précision des doubles Python (≈15 chiffres significatifs)."},
+  {q:"Dans create_Symb_Interval, que vérifie abs(IS[Nb-1,1] - 1.0) > 1e-9 ?",
+   opts:["Que l'entropie est correcte","Que toutes les probabilités somment bien à 1","Que le nombre de symboles est correct","Que l'intervalle est trié"],
+   ans:1, exp:"Les intervalles [IS[0], IS[Nb-1,1]] doivent couvrir exactement [0,1]. La dernière borne supérieure doit être 1.0. Si la somme des probabilités ≠ 1 (erreur numérique trop grande), une ValueError est levée."},
+  {q:"Quelle métrique est utilisée pour évaluer la qualité de reconstruction d'une image ?",
+   opts:["MSE uniquement","BER","PSNR (Peak Signal-to-Noise Ratio) en dB","Entropie"],
+   ans:2, exp:"PSNR = 20 × log10(255 / √MSE). Plus le PSNR est élevé (en dB), meilleure est la qualité. Un PSNR > 40 dB est généralement considéré comme excellent."},
+  {q:"Dans le programme image, pourquoi convertit-on en niveaux de gris (Imgray) ?",
+   opts:["Pour réduire la taille de l'image","Pour simplifier le codage : 1 canal au lieu de 3, valeurs 0-255","Pour améliorer la qualité","Pour accélérer OpenCV"],
+   ans:1, exp:"Le codage arithmétique/Huffman est appliqué sur une liste 1D. Une image couleur a 3 canaux BGR, soit 3 valeurs par pixel. En niveaux de gris, on a 1 valeur par pixel (0–255), ce qui simplifie le traitement."},
+  {q:"Dans le TP4 (MATLAB), que simule la fonction bsc(code_l, ber_temp) ?",
+   opts:["Un canal AWGN gaussien","Un canal binaire symétrique avec probabilité d'erreur ber_temp","Le codage de Huffman","Le décodage de Viterbi"],
+   ans:1, exp:"BSC = Binary Symmetric Channel. Chaque bit est inversé indépendamment avec probabilité ber_temp. C'est une modélisation simplifiée du canal après décision BPSK."}
+];
+
+let current=0, score=0, answered=[];
+
+function renderQuiz() {
+  const c = document.getElementById('quiz-container');
+  const q = questions[current];
+  const isAnswered = answered[current] !== undefined;
+  let html = `<div class="quiz-q">
+    <div class="qtext">Q${current+1}/${questions.length} — ${q.q}</div>`;
+  q.opts.forEach((opt,i) => {
+    let cls = 'quiz-opt';
+    if(isAnswered) {
+      if(i === q.ans) cls += ' correct';
+      else if(i === answered[current]) cls += ' wrong';
+    }
+    html += `<button class="${cls}" onclick="answer(${i})" ${isAnswered?'disabled':''}>${opt}</button>`;
+  });
+  if(isAnswered) {
+    const ok = answered[current] === q.ans;
+    html += `<div class="quiz-feedback show" style="background:${ok?'#0d2a15':'#2a0d0d'};border-left:3px solid ${ok?'#3fb950':'#f85149'};color:${ok?'#7ee2a0':'#f0a0a0'}">
+      ${ok?'✅ Correct !':'❌ Incorrect.'} ${q.exp}</div>`;
+  }
+  html += '</div>';
+  c.innerHTML = html;
+  document.getElementById('quiz-progress').textContent = `Question ${current+1} / ${questions.length} · Score : ${score}/${questions.filter((_,i)=>answered[i]===questions[i].ans).length}`;
+}
+
+function answer(i) {
+  if(answered[current] !== undefined) return;
+  answered[current] = i;
+  if(i === questions[current].ans) score++;
+  renderQuiz();
+}
+
+function nextQ() {
+  if(current < questions.length-1) { current++; renderQuiz(); }
+}
+function prevQ() {
+  if(current > 0) { current--; renderQuiz(); }
+}
+function resetQuiz() {
+  current=0; score=0; answered=[];
+  renderQuiz();
+}
+
+renderQuiz();
+</script>
+
+<!-- ========== LIGNE PAR LIGNE ========== -->
+<div id="lignes" class="page">
+  <h1>🔍 Explication ligne par ligne</h1>
+  <p>Sélectionnez un programme pour voir son code expliqué ligne par ligne.</p>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;">
+    <button class="toggle-btn" style="border-color:var(--accent);color:var(--accent)" onclick="showCode('txt')">📄 Texte (TP3)</button>
+    <button class="toggle-btn" style="border-color:var(--purple);color:var(--purple)" onclick="showCode('audio')">🎵 Audio (TP3)</button>
+    <button class="toggle-btn" style="border-color:var(--green);color:var(--green)" onclick="showCode('image')">🖼️ Image (TP3)</button>
+    <button class="toggle-btn" style="border-color:var(--orange);color:var(--orange)" onclick="showCode('huffman')">🌳 Huffman (TP2)</button>
+  <button class="toggle-btn" style="border-color:var(--teal);color:var(--teal)" onclick="showCode('tp1_lecture')">📂 TP1 Lecture fichiers</button>
+  </div>
+
+  <div id="code-display"></div>
+</div>
+
+<script>
+const programs = {
+  txt: {
+    title: "codage_Arithmétique_txt.py — Explication complète",
+    color: "var(--accent)",
+    lines: [
+      {code:"import numpy as np", expl:"Importe NumPy pour les tableaux et calculs mathématiques (log2, zeros…)."},
+      {code:"def Compt_symb_prob(L):", expl:"Définition de la fonction qui calcule les symboles distincts et leurs probabilités. L est la liste des données source."},
+      {code:"    N=len(L)", expl:"N = nombre total d'éléments dans la liste L (taille du fichier source)."},
+      {code:"    n=len(L)", expl:"n est identique à N ici (redondant). Il sera utilisé pour diviser les fréquences."},
+      {code:"    Symb=[]", expl:"Liste vide qui va accumuler les symboles distincts découverts."},
+      {code:"    Symb.append(L[0])", expl:"On initialise avec le premier symbole du fichier."},
+      {code:"    F=np.zeros(N)", expl:"Tableau de fréquences de taille N (on ne connaît pas encore le nombre de symboles distincts, donc on prévoit le pire cas)."},
+      {code:"    F[0]=1", expl:"Le premier symbole a déjà été vu 1 fois."},
+      {code:"    k=1", expl:"k = compteur de symboles distincts trouvés jusqu'ici (on en a déjà 1)."},
+      {code:"    for i in range(1,N):", expl:"On parcourt tous les éléments de L à partir du 2e (index 1)."},
+      {code:"        u=0", expl:"u = index de recherche dans la liste Symb (on repart du début à chaque élément)."},
+      {code:"        while (u < k) and (L[i]!=Symb[u]):", expl:"Tant qu'on n'a pas parcouru tous les symboles connus ET que L[i] est différent du symbole courant Symb[u], on continue à chercher."},
+      {code:"            u=u+1", expl:"Passer au symbole suivant dans la liste Symb."},
+      {code:"        if (u==k):", expl:"Si u a atteint k, c'est qu'on a parcouru toute la liste sans trouver L[i] → C'est un NOUVEAU symbole."},
+      {code:"            Symb.append(L[i])", expl:"Ajouter ce nouveau symbole à la liste."},
+      {code:"            F[k]=1", expl:"Initialiser sa fréquence à 1 (première occurrence)."},
+      {code:"            k=k+1", expl:"Incrémenter le compteur de symboles distincts."},
+      {code:"        else:", expl:"Sinon : le symbole L[i] a été trouvé à l'indice u dans Symb."},
+      {code:"            F[u]=F[u]+1", expl:"Incrémenter la fréquence du symbole existant à l'indice u."},
+      {code:"    Symb_Prob=[]", expl:"Liste qui va contenir les dictionnaires {Symb, Prob}."},
+      {code:"    for i in range(k):", expl:"On boucle sur les k symboles distincts trouvés."},
+      {code:"        D={}", expl:"Créer un dictionnaire vide pour ce symbole."},
+      {code:"        D['Symb']=Symb[i]", expl:"Stocker le symbole (caractère ou valeur)."},
+      {code:"        D['Prob']=F[i]/n", expl:"Probabilité = fréquence / nombre total d'éléments. F[i]/n ∈ ]0,1]."},
+      {code:"        Symb_Prob.append(D)", expl:"Ajouter ce dictionnaire à la liste résultat."},
+      {code:"    return Symb_Prob", expl:"Retourner la liste de dictionnaires [{Symb, Prob}, …]."},
+      {code:"─── Séparateur ───", expl:"", sep:true},
+      {code:"def create_Symb_Interval(Symb_Prob):", expl:"Crée la matrice IS des intervalles [borne_inf, borne_sup] pour chaque symbole dans [0,1]."},
+      {code:"    Nb=len(Symb_Prob)", expl:"Nb = nombre de symboles distincts."},
+      {code:"    IS=np.zeros(Nb*2)", expl:"Tableau plat de 2×Nb zéros (sera reshapé en matrice)."},
+      {code:"    IS.shape=(Nb,2)", expl:"Reshape : matrice Nb lignes × 2 colonnes. IS[i,0] = borne inf, IS[i,1] = borne sup du symbole i."},
+      {code:"    IS[0,0]=0", expl:"Le premier symbole commence à 0."},
+      {code:"    IS[0,1]=Symb_Prob[0]['Prob']", expl:"Sa borne sup = sa probabilité (largeur de l'intervalle = P(s0))."},
+      {code:"    for i in range(1,Nb):", expl:"Pour chaque symbole suivant…"},
+      {code:"        IS[i,0]=IS[i-1,1]", expl:"Sa borne inf = borne sup du symbole précédent (intervalles contigus)."},
+      {code:"        IS[i,1]=IS[i,0]+Symb_Prob[i]['Prob']", expl:"Sa borne sup = borne inf + sa probabilité. Les intervalles couvrent ainsi [0,1] sans chevauchement."},
+      {code:"    if abs(IS[Nb-1,1] - 1.0) > 1e-9:", expl:"Vérification : la dernière borne sup doit être exactement 1.0. Si l'écart est > 10⁻⁹ → erreur numérique, les probabilités ne somment pas à 1."},
+      {code:"        raise ValueError(...)", expl:"Lève une exception pour signaler que les probabilités sont incorrectes."},
+      {code:"    return IS", expl:"Retourne la matrice IS[Nb×2] des intervalles."},
+      {code:"─── Séparateur ───", expl:"", sep:true},
+      {code:"def Arithm_encode(L, Symb_Prob, IS, nomf_comp):", expl:"Fonction d'encodage arithmétique. L = données, Symb_Prob = symboles+proba, IS = intervalles, nomf_comp = nom du fichier de sortie."},
+      {code:"    Long=int(input('Longueur du paquet :'))", expl:"Demande à l'utilisateur la longueur des paquets. Long détermine combien de symboles sont encodés ensemble en un seul flottant."},
+      {code:"    N=len(L)", expl:"N = nombre total de symboles à encoder."},
+      {code:"    r=N%Long", expl:"r = reste de la division N/Long. Si r≠0, le dernier paquet est incomplet (taille r au lieu de Long)."},
+      {code:"    Np=N//Long", expl:"Np = nombre de paquets complets (division entière)."},
+      {code:"    Code=np.zeros(Np+1)", expl:"Tableau pour stocker les codes (un float par paquet). +1 pour éventuellement le paquet partiel."},
+      {code:"    for i in range(Np):", expl:"Boucle sur chaque paquet complet."},
+      {code:"        Paquet=L[i*Long:(i+1)*Long]", expl:"Extraire le paquet i : éléments de l'index i×Long à (i+1)×Long exclus."},
+      {code:"        Iinf=0; Isup=0; Largeur=1", expl:"Initialisation : l'intervalle de départ est [0,1], largeur = 1."},
+      {code:"        for j in range(Long):", expl:"Pour chaque symbole du paquet, on réduit l'intervalle."},
+      {code:"            u=0", expl:"Index de recherche du symbole dans Symb_Prob."},
+      {code:"            while(u<Nb) and (Paquet[j]!=Symb_Prob[u]['Symb']):", expl:"Chercher quel symbole de la table correspond à Paquet[j]."},
+      {code:"                u=u+1", expl:"Passer au symbole suivant si pas trouvé."},
+      {code:"            Isup=Iinf+Largeur*IS[u,1]", expl:"⚠️ IMPORTANT : calculer d'abord Isup avec l'ANCIEN Iinf. Nouvelle borne sup = ancienne borne inf + largeur × borne sup du symbole u."},
+      {code:"            Iinf=Iinf+Largeur*IS[u,0]", expl:"Ensuite calculer le nouveau Iinf = ancien Iinf + largeur × borne inf du symbole u. L'ordre est crucial !"},
+      {code:"            Largeur=Isup-Iinf", expl:"Mettre à jour la largeur = Isup - Iinf. Elle diminue à chaque symbole (× P(symbole))."},
+      {code:"        Code[i]=(Iinf+Isup)/2", expl:"Le code du paquet = milieu de l'intervalle final. N'importe quel point dans [Iinf, Isup] fonctionnerait, mais le milieu est le plus stable numériquement."},
+      {code:"    if r!=0:", expl:"S'il reste un paquet partiel (r > 0 symboles restants)…"},
+      {code:"        i=Np", expl:"Index du dernier paquet (partiel)."},
+      {code:"        Paquet=L[i*Long:i*Long+r]", expl:"Extraire les r derniers symboles."},
+      {code:"        ... (même traitement mais sur r symboles) ...", expl:"Le traitement est identique mais la boucle va jusqu'à r au lieu de Long."},
+      {code:"        Np=Np+1", expl:"Incrémenter Np pour compter ce paquet supplémentaire."},
+      {code:"    A=str(N)+','+str(Nb)+','+str(Long)+','", expl:"Construire la chaîne d'en-tête du fichier compressé : N (taille originale), Nb (nb symboles), Long (taille paquet)."},
+      {code:"    file=open(nomf_comp,'w')", expl:"Ouvrir le fichier compressé en écriture texte."},
+      {code:"    for i in range(Np): A=A+str(Code[i])+','", expl:"Concaténer tous les codes flottants séparés par des virgules."},
+      {code:"    file.write(A); file.close()", expl:"Écrire la chaîne complète dans le fichier et fermer."},
+      {code:"    print(f'Taux={len(valeurs)*8/(len(Code)*32)}')", expl:"Taux de compression = taille originale (N×8 bits) / taille compressée (Np×32 bits car chaque float = 32 bits). > 1 = compression efficace."},
+      {code:"    Debit=(len(Code)*32)/len(valeurs)", expl:"Débit = bits après compression / nombre de symboles originaux. Doit être proche de l'entropie H pour un bon codage."},
+      {code:"─── Séparateur ───", expl:"", sep:true},
+      {code:"def Arithm_decode(nomf_comp, Symb_Prob, IS, nomf):", expl:"Fonction de décodage. Lit le fichier compressé et reconstruit les données originales."},
+      {code:"    file=open(nomf_comp,'r'); L=file.read(); file.close()", expl:"Lire tout le contenu du fichier compressé en une seule chaîne."},
+      {code:"    A=L.split(',')", expl:"Découper sur les virgules → liste de strings : [N, Nb, Long, code0, code1, …]."},
+      {code:"    N=int(A[0]); Nb=int(A[1]); Long=int(A[2])", expl:"Récupérer les paramètres d'en-tête : taille originale, nb symboles, longueur paquet."},
+      {code:"    Np=N//Long", expl:"Recalculer le nombre de paquets complets."},
+      {code:"    r=N%Long", expl:"Recalculer le reste."},
+      {code:"    if r!=0: Np=Np+1", expl:"Si paquet partiel, compter un paquet de plus pour lire tous les codes."},
+      {code:"    Code=np.zeros(Np)", expl:"Tableau pour stocker les codes lus depuis le fichier."},
+      {code:"    k=3", expl:"Les codes commencent à l'index 3 dans A (après N, Nb, Long)."},
+      {code:"    for i in range(Np): Code[i]=float(A[k+i])", expl:"Lire chaque code flottant depuis la liste A."},
+      {code:"    if r!=0: Np=Np-1", expl:"Pour la boucle de décodage, on re-décrémente Np pour traiter le paquet partiel séparément."},
+      {code:"    for i in range(Np):", expl:"Boucle sur les paquets complets à décoder."},
+      {code:"        for j in range(Long):", expl:"Pour chaque position dans le paquet (Long symboles à retrouver)."},
+      {code:"            u=0", expl:"Index de recherche dans les intervalles."},
+      {code:"            while (u<Nb) and (Code[i]<IS[u,0] or Code[i]>IS[u,1]):", expl:"⚠️ CLEF DU DÉCODAGE : chercher u tel que Code[i] ∈ [IS[u,0], IS[u,1]]. Si Code[i] est hors de l'intervalle u, passer au suivant."},
+      {code:"                u=u+1", expl:"Passer à l'intervalle suivant."},
+      {code:"            Donnees.append(Symb_Prob[u]['Symb'])", expl:"Le symbole trouvé (à l'indice u) est le prochain symbole décodé."},
+      {code:"            Code[i]=(Code[i]-IS[u,0])/(IS[u,1]-IS[u,0])", expl:"⚠️ MISE À JOUR : normalisation inverse. Ramène Code[i] dans [0,1] pour décoder le symbole SUIVANT du même paquet. C'est l'opération inverse de l'encodage."},
+      {code:"    Chaine=''.join(Donnees)", expl:"Reconstituer la chaîne de caractères à partir de la liste des symboles décodés."},
+      {code:"    file=open(nomf,'r'); chaine1=file.read()", expl:"Lire le fichier original pour comparaison."},
+      {code:"    if Chaine==chaine1: print('Décompression réussie')", expl:"Vérification finale : comparaison exacte chaîne décodée vs originale. Si identiques → succès."},
+      {code:"─── Séparateur ───", expl:"", sep:true},
+      {code:"nomf='fichier2.txt'", expl:"Nom du fichier source à compresser."},
+      {code:"file=open(nomf,'r'); message=file.read(); file.close()", expl:"Lecture du fichier texte en mode texte ('r'). message est une string contenant tout le contenu."},
+      {code:"valeurs=[]", expl:"Liste qui contiendra chaque caractère du texte."},
+      {code:"for elem in message: valeurs.append(elem)", expl:"Itérer caractère par caractère sur la string et stocker chacun dans valeurs."},
+      {code:"Symb_Prob=Compt_symb_prob(valeurs)", expl:"Calculer les symboles distincts et leurs probabilités."},
+      {code:"IS=create_Symb_Interval(Symb_Prob)", expl:"Créer la matrice des intervalles [0,1] pour le codage arithmétique."},
+      {code:"Nb=len(Symb_Prob)", expl:"Nombre de symboles distincts (variable globale utilisée dans les fonctions encode/decode)."},
+      {code:"H=0", expl:"Initialisation de l'entropie."},
+      {code:"for i in range(Nb):", expl:"Boucle sur tous les symboles."},
+      {code:"    H+=Symb_Prob[i]['Prob']*np.log2(1/Symb_Prob[i]['Prob'])", expl:"Formule de Shannon : H = Σ P(si) × log₂(1/P(si)). Chaque terme = contribution du symbole i à l'entropie."},
+      {code:"print(f'Entropie={H}')", expl:"Afficher l'entropie en bits/symbole. Borne théorique minimale pour le débit de codage."},
+      {code:"Arithm_encode(valeurs,Symb_Prob,IS,'fichier_compresse.txt')", expl:"Lancer l'encodage. Demande Long à l'utilisateur, génère le fichier compressé."},
+      {code:"Arithm_decode('fichier_compresse.txt',Symb_Prob,IS,nomf)", expl:"Lancer le décodage et vérifier que la reconstruction est exacte."},
+    ]
+  },
+  audio: {
+    title: "codage_Arithmetique_Audio.py — Explication complète",
+    color: "var(--purple)",
+    lines: [
+      {code:"import heapq", expl:"Module pour les tas (files de priorité). Utilisé dans Huffman (TP2) mais importé ici aussi dans la version audio."},
+      {code:"import numpy as np", expl:"NumPy pour les tableaux, calculs vectoriels et log2."},
+      {code:"# Compt_symb_prob et create_Symb_Interval : identiques au texte", expl:"", sep:true},
+      {code:"nomf='puls.wav'", expl:"Nom du fichier audio source (WAV brut)."},
+      {code:"wave = open(nomf,'rb')", expl:"⚠️ Différence avec texte : ouverture en mode BINAIRE ('rb'). Un fichier WAV est un fichier binaire, pas du texte."},
+      {code:"audio=wave.read()", expl:"Lire tous les octets du fichier WAV. audio est un objet bytes."},
+      {code:"wave.close()", expl:"Fermer le fichier."},
+      {code:"valeurs=[]", expl:"Liste pour stocker les valeurs numériques des octets."},
+      {code:"for elem in audio:", expl:"Itérer sur chaque octet du fichier WAV. elem est un entier entre 0 et 255."},
+      {code:"    x=float(elem)", expl:"⚠️ Convertir l'octet (int 0-255) en float. Nécessaire pour les calculs arithmétiques suivants."},
+      {code:"    valeurs.append(x)", expl:"Ajouter la valeur flottante à la liste."},
+      {code:"Symb_Prob=Compt_symb_prob(valeurs)", expl:"Calculer les symboles (valeurs flottantes 0.0 à 255.0) et leurs probabilités."},
+      {code:"IS=create_Symb_Interval(Symb_Prob)", expl:"Créer les intervalles. Ici les symboles sont des floats (ex: 128.0, 45.0…) au lieu de chars."},
+      {code:"Nb=len(Symb_Prob)", expl:"Nombre de valeurs distinctes dans le fichier WAV (max 256 car octets)."},
+      {code:"H=0", expl:"Initialisation entropie."},
+      {code:"for i in range(Nb):", expl:"Boucle entropie."},
+      {code:"    H+=Symb_Prob[i]['Prob']*np.log2(1/Symb_Prob[i]['Prob'])", expl:"Formule de Shannon. L'entropie audio est généralement plus élevée que pour le texte car les signaux audio ont une distribution plus uniforme."},
+      {code:"print(f'Entropie={H}')", expl:"Afficher H."},
+      {code:"Arithm_encode(valeurs,Symb_Prob,IS,'fichier_compresse.txt')", expl:"Encoder. Le taux de compression sera généralement faible pour l'audio car l'entropie est élevée."},
+      {code:"Arithm_decode('fichier_compresse.txt',Symb_Prob,IS,nomf)", expl:"Décoder et vérifier."},
+      {code:"─── Dans Arithm_decode (spécifique audio) ───", expl:"", sep:true},
+      {code:"wave = open(nomf,'rb')", expl:"Relire le fichier WAV original en binaire pour la comparaison."},
+      {code:"audio=wave.read(); wave.close()", expl:"Lire tous les octets originaux."},
+      {code:"valeurs=[]", expl:"Recréer la liste des valeurs originales."},
+      {code:"for elem in audio:", expl:"Reboucler sur les octets originaux."},
+      {code:"    x=float(elem); valeurs.append(x)", expl:"Reconvertir en float (même traitement que pour le fichier source)."},
+      {code:"MSE=np.square(np.subtract(Donnees,valeurs)).mean()", expl:"⚠️ DIFFÉRENCE vs texte : on ne compare pas directement (les floats peuvent différer légèrement). On calcule la MSE = moyenne des (Donnees[i] - valeurs[i])². Si les données sont parfaitement identiques, MSE = 0."},
+      {code:"print(f'MSE={MSE}')", expl:"Afficher l'erreur quadratique moyenne."},
+      {code:"if MSE < 10**(-1):", expl:"Seuil de tolérance : si MSE < 0.1, la reconstruction est considérée acceptable (erreurs d'arrondi tolérables)."},
+      {code:"    print('Décompression réussie')", expl:"La reconstruction est suffisamment précise."},
+      {code:"else: print('Décompression pas réussie')", expl:"L'erreur est trop grande : le décodage a échoué (probablement à cause d'une longueur de paquet trop grande)."},
+      {code:"─── Dans Arithm_encode (spécifique audio) ───", expl:"", sep:true},
+      {code:"print(f'Taux={len(valeurs)*16/(len(Code)*32)}')", expl:"⚠️ DIFFÉRENCE vs texte : le facteur est 16 au lieu de 8. Un fichier WAV 16 bits utilise 16 bits par échantillon (pas 8 comme l'ASCII). Taux = (N×16) / (Np×32)."},
+    ]
+  },
+  image: {
+    title: "codage_Arithmétique_image.py — Explication complète",
+    color: "var(--green)",
+    lines: [
+      {code:"import numpy as np", expl:"NumPy pour les tableaux."},
+      {code:"import cv2", expl:"OpenCV : bibliothèque de traitement d'images. Fournit imread, cvtColor, calcHist, imshow, etc."},
+      {code:"def PSNR(original, compressed):", expl:"Fonction de calcul du PSNR (Peak Signal-to-Noise Ratio). Mesure la qualité de l'image reconstruite."},
+      {code:"    mse = np.mean((original - compressed) ** 2)", expl:"MSE = moyenne des différences au carré pixel par pixel. Plus c'est petit, plus l'image est fidèle."},
+      {code:"    if(mse < 10**(-6)): return 100", expl:"Si MSE est quasi-nulle (images identiques), retourner 100 dB (valeur maximale conventionnelle)."},
+      {code:"    max_pixel = 255.0", expl:"Valeur max d'un pixel sur 8 bits = 255."},
+      {code:"    psnr = 20 * np.log10(max_pixel / np.sqrt(mse))", expl:"Formule PSNR : 20 × log₁₀(255 / √MSE). Plus PSNR est grand (en dB), meilleure est la qualité."},
+      {code:"    return psnr", expl:"Retourner la valeur PSNR."},
+      {code:"─── Programme principal ───", expl:"", sep:true},
+      {code:"nomf='img151.bmp'", expl:"Nom du fichier image BMP source."},
+      {code:"image = cv2.imread(nomf)", expl:"Lire l'image depuis le disque. Retourne un tableau NumPy de shape (nl, nc, 3) pour BGR couleur ou (nl, nc) pour niveaux de gris."},
+      {code:"cv2.namedWindow('image originale', cv2.WINDOW_NORMAL)", expl:"Créer une fenêtre d'affichage redimensionnable."},
+      {code:"cv2.imshow('image originale',image)", expl:"Afficher l'image dans la fenêtre."},
+      {code:"cv2.waitKey(0)", expl:"Attendre un appui de touche avant de continuer."},
+      {code:"nl=image.shape[0]", expl:"nl = nombre de lignes (hauteur de l'image)."},
+      {code:"nc=image.shape[1]", expl:"nc = nombre de colonnes (largeur de l'image)."},
+      {code:"canaux=image.shape[2]", expl:"Nombre de canaux : 3 pour BGR couleur, 1 pour niveaux de gris."},
+      {code:"if (canaux==3):", expl:"Si image couleur…"},
+      {code:"    Imgray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)", expl:"Convertir en niveaux de gris : 3 canaux → 1 canal. Valeurs 0-255. Simplifie le codage (1 symbole par pixel)."},
+      {code:"else: Imgray=image", expl:"Si déjà en niveaux de gris, pas de conversion nécessaire."},
+      {code:"valeurs=[]", expl:"Liste pour stocker les valeurs de pixels."},
+      {code:"for i in range(nl):", expl:"Boucle sur les lignes."},
+      {code:"    for j in range(nc):", expl:"Boucle sur les colonnes."},
+      {code:"        valeurs.append(Imgray[i,j])", expl:"⚠️ DIFFÉRENCE : on lit pixel par pixel avec accès [i,j]. Les valeurs sont des entiers 0-255 (uint8 NumPy)."},
+      {code:"Symb_Prob=Compt_symb_prob(valeurs)", expl:"Calculer les probabilités des 256 niveaux de gris possibles."},
+      {code:"IS=create_Symb_Interval(Symb_Prob)", expl:"Créer les intervalles de codage."},
+      {code:"Nb=len(Symb_Prob)", expl:"Nombre de niveaux de gris distincts présents dans l'image (entre 1 et 256)."},
+      {code:"H=0", expl:"Entropie."},
+      {code:"for i in range(Nb): H+=Symb_Prob[i]['Prob']*np.log2(1/Symb_Prob[i]['Prob'])", expl:"Calcul entropie de Shannon."},
+      {code:"Arithm_encode(valeurs,Symb_Prob,IS,'fichier_compresse.txt')", expl:"Encoder l'image. N = nl × nc pixels."},
+      {code:"Donnees=Arithm_decode('fichier_compresse.txt',Symb_Prob,IS)", expl:"⚠️ DIFFÉRENCE : Arithm_decode pour image RETOURNE Donnees au lieu de faire la vérification en interne."},
+      {code:"k=0; img=Imgray", expl:"k = indice dans Donnees. img = copie de référence pour réécrire les pixels."},
+      {code:"for i in range(nl):", expl:"Boucle de reconstruction pixel par pixel."},
+      {code:"    for j in range(nc):", expl:""},
+      {code:"        if Donnees[k] > 255: Donnees[k]=255", expl:"Clipping : limiter à 255 max (sécurité contre débordements d'arrondi)."},
+      {code:"        if Donnees[k] < 0: Donnees[k]=0", expl:"Clipping : limiter à 0 min."},
+      {code:"        img[i,j]=Donnees[k]", expl:"Réécrire le pixel [i,j] avec la valeur décodée."},
+      {code:"        k=k+1", expl:"Passer au pixel suivant dans Donnees."},
+      {code:"cv2.imshow('image decompressee',img)", expl:"Afficher l'image reconstruite pour comparaison visuelle."},
+      {code:"psnr=PSNR(Imgray, img)", expl:"Calculer le PSNR entre image originale et image reconstruite."},
+      {code:"if valeurs==Donnees: print('Décompression réussie')", expl:"Comparaison directe des listes. Pour l'image, on peut parfois avoir une reconstruction exacte si les valeurs sont des entiers et Long est petit."},
+    ]
+  },
+  tp1_lecture: {
+    title: "TP1 — Lecture fichiers & Entropie : ligne par ligne",
+    color: "var(--teal)",
+    lines: [
+      {code:"─── Texte (caractères) : lecture_text.py ───", expl:"", sep:true},
+      {code:"file = open('fichier5.txt', 'r')", expl:"Ouvrir le fichier texte en mode lecture texte ('r'). Le fichier doit être dans le même répertoire que le script."},
+      {code:"message = file.read()", expl:"Lire tout le contenu d'un coup. message est une string Python."},
+      {code:"file.close()", expl:"Fermer le fichier pour libérer la ressource."},
+      {code:"valeurs = []", expl:"Liste vide qui contiendra les symboles (ici des caractères)."},
+      {code:"for elem in message:", expl:"Itérer caractère par caractère. elem prend chaque caractère successivement : 'q', 'u', 'o', ..."},
+      {code:"    valeurs.append(elem)", expl:"Ajouter le caractère à la liste. Résultat : valeurs = ['q','u','o','i',' ','q','u','e',...]."},
+      {code:"─── Texte (entiers séparés) : lecture_text_val.py ───", expl:"", sep:true},
+      {code:"file = open('fichier1.txt', 'r')", expl:"Ouvrir le fichier contenant des entiers séparés par des espaces (ex: '1 1 1 4 4 4 0 0 …')."},
+      {code:"message = file.read()", expl:"Lire tout le contenu en une seule string."},
+      {code:"file.close()", expl:"Fermer le fichier."},
+      {code:"valeurs = message.split()", expl:"⚠️ DIFFÉRENCE : split() sans argument découpe sur TOUS les espaces/tabulations/retours. Retourne une liste de strings : ['1','1','1','4','4',...]. Chaque élément est une string, pas un int."},
+      {code:"─── Audio WAV : lecture_audio.py ───", expl:"", sep:true},
+      {code:"wave = open('22pre.wav', 'rb')", expl:"⚠️ Mode 'rb' = read binary. Un fichier WAV est binaire. On ne peut PAS l'ouvrir avec le mode 'r' (texte)."},
+      {code:"audio = wave.read()", expl:"Lire tous les octets. audio est un objet 'bytes' Python (séquence d'entiers 0-255)."},
+      {code:"wave.close()", expl:"Fermer le fichier."},
+      {code:"valeurs = []", expl:"Liste pour les valeurs flottantes."},
+      {code:"for elem in audio:", expl:"Itérer sur les octets. En Python 3, itérer sur un bytes donne des entiers 0-255 directement."},
+      {code:"    x = float(elem)", expl:"Convertir l'entier (0-255) en float. Nécessaire pour les comparaisons dans Compt_symb_prob."},
+      {code:"    valeurs.append(x)", expl:"Ajouter la valeur. valeurs = [0.0, 82.0, 73.0, 70.0, ...] (début d'un WAV = en-tête 'RIFF')."},
+      {code:"─── Image BMP : lecture_image.py ───", expl:"", sep:true},
+      {code:"import cv2", expl:"OpenCV : bibliothèque de traitement d'images. Fournit imread, cvtColor, calcHist, imshow."},
+      {code:"import matplotlib.pyplot as plt", expl:"Pour afficher l'histogramme des niveaux de gris."},
+      {code:"image = cv2.imread('case4d_023_6.png')", expl:"Lire l'image. Retourne un tableau NumPy de shape (hauteur, largeur, 3) pour BGR couleur."},
+      {code:"cv2.namedWindow('image originale', cv2.WINDOW_NORMAL)", expl:"Créer une fenêtre d'affichage redimensionnable."},
+      {code:"cv2.imshow('image originale', image)", expl:"Afficher l'image dans la fenêtre."},
+      {code:"cv2.waitKey(0)", expl:"Attendre une touche avant de continuer. Sans ça, la fenêtre se ferme immédiatement."},
+      {code:"print(image.shape)", expl:"Afficher : (nl, nc, canaux). Ex: (512, 512, 3) = image couleur 512×512 pixels."},
+      {code:"nl = image.shape[0]", expl:"nl = nombre de lignes = hauteur en pixels."},
+      {code:"nc = image.shape[1]", expl:"nc = nombre de colonnes = largeur en pixels."},
+      {code:"canaux = image.shape[2]", expl:"canaux = 3 pour BGR couleur, 1 pour niveaux de gris."},
+      {code:"if (canaux==3):", expl:"Si l'image est en couleur (3 canaux)…"},
+      {code:"    Imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)", expl:"Convertir en niveaux de gris. OpenCV charge en BGR (pas RGB !). La formule de luminance : Y = 0.114×B + 0.587×G + 0.299×R. Résultat : tableau 2D, valeurs 0-255."},
+      {code:"else: Imgray = image", expl:"Déjà en niveaux de gris → pas de conversion."},
+      {code:"─── Histogramme image ───", expl:"", sep:true},
+      {code:"hist = cv2.calcHist([Imgray],[0],None,[256],[0,256])", expl:"Calculer l'histogramme. [Imgray]=image, [0]=canal 0 (unique), None=pas de masque, [256]=256 cases, [0,256]=plage. hist[i] = nombre de pixels ayant la valeur i."},
+      {code:"plt.plot(hist)", expl:"Tracer l'histogramme."},
+      {code:"plt.show()", expl:"Afficher la figure."},
+      {code:"P = hist / (nl * nc)", expl:"Normaliser : P[i] = probabilité d'occurrence de la valeur i. P est un tableau numpy de shape (256, 1)."},
+      {code:"─── Calcul entropie ───", expl:"", sep:true},
+      {code:"H = 0", expl:"Initialiser l'entropie à 0."},
+      {code:"for i in range(Nb):", expl:"Boucler sur tous les symboles distincts."},
+      {code:"    H = H + P[i]*np.log2(1/P[i])", expl:"Formule de Shannon : H = Σ P(sᵢ)×log₂(1/P(sᵢ)). Chaque terme est la contribution du symbole i à l'entropie totale. log₂(1/P) = -log₂(P) = nombre de bits d'information du symbole i."},
+      {code:"print(f'Entropie={H}')", expl:"Afficher H en bits/symbole. C'est la borne inférieure théorique du débit de tout codage sans perte. Si H = 3, il faut au minimum 3 bits/symbole en moyenne."},
+    ]
+  },
+  huffman: {
+    color: "var(--orange)",
+    lines: [
+      {code:"import heapq", expl:"Module Python pour les tas min (min-heap). Essentiel pour l'algorithme de Huffman : on veut toujours accéder au noeud de plus petite fréquence."},
+      {code:"import numpy as np", expl:"NumPy pour les calculs d'entropie."},
+      {code:"class Node:", expl:"Classe représentant un noeud de l'arbre de Huffman."},
+      {code:"    def __init__(self, char, freq):", expl:"Constructeur : char = symbole (None pour les noeuds internes), freq = fréquence/poids."},
+      {code:"        self.char = char", expl:"Le caractère/symbole stocké dans ce noeud (None si noeud interne de fusion)."},
+      {code:"        self.freq = freq", expl:"La fréquence (nombre d'occurrences) associée à ce noeud."},
+      {code:"        self.left = None", expl:"Enfant gauche (None si feuille). Le chemin gauche = bit '0'."},
+      {code:"        self.right = None", expl:"Enfant droit (None si feuille). Le chemin droit = bit '1'."},
+      {code:"    def __lt__(self, other):", expl:"Méthode de comparaison 'inférieur à'. Nécessaire pour que heapq puisse comparer les noeuds."},
+      {code:"        return self.freq < other.freq", expl:"Un noeud est 'plus petit' qu'un autre si sa fréquence est plus faible. Le tas min place les noeuds de plus faible fréquence en tête."},
+      {code:"─── build_huffman_tree ───", expl:"", sep:true},
+      {code:"def build_huffman_tree(valeurs):", expl:"Construit l'arbre de Huffman à partir des données sources."},
+      {code:"    frequency = Compt_symb_freq(valeurs)", expl:"Calculer les fréquences (attention : ici c'est Compt_symb_FREQ, pas _prob, les clés sont 'char' et 'Freq')."},
+      {code:"    heap = []", expl:"Liste qui va servir de tas min."},
+      {code:"    for elem in frequency:", expl:"Créer un noeud feuille pour chaque symbole distinct."},
+      {code:"        heap.append(Node(elem['char'], elem['Freq']))", expl:"Chaque feuille contient le symbole et sa fréquence."},
+      {code:"    heapq.heapify(heap)", expl:"Transformer la liste en tas min en O(n). Après heapify, heap[0] est toujours le noeud de plus faible fréquence."},
+      {code:"    while len(heap) > 1:", expl:"Tant qu'il reste plus d'un noeud dans le tas, on fusionne."},
+      {code:"        left = heapq.heappop(heap)", expl:"Extraire le noeud de PLUS FAIBLE fréquence → sera l'enfant gauche."},
+      {code:"        right = heapq.heappop(heap)", expl:"Extraire le 2e noeud de plus faible fréquence → sera l'enfant droit."},
+      {code:"        merged = Node(None, left.freq + right.freq)", expl:"Créer un noeud parent interne (char=None) dont la fréquence = somme des deux fils."},
+      {code:"        merged.left = left", expl:"Attacher l'enfant gauche."},
+      {code:"        merged.right = right", expl:"Attacher l'enfant droit."},
+      {code:"        heapq.heappush(heap, merged)", expl:"Réinsérer le noeud fusionné dans le tas. Il sera placé à la bonne position selon sa fréquence."},
+      {code:"    return heap[0]", expl:"Quand il ne reste qu'un noeud dans le tas, c'est la RACINE de l'arbre de Huffman."},
+      {code:"─── build_huffman_codes ───", expl:"", sep:true},
+      {code:"def build_huffman_codes(root):", expl:"Génère le dictionnaire {symbole: code_binaire} en parcourant l'arbre."},
+      {code:"    codes = {}", expl:"Dictionnaire résultat."},
+      {code:"    def generate_codes(node, current_code):", expl:"Fonction récursive interne. node = noeud courant, current_code = chemin parcouru depuis la racine."},
+      {code:"        if node is None: return", expl:"Cas de base : noeud vide → ne rien faire."},
+      {code:"        if node.char is not None:", expl:"Si le noeud a un caractère (c'est une FEUILLE)…"},
+      {code:"            codes[node.char] = current_code", expl:"Stocker le code binaire pour ce symbole."},
+      {code:"        generate_codes(node.left, current_code+'0')", expl:"Explorer l'enfant gauche en ajoutant '0' au chemin."},
+      {code:"        generate_codes(node.right, current_code+'1')", expl:"Explorer l'enfant droit en ajoutant '1' au chemin."},
+      {code:"    generate_codes(root, '')", expl:"Lancer la récursion depuis la racine avec un code vide."},
+      {code:"    return codes", expl:"Retourner le dictionnaire {symbole: code_binaire}."},
+      {code:"─── huffman_encode ───", expl:"", sep:true},
+      {code:"def huffman_encode(text, codes):", expl:"Encoder : remplacer chaque symbole par son code binaire."},
+      {code:"    return ''.join(codes[char] for char in text)", expl:"Pour chaque élément de text, chercher son code dans le dictionnaire et concaténer. Résultat : une longue chaîne de '0' et '1'."},
+      {code:"─── huffman_decode ───", expl:"", sep:true},
+      {code:"def huffman_decode(encoded_text, root):", expl:"Décoder la chaîne binaire en utilisant l'arbre."},
+      {code:"    decoded_text = []", expl:"Liste des symboles décodés."},
+      {code:"    current_node = root", expl:"Commencer à la racine de l'arbre."},
+      {code:"    for bit in encoded_text:", expl:"Parcourir la chaîne binaire bit par bit."},
+      {code:"        if bit == '0': current_node = current_node.left", expl:"'0' → aller à l'enfant gauche."},
+      {code:"        else: current_node = current_node.right", expl:"'1' → aller à l'enfant droit."},
+      {code:"        if current_node.char is not None:", expl:"Si on arrive à une feuille (noeud avec un symbole)…"},
+      {code:"            decoded_text.append(current_node.char)", expl:"Ajouter le symbole trouvé à la liste décodée."},
+      {code:"            current_node = root", expl:"⚠️ IMPORTANT : remonter à la RACINE pour décoder le prochain symbole."},
+      {code:"    return ''.join(decoded_text)", expl:"Joindre les symboles décodés en une chaîne."},
+      {code:"─── Programme principal ───", expl:"", sep:true},
+      {code:"root = build_huffman_tree(valeurs)", expl:"Construire l'arbre de Huffman à partir des données."},
+      {code:"codes = build_huffman_codes(root)", expl:"Générer les codes binaires pour chaque symbole."},
+      {code:"print('Codes de Huffman:', codes)", expl:"Afficher le dictionnaire. Symboles fréquents → codes courts, symboles rares → codes longs."},
+      {code:"encoded_text = huffman_encode(valeurs, codes)", expl:"Encoder : transformer les données en chaîne binaire."},
+      {code:"decoded_text = huffman_decode(encoded_text, root)", expl:"Décoder : retrouver les données originales."},
+      {code:"print('Identique:', message == decoded_text)", expl:"Vérification : le codage de Huffman est sans perte → doit toujours être True."},
+      {code:"print(f'Taux={len(valeurs)*8/len(encoded_text)}')", expl:"Taux de compression. len(valeurs)*8 = taille originale en bits. len(encoded_text) = taille compressée en bits. Valeur typique pour texte naturel : 1.5 à 2.5."},
+    ]
+  }
+};
+
+function showCode(key) {
+  const prog = programs[key];
+  let html = `<h2 style="color:${prog.color};margin-bottom:20px">${prog.title}</h2>`;
+
+  prog.lines.forEach((line, idx) => {
+    if(line.sep) {
+      html += `<div style="border-top:1px solid var(--border);margin:20px 0;padding-top:4px">
+        <span style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${line.code}</span></div>`;
+      return;
+    }
+    html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:6px;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <div style="background:var(--bg3);padding:10px 14px;border-right:1px solid var(--border)">
+        <code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:${prog.color};word-break:break-all">${escHtml(line.code)}</code>
+      </div>
+      <div style="background:var(--bg2);padding:10px 14px">
+        <p style="margin:0;font-size:13px;color:var(--muted);line-height:1.5">${line.expl}</p>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('code-display').innerHTML = html;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+
+<!-- ========== TP1 LIGNE PAR LIGNE (page dédiée) ========== -->
+<div id="tp1_lignes" class="page">
+  <h1>📄 TP1 — Explication détaillée ligne par ligne</h1>
+  <p>Chaque programme du TP1 est expliqué ici en détail. Cliquez sur un onglet pour afficher le programme correspondant.</p>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 24px;">
+    <button class="toggle-btn" id="btn-lect-txt" style="border-color:var(--accent);color:var(--accent)" onclick="showTP1('lect_txt',this)">📄 Texte caractères</button>
+    <button class="toggle-btn" id="btn-lect-val" style="border-color:var(--yellow);color:var(--yellow)" onclick="showTP1('lect_val',this)">🔢 Texte entiers</button>
+    <button class="toggle-btn" id="btn-lect-aud" style="border-color:var(--purple);color:var(--purple)" onclick="showTP1('lect_aud',this)">🎵 Audio WAV</button>
+    <button class="toggle-btn" id="btn-lect-img" style="border-color:var(--green);color:var(--green)" onclick="showTP1('lect_img',this)">🖼️ Image BMP</button>
+    <button class="toggle-btn" id="btn-compt" style="border-color:var(--orange);color:var(--orange)" onclick="showTP1('compt',this)">📊 Compt_symb_prob</button>
+    <button class="toggle-btn" id="btn-entropie" style="border-color:var(--red);color:var(--red)" onclick="showTP1('entropie',this)">🔢 Entropie</button>
+  </div>
+
+  <div id="tp1-display"></div>
+</div>
+
+<script>
+/* ===================== TP1 DÉTAILLÉ ===================== */
+const tp1_sections = {
+
+  lect_txt: {
+    title: "lecture_text.py — Lecture d'un fichier texte (caractères)",
+    color: "var(--accent)",
+    lines: [
+      {code:"nomf = 'fichier5.txt'", expl:"Nom du fichier source. Fichier 5 = texte naturel : 'quoique que tu fasses quoique tu dises tu as toujours'."},
+      {code:"file = open(nomf, 'r')", expl:"Ouvrir en mode lecture TEXTE ('r'). Python décode automatiquement l'encodage (UTF-8 par défaut). À utiliser pour tout fichier contenant du texte lisible."},
+      {code:"message = file.read()", expl:"Lire TOUT le contenu du fichier en une seule string. message = 'quoique que tu fasses...'. La string contient tous les caractères y compris espaces."},
+      {code:"file.close()", expl:"Toujours fermer le fichier après utilisation pour libérer la ressource système."},
+      {code:"print(message)", expl:"Afficher le contenu pour vérification."},
+      {code:"valeurs = []", expl:"Créer une liste vide qui contiendra les symboles (ici des caractères Python = strings de longueur 1)."},
+      {code:"for elem in message:", expl:"Itérer sur la string caractère par caractère. Pour 'abc', elem prend les valeurs 'a', 'b', 'c' successivement. Les espaces et ponctuation sont inclus."},
+      {code:"    valeurs.append(elem)", expl:"Ajouter chaque caractère à la liste. Résultat : valeurs = ['q','u','o','i','q','u','e',' ','q','u','e',...]. L'espace ' ' est un symbole à part entière."},
+      {code:"print(valeurs)", expl:"Afficher la liste pour vérification."},
+      {sep:true, code:"─── Résultat attendu ───", expl:""},
+      {code:"# valeurs = ['q','u','o','i','q','u','e',' ','q'...]", expl:"Chaque élément est une string de longueur 1. Le nombre d'éléments = longueur du fichier en caractères."},
+      {code:"# Nb_distinct ≈ 10-20 pour du texte naturel", expl:"Texte naturel = alphabet limité → entropie modérée → bonne compressibilité."},
+    ]
+  },
+
+  lect_val: {
+    title: "lecture_text_val.py — Lecture d'un fichier texte d'entiers",
+    color: "var(--yellow)",
+    lines: [
+      {code:"nomf = 'fichier1.txt'", expl:"Fichier contenant des entiers séparés par des espaces : '1 1 1 1 4 4 4 4 4 0 0 0 5 5 5 3 3 2 2 2...'"},
+      {code:"file = open(nomf, 'r')", expl:"Mode lecture texte."},
+      {code:"message = file.read()", expl:"message = '1 1 1 1 4 4 4 0 0 0...' (une seule longue string avec des espaces)."},
+      {code:"file.close()", expl:"Fermer le fichier."},
+      {code:"print(message)", expl:"Afficher pour vérification."},
+      {code:"valeurs = message.split()", expl:"⚠️ DIFFÉRENCE CLEF : split() sans argument découpe sur tous les caractères blancs (espace, \\t, \\n, \\r). Retourne une liste de strings : ['1','1','1','4','4','0',...]. Chaque élément est une string, pas un int ! Donc les symboles sont '1', '4', '0', pas 1, 4, 0."},
+      {sep:true, code:"─── Pourquoi split() et non for elem in message ? ───", expl:""},
+      {code:"# Mauvais : for elem in message → ['1',' ','1',' '...]", expl:"Si on itère directement sur la string, on obtient aussi les espaces comme symboles séparés → les espaces deviennent des symboles parasites."},
+      {code:"# Bon : message.split() → ['1','1','1','4'...]", expl:"split() élimine les séparateurs et regroupe les chiffres multi-digits. '10' reste '10' (pas '1' et '0' séparés)."},
+      {sep:true, code:"─── Résultat ───", expl:""},
+      {code:"# valeurs = ['1','1','1','4','4','0','0','5','5'...]", expl:"Fichier 1 a très peu de symboles distincts (5 valeurs : 0,1,2,3,4,5) avec des probabilités très inégales → entropie FAIBLE → très bonne compressibilité."},
+    ]
+  },
+
+  lect_aud: {
+    title: "lecture_audio.py — Lecture d'un fichier audio WAV",
+    color: "var(--purple)",
+    lines: [
+      {code:"from scipy.io import wavfile", expl:"Import alternatif possible. Le programme TP1 peut utiliser scipy pour lire proprement les données audio (donne accès au taux d'échantillonnage et aux données numériques directement)."},
+      {code:"import numpy as np", expl:"Pour les calculs numériques."},
+      {sep:true, code:"─── Méthode brute (utilisée dans les TP) ───", expl:""},
+      {code:"wave = open('22pre.wav', 'rb')", expl:"⚠️ Mode 'rb' = Read Binary. Un fichier WAV est un fichier BINAIRE (format RIFF). Si on l'ouvre en mode 'r' (texte), Python essaiera de décoder les octets comme du texte UTF-8 → erreur ou données corrompues."},
+      {code:"audio = wave.read()", expl:"Lire TOUS les octets du fichier. audio est un objet 'bytes'. Pour un fichier de 100 Ko, audio contient 102400 octets (entiers 0-255). Attention : cela inclut l'en-tête WAV (44 octets) qui contient des métadonnées, pas des échantillons audio."},
+      {code:"wave.close()", expl:"Fermer le fichier binaire."},
+      {code:"print(audio)", expl:"Affiche les octets bruts : b'RIFF...'. Les 4 premiers octets 82,73,70,70 correspondent à 'RIFF' en ASCII."},
+      {code:"valeurs = []", expl:"Liste pour les valeurs numériques."},
+      {code:"for elem in audio:", expl:"En Python 3, itérer sur un objet bytes donne des entiers 0-255 directement (pas des strings). elem est un int."},
+      {code:"    x = float(elem)", expl:"Convertir l'entier en float64 (double précision). Cela permet d'utiliser Compt_symb_prob qui compare avec '!='. Les floats issus d'entiers 0-255 sont exacts."},
+      {code:"    valeurs.append(x)", expl:"Ajouter. valeurs = [82.0, 73.0, 70.0, 70.0, ...] (octets de l'en-tête 'RIFF' puis données audio)."},
+      {code:"print(valeurs)", expl:"Afficher la liste."},
+      {sep:true, code:"─── Propriétés d'un fichier audio ───", expl:""},
+      {code:"# Nb_distinct ≤ 256 (octets 0-255)", expl:"Au maximum 256 symboles distincts (valeurs d'octet possibles). En pratique, un fichier audio riche utilise souvent les 256 valeurs → entropie élevée → compression difficile."},
+      {code:"# Entropie audio ≈ 6-8 bits/symbole", expl:"Les fichiers audio ont une distribution quasi-uniforme des octets → entropie élevée → le codage arithmétique compresse peu."},
+      {code:"# Taux compression audio ≈ 0.3-0.5 (< 1 !)", expl:"Souvent une EXPANSION au lieu d'une compression pour les signaux audio riches. Le codage arithmétique n'est pas adapté directement à l'audio."},
+    ]
+  },
+
+  lect_img: {
+    title: "lecture_image.py — Lecture d'une image BMP avec OpenCV",
+    color: "var(--green)",
+    lines: [
+      {code:"import cv2", expl:"OpenCV (Open Computer Vision) : bibliothèque C++ avec binding Python. Très rapide pour la manipulation d'images. Fournit : imread, imshow, cvtColor, calcHist, namedWindow..."},
+      {code:"import matplotlib.pyplot as plt", expl:"Pour l'affichage de l'histogramme avec plt.plot() et plt.show()."},
+      {code:"import numpy as np", expl:"Les images OpenCV sont des tableaux NumPy. Nécessaire pour les calculs."},
+      {sep:true, code:"─── Lecture et affichage ───", expl:""},
+      {code:"image = cv2.imread('case4d_023_6.png')", expl:"Lire l'image. OpenCV supporte BMP, PNG, JPG, TIFF... Retourne un tableau NumPy. ⚠️ OpenCV charge en BGR (Bleu-Vert-Rouge), PAS RGB ! Si le fichier n'existe pas, retourne None."},
+      {code:"cv2.namedWindow('image originale', cv2.WINDOW_NORMAL)", expl:"Créer une fenêtre avec le titre 'image originale'. WINDOW_NORMAL : l'utilisateur peut redimensionner la fenêtre. Alternative : WINDOW_AUTOSIZE."},
+      {code:"cv2.imshow('image originale', image)", expl:"Afficher l'image dans la fenêtre nommée. Sans waitKey après, la fenêtre s'ouvre et se ferme instantanément."},
+      {code:"cv2.waitKey(0)", expl:"Attendre qu'une touche soit pressée (0 = attente infinie). ⚠️ OBLIGATOIRE après imshow sinon la fenêtre se ferme immédiatement."},
+      {sep:true, code:"─── Analyse de la forme ───", expl:""},
+      {code:"print(image.shape)", expl:"Afficher les dimensions. Une image couleur 512×512 → (512, 512, 3). Une image NV → (512, 512). Utile pour vérifier si l'image est bien lue."},
+      {code:"nl = image.shape[0]", expl:"nl = nombre de lignes (hauteur). image.shape[0] est toujours la première dimension."},
+      {code:"nc = image.shape[1]", expl:"nc = nombre de colonnes (largeur). image.shape[1] est la deuxième dimension."},
+      {code:"canaux = image.shape[2]", expl:"Nombre de canaux couleur. 3 pour BGR, 1 pour NV. ⚠️ Si l'image est déjà en NV, shape n'a que 2 dimensions → image.shape[2] lèverait une IndexError !"},
+      {code:"if (canaux==3):", expl:"Vérifier si l'image est en couleur."},
+      {code:"    Imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)", expl:"Convertir BGR → Niveaux de Gris. Formule : Y = 0.114×B + 0.587×G + 0.299×R (pondération perceptuelle, l'œil est plus sensible au vert). Résultat : tableau 2D uint8, valeurs 0-255. Simplifie le codage : 1 valeur par pixel au lieu de 3."},
+      {code:"cv2.imshow('image en NV', Imgray)", expl:"Afficher l'image en niveaux de gris pour vérification visuelle."},
+      {code:"cv2.waitKey(0)", expl:"Attendre l'appui d'une touche."},
+      {code:"else: Imgray = image", expl:"Si déjà en NV, pas de conversion nécessaire."},
+      {sep:true, code:"─── Calcul histogramme ───", expl:""},
+      {code:"hist = cv2.calcHist([Imgray], [0], None, [256], [0, 256])", expl:"Calculer l'histogramme. Paramètres : [Imgray]=liste d'images, [0]=indice du canal (0 = seul canal NV), None=pas de masque (toute l'image), [256]=nombre de bins (cases), [0,256]=plage min-max. Résultat : hist est un tableau numpy (256, 1). hist[i][0] = nombre de pixels ayant la valeur i."},
+      {code:"plt.plot(hist)", expl:"Tracer l'histogramme. L'axe X = niveaux 0-255, axe Y = nombre de pixels. Une image sombre aura un pic à gauche, une image claire à droite."},
+      {code:"plt.show()", expl:"Afficher le graphique dans une fenêtre matplotlib."},
+      {code:"plt.savefig('tmp.png')", expl:"Sauvegarder le graphique en image PNG."},
+      {code:"print(type(hist))", expl:"Affiche : <class 'numpy.ndarray'>. hist est bien un tableau NumPy de shape (256, 1)."},
+      {code:"P = hist / (nl * nc)", expl:"Normaliser l'histogramme : diviser par le nombre total de pixels. P[i] = probabilité d'occurrence du niveau i. La somme de tous P[i] = 1. P a le même shape que hist : (256, 1)."},
+      {code:"print(P)", expl:"Afficher les probabilités. Beaucoup seront 0 si l'image n'utilise pas tous les niveaux de gris."},
+      {sep:true, code:"─── Calcul entropie image ───", expl:""},
+      {code:"H = 0", expl:"Initialiser l'entropie."},
+      {code:"for i in range(Nb):", expl:"Boucler sur les Nb niveaux distincts. Pour l'image, Nb peut aller jusqu'à 256."},
+      {code:"    if P[i] > 0:", expl:"⚠️ IMPORTANT avec calcHist : P[i] peut être 0 si aucun pixel n'a la valeur i. log2(0) est indéfini → il faut vérifier avant de calculer. Pour Compt_symb_prob, ce problème n'existe pas car on ne stocke que les symboles présents."},
+      {code:"        H += float(P[i]) * np.log2(1/float(P[i]))", expl:"Formule de Shannon. float() nécessaire car P[i] est un tableau numpy 1D de shape (1,), pas un scalaire."},
+      {code:"print(f'Entropie={H}')", expl:"Afficher H. Pour une image médicale (img151.bmp), H ≈ 6-7 bits. Pour une image synthétique simple (etoile.bmp), H peut être bien plus faible."},
+    ]
+  },
+
+  compt: {
+    title: "Compt_symb_prob(L) — Explication détaillée pas à pas",
+    color: "var(--orange)",
+    lines: [
+      {code:"def Compt_symb_prob(L):", expl:"L est la liste des valeurs source (chars, floats, ou ints). Cette fonction est COMMUNE aux 3 types de données (texte, audio, image)."},
+      {code:"    N = len(L)", expl:"N = taille totale de la liste = nombre total de symboles (avec répétitions). Ex: pour 'aabbc', N=5."},
+      {code:"    D = {'Symb': 'a', 'Prob': 0}", expl:"Variable D initialisée (inutile, sera écrasée). C'est un vestige de code."},
+      {code:"    n = len(L)", expl:"n = idem N (redondant). Sera utilisé pour diviser les fréquences (F[i]/n)."},
+      {code:"    Symb = []", expl:"Liste des symboles DISTINCTS trouvés. Commence vide. Ex: après 'aabbc' → ['a','b','c']."},
+      {code:"    Symb.append(L[0])", expl:"Initialisation : ajouter le PREMIER symbole. On est sûr qu'il existe (L non vide). Ex: L[0]='a' → Symb=['a']."},
+      {code:"    F = np.zeros(N)", expl:"Tableau de fréquences de taille N. On ne sait pas encore combien de symboles distincts il y a, donc on réserve le maximum possible (N). Ex: F=[1,0,0,0,0] après init."},
+      {code:"    F[0] = 1", expl:"Le premier symbole (Symb[0]) a été vu 1 fois."},
+      {code:"    k = 1", expl:"k = compteur de symboles distincts = 1 (on en a déjà un)."},
+      {sep:true, code:"─── Boucle principale ───", expl:""},
+      {code:"    for i in range(1, N):", expl:"Parcourir L à partir de l'index 1 (le premier est déjà traité). Pour chaque élément L[i]..."},
+      {code:"        u = 0", expl:"Réinitialiser l'index de recherche à 0 pour chaque nouvel élément."},
+      {code:"        while (u < k) and (L[i] != Symb[u]):", expl:"Parcourir les symboles DÉJÀ CONNUS (Symb[0] à Symb[k-1]). Condition : tant qu'on n'a pas dépassé la liste ET que L[i] est différent du symbole courant Symb[u]. On s'arrête dès qu'on TROUVE L[i] ou qu'on a TOUT parcouru."},
+      {code:"            u = u + 1", expl:"Passer au symbole suivant dans la liste des connus."},
+      {code:"        if (u == k):", expl:"⚠️ CONDITION CLÉ : si u a atteint k, c'est qu'on a parcouru TOUTE la liste Symb[0..k-1] sans trouver L[i]. → C'est un NOUVEAU SYMBOLE."},
+      {code:"            Symb.append(L[i])", expl:"Ajouter ce nouveau symbole à la liste."},
+      {code:"            F[k] = 1", expl:"Initialiser sa fréquence à 1 (première occurrence vue)."},
+      {code:"            k = k + 1", expl:"Incrémenter k : on a maintenant k symboles distincts."},
+      {code:"        else:", expl:"u < k : on a TROUVÉ L[i] à l'indice u dans Symb. → Le symbole est déjà connu."},
+      {code:"            F[u] = F[u] + 1", expl:"Incrémenter la fréquence du symbole existant à l'indice u."},
+      {sep:true, code:"─── Construction du résultat ───", expl:""},
+      {code:"    Symb_Prob = []", expl:"Liste qui contiendra les dictionnaires résultat."},
+      {code:"    for i in range(k):", expl:"Boucler sur les k symboles distincts (pas N, car F[k..N-1] = 0)."},
+      {code:"        D = {}", expl:"Créer un nouveau dictionnaire vide pour ce symbole."},
+      {code:"        D['Symb'] = Symb[i]", expl:"Stocker le symbole (char, float, ou int selon la source)."},
+      {code:"        D['Prob'] = F[i] / n", expl:"Probabilité = fréquence / nombre total. Valeur ∈ ]0, 1]. La somme de toutes les probabilités = 1."},
+      {code:"        Symb_Prob.append(D)", expl:"Ajouter ce dictionnaire à la liste résultat."},
+      {code:"    return Symb_Prob", expl:"Retourner la liste : [{'Symb':'a','Prob':0.4}, {'Symb':'b','Prob':0.35}, {'Symb':'c','Prob':0.25}]."},
+      {sep:true, code:"─── Exemple concret ───", expl:""},
+      {code:"# L = ['a','a','b','b','c']", expl:"Entrée : 5 éléments."},
+      {code:"# Résultat : [{'Symb':'a','Prob':0.4}, {'Symb':'b','Prob':0.4}, {'Symb':'c','Prob':0.2}]", expl:"Symb=['a','b','c'], F=[2,2,1], k=3. Probabilités : a=2/5=0.4, b=2/5=0.4, c=1/5=0.2."},
+    ]
+  },
+
+  entropie: {
+    title: "Calcul de l'entropie H — Explication et interprétation",
+    color: "var(--red)",
+    lines: [
+      {sep:true, code:"─── Code ───", expl:""},
+      {code:"H = 0", expl:"Initialiser H à 0. L'entropie sera accumulée terme par terme."},
+      {code:"for i in range(Nb):", expl:"Nb = nombre de symboles distincts. On boucle sur chaque symbole sᵢ."},
+      {code:"    H = H + Symb_Prob[i]['Prob'] * np.log2(1/Symb_Prob[i]['Prob'])", expl:"Formule de Shannon : H += P(sᵢ) × log₂(1/P(sᵢ)). Équivalent à : H += -P(sᵢ) × log₂(P(sᵢ)). Chaque terme représente la contribution du symbole i à l'entropie totale. log₂(1/P) = nombre moyen de bits d'information apportés par ce symbole."},
+      {code:"print(f'Entropie={H}')", expl:"Afficher H en bits/symbole."},
+      {sep:true, code:"─── Signification de H ───", expl:""},
+      {code:"# H = 0 bit/symbole", expl:"Source certaine : un seul symbole possible. P=1, log2(1/1)=0. Rien à coder, la source ne transporte aucune information."},
+      {code:"# H = 1 bit/symbole", expl:"Source binaire équiprobable (P=0.5 pour 2 symboles). C'est le minimum pour 2 symboles."},
+      {code:"# H = log2(Nb) bits/symbole", expl:"Source MAXIMALE : tous les Nb symboles sont équiprobables. Ex: Nb=256 symboles équiprobables → H=log2(256)=8 bits. On ne peut PAS compresser."},
+      {code:"# H faible < log2(Nb)", expl:"Distribution inégale → certains symboles sont très fréquents → compression possible. Ex: texte naturel français : Nb≈60-70 symboles, H≈4-5 bits (bien moins que log2(70)≈6.1)."},
+      {sep:true, code:"─── Lien avec la compression ───", expl:""},
+      {code:"# Borne théorique de Shannon", expl:"Aucun code sans perte ne peut atteindre un débit (bits/symbole) inférieur à H. C'est la limite fondamentale de la théorie de l'information."},
+      {code:"# Huffman : débit ≈ H à H+1 bit/symbole", expl:"Le codage de Huffman est optimal (atteint presque H) mais code symbole par symbole."},
+      {code:"# Arithmétique : débit → H quand Long → ∞", expl:"Le codage arithmétique approche H de plus en plus en encodant des paquets de plus en plus longs. Mais limité par la précision numérique des flottants."},
+      {sep:true, code:"─── Tableau interprétation ───", expl:""},
+      {code:"# fichier1.txt : H faible (5 symboles très inégaux)", expl:"Très bonne compressibilité. Exemple : P(5)≈0.25, P(1)≈0.09, etc."},
+      {code:"# fichier3.txt : H = log2(20) ≈ 4.32 (20 symboles équiprobables)", expl:"Entropie maximale pour 20 symboles → difficile à compresser."},
+      {code:"# Audio riche : H ≈ 7-8 bits", expl:"Distribution presque uniforme des octets → presque impossible à compresser sans pertes."},
+      {code:"# Image médicale : H ≈ 6-7 bits (valeurs variées)", expl:"Compressibilité modérée."},
+      {code:"# Image synthétique (etoile.bmp) : H ≈ 2-4 bits", expl:"Beaucoup de zones uniformes → forte compressibilité."},
+    ]
+  }
+};
+
+function showTP1(key, btn) {
+  document.querySelectorAll('#tp1_lignes .toggle-btn').forEach(b => {
+    b.style.background = 'none';
+  });
+  if(btn) btn.style.background = 'rgba(255,255,255,0.08)';
+
+  const sec = tp1_sections[key];
+  let html = `<h2 style="color:${sec.color};margin-bottom:20px">${sec.title}</h2>`;
+  sec.lines.forEach(line => {
+    if(line.sep) {
+      html += `<div style="border-top:1px solid var(--border);margin:20px 0 8px;padding-top:6px">
+        <span style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace">${line.code}</span></div>`;
+      return;
+    }
+    html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:6px;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <div style="background:var(--bg3);padding:10px 14px;border-right:1px solid var(--border)">
+        <code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:${sec.color};word-break:break-all">${escHtml2(line.code)}</code>
+      </div>
+      <div style="background:var(--bg2);padding:10px 14px">
+        <p style="margin:0;font-size:13px;color:var(--muted);line-height:1.5">${line.expl}</p>
+      </div>
+    </div>`;
+  });
+  document.getElementById('tp1-display').innerHTML = html;
+}
+
+function escHtml2(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Auto-charger la première section
+document.addEventListener('DOMContentLoaded', () => {
+  const firstBtn = document.getElementById('btn-lect-txt');
+  if(firstBtn) showTP1('lect_txt', firstBtn);
+});
+</script>
+</body>
+</html>

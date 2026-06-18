@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convolution Linéaire - Exemples</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 20px; }
+  h1 { text-align: center; color: #38bdf8; margin-bottom: 8px; font-size: 1.6em; }
+  .subtitle { text-align: center; color: #94a3b8; margin-bottom: 24px; font-size: 0.95em; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+  .tab { padding: 10px 18px; border-radius: 8px; cursor: pointer; background: #1e293b; border: 2px solid transparent; color: #94a3b8; font-weight: 600; transition: all 0.2s; }
+  .tab.active { background: #0369a1; border-color: #38bdf8; color: white; }
+  .tab:hover:not(.active) { border-color: #475569; color: #e2e8f0; }
+
+  .example { display: none; }
+  .example.active { display: block; }
+
+  .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #334155; }
+  .card h2 { color: #38bdf8; margin-bottom: 12px; font-size: 1.1em; }
+  .card h3 { color: #7dd3fc; margin-bottom: 10px; font-size: 1em; }
+
+  .sequences { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .seq-box { background: #0f172a; border-radius: 8px; padding: 14px 18px; border: 1px solid #334155; flex: 1; min-width: 180px; }
+  .seq-box .label { color: #94a3b8; font-size: 0.85em; margin-bottom: 6px; }
+  .seq-box .values { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cell { width: 42px; height: 42px; background: #1e3a5f; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #1d4ed8; }
+  .cell .val { font-weight: 700; color: #38bdf8; font-size: 1em; }
+  .cell .idx { font-size: 0.65em; color: #64748b; }
+  .cell.highlight { background: #164e63; border-color: #06b6d4; }
+  .cell.result { background: #14532d; border-color: #22c55e; }
+  .cell.result .val { color: #4ade80; }
+
+  .formula { background: #0f172a; border-radius: 8px; padding: 12px 16px; font-family: 'Courier New', monospace; color: #fbbf24; margin: 10px 0; font-size: 0.95em; border-left: 3px solid #f59e0b; }
+
+  .step { background: #0f172a; border-radius: 8px; padding: 14px; margin-bottom: 10px; border-left: 3px solid #6366f1; }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .step-num { width: 28px; height: 28px; background: #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85em; flex-shrink: 0; }
+  .step-title { color: #a5b4fc; font-weight: 600; }
+  .step-calc { color: #e2e8f0; font-family: 'Courier New', monospace; font-size: 0.9em; margin-top: 6px; }
+  .step-result { color: #4ade80; font-weight: 700; }
+
+  .result-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .info-box { background: #1a1035; border: 1px solid #6366f1; border-radius: 8px; padding: 12px 16px; margin: 10px 0; color: #c4b5fd; font-size: 0.9em; }
+  .info-box strong { color: #a78bfa; }
+
+  .table-method { overflow-x: auto; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 8px 12px; text-align: center; border: 1px solid #334155; font-family: 'Courier New', monospace; }
+  th { background: #1e3a5f; color: #7dd3fc; }
+  td { background: #0f172a; color: #e2e8f0; }
+  tr.sum-row td { background: #14532d; color: #4ade80; font-weight: 700; border-top: 2px solid #22c55e; }
+  td.pos { color: #4ade80; }
+  td.neg { color: #f87171; }
+  td.zero { color: #64748b; }
+
+  .size-formula { background: #1c1917; border: 1px solid #78350f; border-radius: 8px; padding: 10px 14px; color: #fcd34d; font-family: 'Courier New', monospace; margin: 8px 0; }
+
+  @media (max-width: 600px) {
+    .sequences { flex-direction: column; }
+    .tab { padding: 8px 12px; font-size: 0.85em; }
+  }
+</style>
+</head>
+<body>
+
+<h1>📐 Convolution Linéaire Discrète</h1>
+<p class="subtitle">Exemples progressifs — du plus simple au plus complexe</p>
+
+<div class="tabs">
+  <div class="tab active" onclick="showEx(0)">Exemple 1 — Très simple</div>
+  <div class="tab" onclick="showEx(1)">Exemple 2 — Intermédiaire</div>
+  <div class="tab" onclick="showEx(2)">Exemple 3 — Cours</div>
+  <div class="tab" onclick="showEx(3)">Méthode rapide</div>
+</div>
+
+<!-- ══════════════════ EXEMPLE 1 ══════════════════ -->
+<div class="example active" id="ex0">
+  <div class="card">
+    <h2>🟢 Exemple 1 — Le plus simple possible</h2>
+    <div class="info-box"><strong>Objectif :</strong> comprendre ce que fait la convolution étape par étape.</div>
+
+    <div class="sequences">
+      <div class="seq-box">
+        <div class="label">x(n) — signal d'entrée (Nₓ = 3)</div>
+        <div class="values">
+          <div class="cell"><span class="val">1</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">2</span><span class="idx">n=1</span></div>
+          <div class="cell"><span class="val">3</span><span class="idx">n=2</span></div>
+        </div>
+      </div>
+      <div class="seq-box">
+        <div class="label">h(n) — réponse impulsionnelle (Nₕ = 2)</div>
+        <div class="values">
+          <div class="cell"><span class="val">1</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">2</span><span class="idx">n=1</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="size-formula">Taille de y(n) : Nᵧ = Nₓ + Nₕ − 1 = 3 + 2 − 1 = <strong>4</strong></div>
+    <div class="formula">y(n) = Σ x(m) · h(n − m)</div>
+
+    <h3>📋 Calcul pas à pas</h3>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">0</div><div class="step-title">Calcul de y(0)</div></div>
+      <div class="step-calc">y(0) = x(0)·h(0) = 1×1 = <span class="step-result">1</span></div>
+      <div class="step-calc" style="color:#64748b; font-size:0.82em;">On ne prend que m=0 (les autres termes ont h(0-m) hors domaine)</div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div><div class="step-title">Calcul de y(1)</div></div>
+      <div class="step-calc">y(1) = x(0)·h(1) + x(1)·h(0)</div>
+      <div class="step-calc">     = 1×2 + 2×1 = 2 + 2 = <span class="step-result">4</span></div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div><div class="step-title">Calcul de y(2)</div></div>
+      <div class="step-calc">y(2) = x(1)·h(1) + x(2)·h(0)</div>
+      <div class="step-calc">     = 2×2 + 3×1 = 4 + 3 = <span class="step-result">7</span></div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div><div class="step-title">Calcul de y(3)</div></div>
+      <div class="step-calc">y(3) = x(2)·h(1) = 3×2 = <span class="step-result">6</span></div>
+    </div>
+
+    <h3 style="margin-top:14px;">✅ Résultat final</h3>
+    <div class="result-row">
+      <div class="cell result"><span class="val">1</span><span class="idx">y(0)</span></div>
+      <div class="cell result"><span class="val">4</span><span class="idx">y(1)</span></div>
+      <div class="cell result"><span class="val">7</span><span class="idx">y(2)</span></div>
+      <div class="cell result"><span class="val">6</span><span class="idx">y(3)</span></div>
+    </div>
+    <div class="info-box" style="margin-top:12px;">💡 <strong>Intuition :</strong> la convolution c'est comme "glisser" h retourné sur x et multiplier les valeurs qui se superposent.</div>
+  </div>
+</div>
+
+<!-- ══════════════════ EXEMPLE 2 ══════════════════ -->
+<div class="example" id="ex1">
+  <div class="card">
+    <h2>🟡 Exemple 2 — Niveau intermédiaire</h2>
+    <div class="info-box"><strong>Nouveauté :</strong> séquences un peu plus longues, avec des valeurs négatives.</div>
+
+    <div class="sequences">
+      <div class="seq-box">
+        <div class="label">x(n) — (Nₓ = 4)</div>
+        <div class="values">
+          <div class="cell"><span class="val">2</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">-1</span><span class="idx">n=1</span></div>
+          <div class="cell"><span class="val">3</span><span class="idx">n=2</span></div>
+          <div class="cell"><span class="val">1</span><span class="idx">n=3</span></div>
+        </div>
+      </div>
+      <div class="seq-box">
+        <div class="label">h(n) — (Nₕ = 3)</div>
+        <div class="values">
+          <div class="cell"><span class="val">1</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">0</span><span class="idx">n=1</span></div>
+          <div class="cell"><span class="val">-1</span><span class="idx">n=2</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="size-formula">Taille de y(n) : Nᵧ = 4 + 3 − 1 = <strong>6</strong></div>
+    <div class="formula">y(n) = Σ x(m) · h(n − m)</div>
+
+    <h3>📋 Calcul pas à pas</h3>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">0</div><div class="step-title">y(0)</div></div>
+      <div class="step-calc">= x(0)·h(0) = 2×1 = <span class="step-result">2</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div><div class="step-title">y(1)</div></div>
+      <div class="step-calc">= x(0)·h(1) + x(1)·h(0) = 2×0 + (−1)×1 = 0 − 1 = <span class="step-result">−1</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div><div class="step-title">y(2)</div></div>
+      <div class="step-calc">= x(0)·h(2) + x(1)·h(1) + x(2)·h(0)</div>
+      <div class="step-calc">= 2×(−1) + (−1)×0 + 3×1 = −2 + 0 + 3 = <span class="step-result">1</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div><div class="step-title">y(3)</div></div>
+      <div class="step-calc">= x(1)·h(2) + x(2)·h(1) + x(3)·h(0)</div>
+      <div class="step-calc">= (−1)×(−1) + 3×0 + 1×1 = 1 + 0 + 1 = <span class="step-result">2</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div><div class="step-title">y(4)</div></div>
+      <div class="step-calc">= x(2)·h(2) + x(3)·h(1) = 3×(−1) + 1×0 = <span class="step-result">−3</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div><div class="step-title">y(5)</div></div>
+      <div class="step-calc">= x(3)·h(2) = 1×(−1) = <span class="step-result">−1</span></div>
+    </div>
+
+    <h3 style="margin-top:14px;">✅ Résultat final</h3>
+    <div class="result-row">
+      <div class="cell result"><span class="val">2</span><span class="idx">y(0)</span></div>
+      <div class="cell result"><span class="val">-1</span><span class="idx">y(1)</span></div>
+      <div class="cell result"><span class="val">1</span><span class="idx">y(2)</span></div>
+      <div class="cell result"><span class="val">2</span><span class="idx">y(3)</span></div>
+      <div class="cell result"><span class="val">-3</span><span class="idx">y(4)</span></div>
+      <div class="cell result"><span class="val">-1</span><span class="idx">y(5)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ EXEMPLE 3 (COURS) ══════════════════ -->
+<div class="example" id="ex2">
+  <div class="card">
+    <h2>🔴 Exemple 3 — Celui du cours</h2>
+    <div class="info-box"><strong>C'est exactement l'exemple vu dans le cours !</strong> On va le détailler encore plus.</div>
+
+    <div class="sequences">
+      <div class="seq-box">
+        <div class="label">x(n) — (Nₓ = 5, commence à n=−1)</div>
+        <div class="values">
+          <div class="cell"><span class="val">-1</span><span class="idx">n=-1</span></div>
+          <div class="cell"><span class="val">1</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">2</span><span class="idx">n=1</span></div>
+          <div class="cell"><span class="val">3</span><span class="idx">n=2</span></div>
+          <div class="cell"><span class="val">3</span><span class="idx">n=3</span></div>
+        </div>
+      </div>
+      <div class="seq-box">
+        <div class="label">h(n) — (Nₕ = 3, commence à n=0)</div>
+        <div class="values">
+          <div class="cell"><span class="val">1</span><span class="idx">n=0</span></div>
+          <div class="cell"><span class="val">-1</span><span class="idx">n=1</span></div>
+          <div class="cell"><span class="val">1</span><span class="idx">n=2</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="size-formula">Taille de y(n) : Nᵧ = 5 + 3 − 1 = <strong>7</strong> — y(n) va de n=−1 à n=5</div>
+
+    <h3>📋 Calcul détaillé</h3>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">−1</div><div class="step-title">y(−1)</div></div>
+      <div class="step-calc">= x(−1)·h(0) = (−1)×1 = <span class="step-result">−1</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">0</div><div class="step-title">y(0)</div></div>
+      <div class="step-calc">= x(−1)·h(1) + x(0)·h(0) = (−1)×(−1) + 1×1 = 1 + 1 = <span class="step-result">2</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div><div class="step-title">y(1)</div></div>
+      <div class="step-calc">= x(−1)·h(2) + x(0)·h(1) + x(1)·h(0)</div>
+      <div class="step-calc">= (−1)×1 + 1×(−1) + 2×1 = −1 −1 + 2 = <span class="step-result">0</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div><div class="step-title">y(2)</div></div>
+      <div class="step-calc">= x(0)·h(2) + x(1)·h(1) + x(2)·h(0)</div>
+      <div class="step-calc">= 1×1 + 2×(−1) + 3×1 = 1 − 2 + 3 = <span class="step-result">2</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div><div class="step-title">y(3)</div></div>
+      <div class="step-calc">= x(1)·h(2) + x(2)·h(1) + x(3)·h(0)</div>
+      <div class="step-calc">= 2×1 + 3×(−1) + 3×1 = 2 − 3 + 3 = <span class="step-result">2</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div><div class="step-title">y(4)</div></div>
+      <div class="step-calc">= x(2)·h(2) + x(3)·h(1) = 3×1 + 3×(−1) = 3 − 3 = <span class="step-result">0</span></div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div><div class="step-title">y(5)</div></div>
+      <div class="step-calc">= x(3)·h(2) = 3×1 = <span class="step-result">3</span></div>
+    </div>
+
+    <h3 style="margin-top:14px;">✅ Résultat final</h3>
+    <div class="result-row">
+      <div class="cell result"><span class="val">-1</span><span class="idx">y(-1)</span></div>
+      <div class="cell result"><span class="val">2</span><span class="idx">y(0)</span></div>
+      <div class="cell result"><span class="val">0</span><span class="idx">y(1)</span></div>
+      <div class="cell result"><span class="val">2</span><span class="idx">y(2)</span></div>
+      <div class="cell result"><span class="val">2</span><span class="idx">y(3)</span></div>
+      <div class="cell result"><span class="val">0</span><span class="idx">y(4)</span></div>
+      <div class="cell result"><span class="val">3</span><span class="idx">y(5)</span></div>
+    </div>
+    <div class="info-box" style="margin-top:12px;">✔️ Même résultat que dans le cours : <strong>{−1, 2, 0, 2, 2, 0, 3}</strong></div>
+  </div>
+</div>
+
+<!-- ══════════════════ MÉTHODE RAPIDE ══════════════════ -->
+<div class="example" id="ex3">
+  <div class="card">
+    <h2>⚡ Méthode Rapide — Tableau de multiplication</h2>
+    <div class="info-box"><strong>Astuce :</strong> comme une multiplication à la main ! On multiplie chaque coefficient de h par toute la séquence x, puis on décale et on additionne.</div>
+
+    <h3>Reprise de l'Exemple 1 : x = {1, 2, 3} et h = {1, 2}</h3>
+
+    <div class="table-method">
+      <table>
+        <tr>
+          <th>Opération</th>
+          <th>pos 0</th>
+          <th>pos 1</th>
+          <th>pos 2</th>
+          <th>pos 3</th>
+        </tr>
+        <tr>
+          <td>x × h(0)=1</td>
+          <td class="pos">1</td>
+          <td class="pos">2</td>
+          <td class="pos">3</td>
+          <td class="zero">0</td>
+        </tr>
+        <tr>
+          <td>x × h(1)=2 (décalé d'1)</td>
+          <td class="zero">0</td>
+          <td class="pos">2</td>
+          <td class="pos">4</td>
+          <td class="pos">6</td>
+        </tr>
+        <tr class="sum-row">
+          <td>y(n) = somme</td>
+          <td>1</td>
+          <td>4</td>
+          <td>7</td>
+          <td>6</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 style="margin-top:20px;">Exemple 2 : x = {2, −1, 3, 1} et h = {1, 0, −1}</h3>
+
+    <div class="table-method">
+      <table>
+        <tr>
+          <th>Opération</th>
+          <th>pos 0</th>
+          <th>pos 1</th>
+          <th>pos 2</th>
+          <th>pos 3</th>
+          <th>pos 4</th>
+          <th>pos 5</th>
+        </tr>
+        <tr>
+          <td>x × h(0)=1</td>
+          <td class="pos">2</td>
+          <td class="neg">-1</td>
+          <td class="pos">3</td>
+          <td class="pos">1</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+        </tr>
+        <tr>
+          <td>x × h(1)=0 (décalé)</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+        </tr>
+        <tr>
+          <td>x × h(2)=−1 (décalé ×2)</td>
+          <td class="zero">0</td>
+          <td class="zero">0</td>
+          <td class="neg">-2</td>
+          <td class="pos">1</td>
+          <td class="neg">-3</td>
+          <td class="neg">-1</td>
+        </tr>
+        <tr class="sum-row">
+          <td>y(n) = somme</td>
+          <td>2</td>
+          <td>-1</td>
+          <td>1</td>
+          <td>2</td>
+          <td>-3</td>
+          <td>-1</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="info-box" style="margin-top:14px;">
+      <strong>Règle du décalage :</strong><br>
+      La ligne correspondant à h(k) est décalée de <strong>k positions vers la droite</strong> avant de sommer.
+    </div>
+
+    <h3 style="margin-top:20px;">📐 Résumé de la méthode en 3 étapes</h3>
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div><div class="step-title">Écrire x(n) en ligne</div></div>
+      <div class="step-calc">Pour chaque coefficient b de h, multiplier toute la séquence x par b</div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div><div class="step-title">Décaler chaque ligne</div></div>
+      <div class="step-calc">La ligne du k-ième coefficient de h est décalée de k colonnes</div>
+    </div>
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div><div class="step-title">Sommer les colonnes</div></div>
+      <div class="step-calc">La somme de chaque colonne donne y(0), y(1), y(2)...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showEx(i) {
+  document.querySelectorAll('.example').forEach((e,j) => e.classList.toggle('active', i===j));
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', i===j));
+}
+</script>
+</body>
+</html>

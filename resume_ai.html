@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Master — Révision Complète USTHB · Prof. Chelali</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080c14;--bg2:#0c1018;--surface:#101520;--card:#141b28;--card2:#1a2235;
+  --border:#1f2d45;--border2:#2a3d5a;
+  --cyan:#00e5ff;--orange:#ff6b35;--violet:#7c3aed;--green:#00c896;--red:#ff4757;--amber:#ffd32a;--pink:#f472b6;--sky:#38bdf8;
+  --text:#e8edf5;--muted:#5a7090;--muted2:#8a9db8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;overflow-x:hidden;font-size:14.5px}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,229,255,0.008) 3px,rgba(0,229,255,0.008) 4px);pointer-events:none;z-index:9999}
+
+/* ─── PROGRESS BAR ─── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet));z-index:10000;width:0%;transition:width .1s}
+
+/* ─── HEADER ─── */
+header{position:sticky;top:0;z-index:500;background:rgba(8,12,20,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.header-wrap{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:20px;height:58px}
+.logo{font-family:'Space Mono',monospace;font-size:13px;color:var(--cyan);letter-spacing:3px;white-space:nowrap;flex-shrink:0}
+.logo em{color:var(--orange);font-style:normal}
+nav{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;flex:1}
+nav::-webkit-scrollbar{height:2px}
+nav a{color:var(--muted);text-decoration:none;font-size:11.5px;font-family:'Space Mono',monospace;padding:5px 11px;border-radius:4px;border:1px solid transparent;transition:all .18s;white-space:nowrap;letter-spacing:.5px}
+nav a:hover,nav a.active{color:var(--cyan);border-color:rgba(0,229,255,.35);background:rgba(0,229,255,.06)}
+.header-badge{background:rgba(255,71,87,.15);border:1px solid rgba(255,71,87,.4);color:#ff8a96;font-size:10.5px;font-family:'Space Mono',monospace;padding:3px 10px;border-radius:20px;white-space:nowrap;animation:blink 2.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:80px 24px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,229,255,.08) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(124,58,237,.07) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px}
+.hero-content{position:relative;max-width:900px}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);color:var(--cyan);font-size:11px;font-family:'Space Mono',monospace;padding:6px 16px;border-radius:20px;margin-bottom:28px;letter-spacing:1px}
+.hero-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,68px);font-weight:800;line-height:1.1;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:16px;color:var(--muted2);max-width:600px;margin:0 auto 40px}
+.hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 28px;text-align:center;min-width:100px}
+.stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--cyan)}
+.stat-lbl{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:2px}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 2s infinite}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ─── MAIN LAYOUT ─── */
+main{max-width:1400px;margin:0 auto;padding:0 24px 80px}
+section{padding:64px 0;border-bottom:1px solid var(--border)}
+
+/* ─── SECTION HEADER ─── */
+.sh{margin-bottom:40px}
+.sh-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:10.5px;color:var(--cyan);background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);padding:3px 12px;border-radius:20px;margin-bottom:12px;letter-spacing:1px}
+.sh-tag.orange{color:var(--orange);background:rgba(255,107,53,.08);border-color:rgba(255,107,53,.2)}
+.sh-tag.violet{color:#a78bfa;background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.2)}
+.sh-tag.green{color:var(--green);background:rgba(0,200,150,.08);border-color:rgba(0,200,150,.2)}
+.sh-tag.amber{color:var(--amber);background:rgba(255,211,42,.08);border-color:rgba(255,211,42,.2)}
+.sh h2{font-family:'Syne',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--text);margin-bottom:10px}
+.sh p{color:var(--muted2);font-size:14.5px;max-width:700px}
+
+/* ─── GRIDS ─── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+@media(min-width:600px) and (max-width:900px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+
+/* ─── CARDS ─── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--border2)}
+.card.glow-cyan:hover{border-color:rgba(0,229,255,.35);box-shadow:0 0 20px rgba(0,229,255,.06)}
+.card.glow-orange:hover{border-color:rgba(255,107,53,.35);box-shadow:0 0 20px rgba(255,107,53,.06)}
+.card.glow-violet:hover{border-color:rgba(124,58,237,.35);box-shadow:0 0 20px rgba(124,58,237,.06)}
+.card.glow-green:hover{border-color:rgba(0,200,150,.35);box-shadow:0 0 20px rgba(0,200,150,.06)}
+.card-icon{font-size:24px;margin-bottom:12px}
+.card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px}
+.card h4{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:7px}
+.card p,.card li{color:var(--muted2);font-size:13.5px;line-height:1.75}
+.card ul{padding-left:16px}
+.card li::marker{color:var(--cyan)}
+
+/* ─── CONCEPT HIGHLIGHT ─── */
+.hl{background:rgba(0,229,255,.05);border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:13.5px;color:var(--muted2)}
+.hl strong,.hl b{color:var(--cyan)}
+.hl.orange{border-color:var(--orange);background:rgba(255,107,53,.05)}
+.hl.orange strong,.hl.orange b{color:var(--orange)}
+.hl.violet{border-color:#a78bfa;background:rgba(124,58,237,.05)}
+.hl.violet strong{color:#a78bfa}
+.hl.green{border-color:var(--green);background:rgba(0,200,150,.05)}
+.hl.green strong{color:var(--green)}
+.hl.amber{border-color:var(--amber);background:rgba(255,211,42,.05)}
+.hl.amber strong{color:var(--amber)}
+.hl.red{border-color:var(--red);background:rgba(255,71,87,.05)}
+.hl.red strong{color:var(--red)}
+
+/* ─── CODE / FORMULA BLOCKS ─── */
+.code{background:#050810;border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-family:'Space Mono',monospace;font-size:12.5px;color:#a8ff78;line-height:1.9;overflow-x:auto;margin:14px 0}
+.code .c{color:#5a7090} /* comment */
+.code .kw{color:#00e5ff} /* keyword */
+.code .fn{color:#ffd32a} /* function */
+.code .str{color:#ff8a96} /* string */
+.code .nb{color:#f472b6} /* number */
+
+/* ─── TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.tbl th{background:rgba(0,229,255,.08);color:var(--cyan);font-family:'Space Mono',monospace;font-size:11px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.tbl td{padding:10px 14px;border-bottom:1px solid rgba(31,45,69,.4);color:var(--muted2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+
+/* ─── STEPS ─── */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:16px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:17px;top:40px;bottom:0;width:1px;background:var(--border)}
+.step-num{width:34px;height:34px;border-radius:50%;background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);color:var(--cyan);font-family:'Space Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px}
+.step-body{padding-bottom:20px;flex:1}
+.step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--text);margin-bottom:5px}
+.step-desc{font-size:13.5px;color:var(--muted2)}
+
+/* ─── BADGE / CHIP ─── */
+.chip{display:inline-block;font-family:'Space Mono',monospace;font-size:10.5px;padding:3px 10px;border-radius:20px;margin:2px}
+.chip-c{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--cyan)}
+.chip-o{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);color:var(--orange)}
+.chip-g{background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.25);color:var(--green)}
+.chip-v{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:#a78bfa}
+.chip-a{background:rgba(255,211,42,.1);border:1px solid rgba(255,211,42,.25);color:var(--amber)}
+.chip-r{background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.25);color:var(--red)}
+
+/* ─── SECTION DIVIDER ─── */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:36px 0}
+
+/* ─── TP SECTION ─── */
+.tp-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.tp-header{display:flex;align-items:center;gap:14px;padding:18px 22px;background:rgba(255,107,53,.06);border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.tp-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--orange);background:rgba(255,107,53,.12);padding:4px 14px;border-radius:20px;flex-shrink:0}
+.tp-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);flex:1}
+.tp-toggle{color:var(--muted);font-size:18px;transition:transform .3s}
+.tp-toggle.open{transform:rotate(90deg)}
+.tp-body{display:none;padding:22px}
+.tp-body.show{display:block}
+
+/* ─── QCM ─── */
+.qblock{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:18px;transition:border-color .2s}
+.qn{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.diff-h{color:var(--red)}
+.diff-m{color:var(--amber)}
+.diff-e{color:var(--green)}
+.qtext{font-size:14px;color:var(--text);font-weight:500;margin-bottom:16px;line-height:1.65}
+.opt{display:block;background:rgba(20,27,40,.8);border:1px solid var(--border);border-radius:9px;padding:11px 16px;margin:6px 0;cursor:pointer;font-size:13.5px;color:var(--muted2);transition:all .15s;text-align:left;width:100%;font-family:inherit}
+.opt:hover{border-color:var(--cyan);color:var(--text);background:rgba(0,229,255,.04)}
+.opt.correct{background:rgba(0,200,150,.1);border-color:var(--green);color:#6ee7b7}
+.opt.wrong{background:rgba(255,71,87,.08);border-color:var(--red);color:#fca5a5}
+.opt.reveal{background:rgba(0,200,150,.1);border-color:var(--green);color:#6ee7b7}
+.expl{display:none;background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);border-radius:9px;padding:14px;margin-top:12px;font-size:13px;color:var(--sky);line-height:1.75}
+.expl.show{display:block}
+
+/* ─── EXERCICE ─── */
+.exo{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:22px}
+.exo-hd{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.exo-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--amber);background:rgba(255,211,42,.1);border:1px solid rgba(255,211,42,.25);padding:3px 12px;border-radius:20px}
+.exo-ttl{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
+.exo-type{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);margin-left:auto}
+.exo-body{font-size:13.5px;color:var(--muted2)}
+.exo-body ol{counter-reset:ol;padding-left:0;margin:12px 0}
+.exo-body ol li{counter-increment:ol;list-style:none;padding:9px 0 9px 38px;position:relative;border-bottom:1px solid rgba(31,45,69,.3)}
+.exo-body ol li::before{content:counter(ol);position:absolute;left:0;width:26px;height:26px;background:rgba(0,229,255,.1);color:var(--cyan);border-radius:50%;font-size:11px;font-family:'Space Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;top:11px}
+.sol-btn{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:11.5px;font-family:'Space Mono',monospace;padding:6px 14px;border-radius:7px;margin-top:14px;transition:all .2s}
+.sol-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.sol-panel{display:none;background:rgba(0,200,150,.04);border:1px solid rgba(0,200,150,.2);border-radius:9px;padding:16px;margin-top:12px;font-size:13px;color:#86efac;line-height:1.85}
+.sol-panel.show{display:block}
+
+/* ─── FORMULE CHEATSHEET ─── */
+.fml-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.fml{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.fml h4{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:10px}
+.fml-code{background:#050810;border-radius:7px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:11.5px;color:#a8ff78;line-height:1.9;overflow-x:auto}
+
+/* ─── PYTHON CHEATSHEET ─── */
+.py-block{background:#050810;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.py-header{background:rgba(168,255,120,.05);border-bottom:1px solid var(--border);padding:10px 16px;font-family:'Space Mono',monospace;font-size:11px;color:#a8ff78;display:flex;align-items:center;gap:8px}
+.py-header::before{content:'●';color:var(--red)}.py-header::after{content:'  python'}
+.py-content{padding:16px;font-family:'Space Mono',monospace;font-size:12px;color:#e2e8f0;line-height:1.9}
+.py-content .c{color:#5a7090}
+.py-content .kw{color:var(--cyan)}
+.py-content .fn{color:var(--amber)}
+.py-content .st{color:#ff8a96}
+.py-content .nb{color:var(--pink)}
+.py-content .cm{color:#5a7090;font-style:italic}
+
+/* ─── SCORE TRACKER ─── */
+.score-bar-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.score-label{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted2)}
+.score-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--cyan)}
+.score-prog{flex:1;min-width:150px;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.score-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .4s}
+
+/* ─── COMPARISON CARD ─── */
+.cmp{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:14px 0}
+.cmp-hd{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
+.cmp-hd div{padding:12px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-align:center;border-right:1px solid var(--border)}
+.cmp-hd div:last-child{border-right:none}
+.cmp-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(31,45,69,.3)}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row div{padding:10px 18px;font-size:13px;color:var(--muted2);border-right:1px solid rgba(31,45,69,.3)}
+.cmp-row div:last-child{border-right:none}
+.cmp-row div:first-child{color:var(--cyan)}
+
+/* ─── TIMELINE ─── */
+.timeline{position:relative;padding-left:32px;margin:16px 0}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-dot{position:absolute;left:-26px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--cyan);border:2px solid var(--bg)}
+.tl-date{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--cyan);margin-bottom:3px}
+.tl-title{font-weight:600;color:var(--text);font-size:13.5px;margin-bottom:2px}
+.tl-desc{font-size:13px;color:var(--muted2)}
+
+/* ─── WARN / INFO ─── */
+.warn{background:rgba(255,211,42,.06);border:1px solid rgba(255,211,42,.25);border-radius:9px;padding:12px 16px;margin:12px 0;font-size:13px;color:#fde68a}
+.warn::before{content:'⚠ '}
+.info{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.25);border-radius:9px;padding:12px 16px;margin:12px 0;font-size:13px;color:#bae6fd}
+.info::before{content:'ℹ '}
+
+/* ─── ANIMATIONS ─── */
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+h3.sh3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--text);margin:28px 0 14px;display:flex;align-items:center;gap:8px}
+h3.sh3::after{content:'';flex:1;height:1px;background:var(--border);margin-left:8px}
+
+/* nav section indicator */
+.nav-section{font-size:10px;font-family:'Space Mono',monospace;color:var(--muted);padding:0 8px;align-self:center}
+
+/* ─── SEARCH BAR ─── */
+.search-wrap{position:sticky;top:58px;z-index:400;background:rgba(8,12,20,.97);border-bottom:1px solid var(--border);padding:10px 24px}
+.search-inner{max-width:1400px;margin:0 auto;position:relative}
+.search-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px 8px 36px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:rgba(0,229,255,.4)}
+.search-input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+.search-count{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:'Space Mono',monospace;font-size:10px;color:var(--cyan)}
+.highlight-search{background:rgba(255,211,42,.2);border-radius:2px;color:var(--amber)}
+
+/* ─── FLOATING BACK TO TOP ─── */
+#back-top{position:fixed;bottom:28px;right:28px;width:40px;height:40px;background:var(--card);border:1px solid var(--border);border-radius:50%;color:var(--cyan);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:900;opacity:0;transition:opacity .3s,border-color .2s;font-family:'Space Mono',monospace}
+#back-top:hover{border-color:var(--cyan)}
+#back-top.visible{opacity:1}
+
+/* ─── KOHONEN SPECIFIC ─── */
+.bmu-highlight{background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.4);border-radius:6px;padding:3px 8px;color:var(--cyan);font-family:'Space Mono',monospace;font-size:12px;font-weight:700}
+</style>
+</head>
+<body>
+<div id="reading-progress"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-wrap">
+    <div class="logo">IA·<em>USTHB</em></div>
+    <nav id="main-nav">
+      <a href="#hero" class="active">🏠 Accueil</a>
+      <a href="#ch1">📖 CH1·RF</a>
+      <a href="#ch2">📏 CH2·Class.</a>
+      <a href="#ch3">⚡ CH3·SVM</a>
+      <a href="#ch4">🔄 CH4·MLP</a>
+      <a href="#ch5">🖼 CH5·CNN</a>
+      <a href="#ch6">🔁 CH6·RNN</a>
+      <a href="#kohonen">🗺️ Kohonen·EXO</a>
+      <a href="#tp">🧪 TPs</a>
+      <a href="#tp-notions">💡 Notions·TPs</a>
+      <a href="#qcm1">🎯 QCM·1</a>
+      <a href="#qcm2">🎯 QCM·2</a>
+      <a href="#exos">🔬 Exercices</a>
+      <a href="#cheatsheet">📐 Formules</a>
+    </nav>
+    <span class="header-badge">EXAMEN DIFFICILE</span>
+  </div>
+</header>
+      <a href="#exos">🔬 Exercices</a>
+      <a href="#cheatsheet">📐 Formules</a>
+    </nav>
+    <span class="header-badge">EXAMEN DIFFICILE</span>
+  </div>
+</header>
+
+<!-- SEARCH BAR -->
+<div class="search-wrap" id="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="search-input" type="text" placeholder="Rechercher dans la révision... (ex: backprop, kohonen, overfitting)" oninput="doSearch(this.value)">
+    <span class="search-count" id="search-count"></span>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<div id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-chip">USTHB · Master 1 Systèmes des Télécommunications · 2024–2025</div>
+    <h1>Révision <span>Intelligence Artificielle</span><br>— Tout en un lieu —</h1>
+    <p>Résumé ultra-complet · Cours + TPs · QCM difficile · Exercices corrigés · Formules clés<br>Basé sur les cours de <strong>Prof. Fatma Zohra Chelali</strong></p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Chapitres</div></div>
+      <div class="stat"><div class="stat-num">4+</div><div class="stat-lbl">TPs Enrichis</div></div>
+      <div class="stat"><div class="stat-num">22</div><div class="stat-lbl">QCM</div></div>
+      <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Exercices</div></div>
+      <div class="stat"><div class="stat-num">+EXO</div><div class="stat-lbl">Kohonen</div></div><div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">Réussite</div></div>
+    </div>
+  </div>
+  <div class="hero-scroll">▼ SCROLL</div>
+</section>
+
+<main>
+
+<!-- ════════════════════════════════════════ CHAPITRE 1 ════════════════════════════════════════ -->
+<section id="ch1">
+  <div class="sh fade-in">
+    <div class="sh-tag">CHAPITRE 1 · PARTIE 1 & 2</div>
+    <h2>Reconnaissance des Formes (RF)</h2>
+    <p>Objectif : concevoir des méthodes de représentation et classification pour des signaux de toute nature — Images, Sons, Signaux biologiques, radar, sismique.</p>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 Définitions Fondamentales</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-cyan">
+      <div class="card-icon">🎯</div>
+      <h3>Définition de la RF</h3>
+      <p>Associer une <strong style="color:var(--cyan)">étiquette</strong> (classe) à une donnée (image, signal, son). Des données différentes peuvent recevoir la même étiquette si elles appartiennent à la même classe.</p>
+      <div class="hl">Ex: le son /a/ prononcé par différents locuteurs → signaux différents mais même classe /a/</div>
+    </div>
+    <div class="card glow-orange">
+      <div class="card-icon">🧬</div>
+      <h3>Forme = objet pouvant être :</h3>
+      <ul>
+        <li>Numérisé et classifié</li>
+        <li>Décrit par des caractéristiques mesurables</li>
+        <li>Traité par des méthodes statistiques ou structurelles</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">⚠️ Variabilité — Point Crucial à l'Examen</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-violet">
+      <h4>🧑 Variabilité Intra-personnelle (même personne)</h4>
+      <ul>
+        <li>Effet du <strong style="color:#a78bfa">bruit</strong> (capteur, environnement)</li>
+        <li>Effet de <strong style="color:#a78bfa">l'âge</strong></li>
+        <li>Influence du <strong style="color:#a78bfa">contexte</strong></li>
+        <li>Continuité / <strong style="color:#a78bfa">coarticulation</strong> (parole)</li>
+        <li>Débit d'élocution, état physique / psychologique (nervosité)</li>
+      </ul>
+    </div>
+    <div class="card glow-orange">
+      <h4>👥 Variabilité Extra-personnelle (entre personnes)</h4>
+      <ul>
+        <li>Différences <strong style="color:var(--orange)">physiologiques</strong></li>
+        <li>Différences de <strong style="color:var(--orange)">prononciation</strong> (accents régionaux, dialectes)</li>
+        <li>Débit d'élocution différent</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🗺️ Applications de la RF</h3>
+  <div class="g3 fade-in">
+    <div class="card"><div class="card-icon">🤖</div><h4>Robotique / Industrie</h4><p>Assemblage, contrôle qualité, véhicule autonome</p></div>
+    <div class="card"><div class="card-icon">🛡️</div><h4>Sécurité / Biométrie</h4><p>Empreintes, visage, iris, signature, parole</p></div>
+    <div class="card"><div class="card-icon">📄</div><h4>Bureautique</h4><p>OCR, analyse de documents, reconnaissance parole</p></div>
+    <div class="card"><div class="card-icon">🛰️</div><h4>Télédétection</h4><p>Météo, cartographie, pollution, ressources</p></div>
+    <div class="card"><div class="card-icon">⚕️</div><h4>Médical</h4><p>Séquences ADN, imagerie médicale, signaux</p></div>
+    <div class="card"><div class="card-icon">⚔️</div><h4>Militaire</h4><p>Guidage missiles, reconnaissance aérienne, drones</p></div>
+  </div>
+
+  <h3 class="sh3 fade-in">⚙️ Les 6 Étapes d'un Système de RF</h3>
+  <div class="steps fade-in">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Numérisation</div><div class="step-desc">Représentation manipulable par machine (pixels pour images, échantillons pour sons)</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Prétraitement</div><div class="step-desc">Filtrage bruit, normalisation, re-échantillonnage, amélioration des contrastes, extraction de contours/squelettes</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Calcul des représentations / Extraction de caractéristiques</div><div class="step-desc">Construire des descripteurs (vecteur de features). Réduire la dimension du problème.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Apprentissage</div><div class="step-desc">À partir d'exemplaires étiquetés, construire une représentation des classes (supervisé) ou découvrir des groupements (non supervisé)</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Analyse / Décision</div><div class="step-desc">Assigner une forme inconnue à une classe. Discrimination (choisir parmi N classes) ou Caractérisation (décider si appartient à 1 classe)</div></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Post-traitement</div><div class="step-desc">Valider les décisions sur la base de connaissance du domaine. Rejet si confiance trop faible.</div></div></div>
+  </div>
+
+  <h3 class="sh3 fade-in">📦 Les 3 Grandes Approches</h3>
+  <div class="g3 fade-in">
+    <div class="card glow-cyan">
+      <div class="card-icon">📊</div>
+      <h3>Approche Statistique</h3>
+      <p>La forme = vecteur dans ℝⁿ. Utilise les probabilités et distances.</p>
+      <div class="hl" style="margin-top:10px"><strong>Supervisé :</strong> Bayes, KNN, LDA, Perceptron<br><strong>Non supervisé :</strong> Kohonen, CAH, K-means</div>
+      <div class="hl">Réduction dim : ACP / Fisher (LDA)</div>
+    </div>
+    <div class="card glow-orange">
+      <div class="card-icon">🌳</div>
+      <h3>Approche Syntaxique / Structurelle</h3>
+      <p>La forme = composition hiérarchique de <strong style="color:var(--orange)">primitives</strong>. Décision par grammaire ou graphe.</p>
+      <div class="hl orange">Utilisée pour objets complexes (visages, empreintes, caractères chinois). Description plutôt que classification.</div>
+    </div>
+    <div class="card glow-violet">
+      <div class="card-icon">🧠</div>
+      <h3>Approche Connexionniste</h3>
+      <p>Réseaux de neurones artificiels. Capable d'apprendre des frontières non-linéaires.</p>
+      <div class="hl violet"><strong>Perceptron → MLP → CNN → RNN/LSTM</strong><br>Depuis les années 1980</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🔑 Caractéristique vs Primitive</h3>
+  <div class="g2 fade-in">
+    <div class="hl"><strong>Caractéristique (descripteur) :</strong> information mesurable sur la donnée. Ex: amplitude moyenne d'un signal, énergie d'une bande de fréquence, rapport hauteur/largeur d'un caractère, niveau de gris moyen.</div>
+    <div class="hl orange"><strong>Primitive :</strong> composante élémentaire non décomposable d'une forme. Ex: segment de droite, boucle, arc.</div>
+  </div>
+
+  <div class="warn fade-in"><strong>Malédiction de la dimensionnalité :</strong> ajouter trop de caractéristiques dégrade les performances (manque de données pour couvrir l'espace). Solution → réduction de dimension (ACP, LDA).</div>
+
+  <h3 class="sh3 fade-in">📐 Descripteurs d'Images</h3>
+  <div class="g2 fade-in">
+    <div class="card">
+      <h4>Descripteurs Topologiques</h4>
+      <p>Non affectés par les déformations (rotation, translation, homothétie).</p>
+      <ul><li>Nombre de <strong>trous</strong> dans une surface homogène</li><li>Nombre de <strong>composants connexes</strong></li></ul>
+    </div>
+    <div class="card">
+      <h4>Descripteurs Géométriques</h4>
+      <div class="fml-code">Élongation  = L_grand_axe / L_petit_axe
+Compacité   = P² / A  (périmètre²/aire)
+Moment(p,q) = Σᵢ Σⱼ xᵢᵖ · yⱼq · f(i,j)
+              f(i,j) = niveau de gris pixel</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHAPITRE 2 ════════════════════════════════════════ -->
+<section id="ch2">
+  <div class="sh fade-in">
+    <div class="sh-tag orange">CHAPITRE 2 · CLASSIFICATION</div>
+    <h2>Classifieurs & Méthodes d'Apprentissage</h2>
+    <p>KNN, Décision Bayésienne, CAH, ACP/LDA, Confusion Matrix — tout ce qui peut tomber à l'examen.</p>
+  </div>
+
+  <h3 class="sh3 fade-in">🔵 Types d'Apprentissage</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-cyan">
+      <h4>✅ Supervisé (avec "professeur")</h4>
+      <p>On connaît la classe de chaque échantillon d'apprentissage. Le système apprend à reconnaître des patterns connus.</p>
+      <div style="margin-top:10px"><span class="chip chip-c">KNN</span><span class="chip chip-c">SVM</span><span class="chip chip-c">Bayes</span><span class="chip chip-c">LDA</span><span class="chip chip-c">MLP</span></div>
+    </div>
+    <div class="card glow-orange">
+      <h4>🔄 Non Supervisé (sans "professeur")</h4>
+      <p>On ne connaît pas les classes. Le système découvre la structure naturelle des données.</p>
+      <div style="margin-top:10px"><span class="chip chip-o">Kohonen</span><span class="chip chip-o">CAH</span><span class="chip chip-o">K-means</span></div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📏 Classifieur K Plus Proches Voisins (K-NN)</h3>
+  <div class="card fade-in glow-cyan">
+    <div class="g2">
+      <div>
+        <h4>Principe</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Calculer les distances</div><div class="step-desc">D(X, Pᵢ) pour tous les prototypes</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Sélectionner les K plus proches</div><div class="step-desc">Trier par distance croissante</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Vote majoritaire</div><div class="step-desc">Affecter X à la classe la plus représentée parmi les K voisins</div></div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Distances disponibles</h4>
+        <div class="fml-code">Euclidienne : √Σ(xₖ - rₖᵢ)²
+City Block  : Σ|xₖ - rₖᵢ|
+Tchebycheff : max|xₖ - rₖᵢ|
+Mahalanobis : √((x-μ)ᵀ Σ⁻¹ (x-μ))</div>
+        <div class="hl" style="margin-top:12px"><strong>Effet de K :</strong> K=1 → frontière complexe, overfit. K grand → frontière lisse, linéarisée, underfit possible. La frontière de décision se <strong>linéarise avec K croissant</strong>.</div>
+      </div>
+    </div>
+    <div class="warn">K=1 → prédit correctement presque tous les échantillons d'entraînement (mais généralisation faible). Choisir K par cross-validation.</div>
+  </div>
+
+  <h3 class="sh3 fade-in">🎲 Décision Bayésienne</h3>
+  <div class="card fade-in glow-violet">
+    <div class="g2">
+      <div>
+        <div class="hl violet"><strong>Règle de Bayes :</strong> affecter x à la classe wᵢ qui maximise P(wᵢ/x)</div>
+        <div class="fml-code">P(wᵢ/x) = P(x/wᵢ) × P(wᵢ) / P(x)
+
+P(x) = Σⱼ P(x/wⱼ) × P(wⱼ)
+
+DÉCISION : choisir W₁ si
+P(x/w₁) × P(w₁) > P(x/w₂) × P(w₂)</div>
+        <div class="info"><strong>Astuce exam :</strong> P(x) est identique pour toutes les classes → on compare directement P(x/wᵢ)×P(wᵢ) sans calculer P(x).</div>
+      </div>
+      <div>
+        <h4>Interprétation</h4>
+        <ul>
+          <li><strong style="color:#a78bfa">P(wᵢ)</strong> = probabilité à priori de la classe (connue avant observation)</li>
+          <li><strong style="color:#a78bfa">P(x/wᵢ)</strong> = vraisemblance (densité de probabilité de x sachant wᵢ)</li>
+          <li><strong style="color:#a78bfa">P(wᵢ/x)</strong> = probabilité à posteriori (ce qu'on cherche)</li>
+        </ul>
+        <div class="hl violet" style="margin-top:12px">Pour classe gaussienne : p(x/wᵢ) = (1/σ√2π) × exp(-(x-μᵢ)²/2σᵢ²)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📈 ACP vs LDA — Comparatif</h3>
+  <div class="cmp fade-in">
+    <div class="cmp-hd"><div style="color:var(--cyan)">ACP (PCA / Eigenfaces)</div><div style="color:var(--orange)">LDA / ADL (Fisherfaces)</div></div>
+    <div class="cmp-row"><div>Maximise variance totale</div><div>Maximise rapport inter/intra classe</div></div>
+    <div class="cmp-row"><div>Optimal pour représentation/compression</div><div>Optimal pour discrimination entre classes</div></div>
+    <div class="cmp-row"><div>Sensible à l'illumination</div><div>Robuste aux changements d'illumination</div></div>
+    <div class="cmp-row"><div>Peut dépasser LDA sur petite base</div><div>Meilleur sur grande base d'apprentissage</div></div>
+    <div class="cmp-row"><div>Pas de distinction intra/inter classe</div><div>Code l'information discriminatoire</div></div>
+  </div>
+  <div class="hl amber fade-in"><strong>Règle Moghaddam :</strong> ACP &gt; LDA pour petite base. Martinez &amp; Kak confirment : ACP sensible aux données d'apprentissage. Wang : LDA classe directement avec bonne discrimination.</div>
+
+  <h3 class="sh3 fade-in">🌲 Classification Ascendante Hiérarchique (CAH)</h3>
+  <div class="card fade-in glow-green">
+    <div class="g2">
+      <div>
+        <div class="steps">
+          <div class="step"><div class="step-num">0</div><div class="step-body"><div class="step-title">Étape 0</div><div class="step-desc">n éléments = n clusters individuels</div></div></div>
+          <div class="step"><div class="step-num">i</div><div class="step-body"><div class="step-title">Trouver les 2 plus proches</div><div class="step-desc">Agréger en un seul cluster</div></div></div>
+          <div class="step"><div class="step-num">↻</div><div class="step-body"><div class="step-title">Recalculer distances</div><div class="step-desc">Répéter jusqu'à 1 seul cluster</div></div></div>
+        </div>
+      </div>
+      <div>
+        <h4>Résultat : Dendrogramme</h4>
+        <p>Arbre binaire hiérarchique. Les feuilles = éléments. Les nœuds = fusions. La hauteur = distance de fusion. On "coupe" à une certaine hauteur pour obtenir k clusters.</p>
+        <div class="fml-code">MATLAB : Y = pdist(X)
+         Z = linkage(Y)
+         dendrogram(Z)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📊 Confusion Matrix & Métriques — OBLIGATOIRE</h3>
+  <div class="card fade-in">
+    <div class="g2">
+      <div>
+        <table class="tbl">
+          <tr><th></th><th>Prédit +</th><th>Prédit −</th></tr>
+          <tr><td><strong style="color:var(--green)">Réel +</strong></td><td style="color:#6ee7b7;font-weight:600">TP</td><td style="color:#fca5a5">FN (Type II)</td></tr>
+          <tr><td><strong style="color:var(--red)">Réel −</strong></td><td style="color:#fca5a5">FP (Type I)</td><td style="color:#6ee7b7;font-weight:600">TN</td></tr>
+        </table>
+        <div class="hl red"><strong>FP = Erreur Type I</strong> (fausse alarme)<br><strong>FN = Erreur Type II</strong> (détection manquée) — souvent plus grave en médecine</div>
+      </div>
+      <div>
+        <div class="fml-code">Accuracy  = (TP+TN) / (TP+TN+FP+FN)
+Precision = TP / (TP+FP)
+Recall    = TP / (TP+FN)   ← Sensibilité
+F1 Score  = 2×(P×R)/(P+R)
+
+Spécificité = TN/(TN+FP)</div>
+        <div class="info"><strong>F1 Score :</strong> utile quand les classes sont déséquilibrées (imbalanced dataset). Équilibre Precision et Recall.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHAPITRE 3 SVM ════════════════════════════════════════ -->
+<section id="ch3">
+  <div class="sh fade-in">
+    <div class="sh-tag violet">CHAPITRE 3 · SVM</div>
+    <h2>Support Vector Machines</h2>
+    <p>Introduit par Vapnik, Boser, Guyon (1992) — naissance officielle 1995. Principe : hyperplan optimal maximisant la marge.</p>
+  </div>
+
+  <div class="g2 fade-in">
+    <div class="card glow-violet">
+      <h4>Principe Fondamental</h4>
+      <div class="hl violet">Trouver l'hyperplan H qui sépare les 2 classes avec la <strong>marge maximale</strong>. Seuls les <strong>Vecteurs de Support</strong> (points sur H₁ ou H₂) définissent cet hyperplan.</div>
+      <div class="fml-code">H  : ⟨w,x⟩ + b₀ = 0  (hyperplan optimal)
+H₁ : ⟨w,x⟩ + b₀ = +1 (classe +1)
+H₂ : ⟨w,x⟩ + b₀ = -1 (classe -1)
+
+Marge totale = 2/‖w‖
+Objectif : min ½‖w‖²
+s.c. yᵢ(⟨w,xᵢ⟩+b₀) ≥ 1</div>
+    </div>
+    <div class="card glow-orange">
+      <h4>Cas Non-linéairement Séparable (Soft Margin)</h4>
+      <div class="fml-code">min  ½‖w‖² + C·Σεᵢ
+s.c. yᵢ(⟨w,xᵢ⟩+b₀) ≥ 1 − εᵢ
+     εᵢ ≥ 0</div>
+      <div class="hl orange"><strong>C grand</strong> → marge étroite, peu d'erreurs → overfitting<br><strong>C petit</strong> → marge large, + tolérant → underfitting</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🔮 Fonctions Noyaux (Kernels)</h3>
+  <div class="card fade-in">
+    <table class="tbl">
+      <tr><th>Noyau</th><th>Formule</th><th>Usage</th><th>Paramètre</th></tr>
+      <tr><td>Linéaire</td><td class="fml-code" style="padding:4px 8px">k(x,y) = ⟨x,y⟩</td><td>Données linéairement séparables</td><td>C</td></tr>
+      <tr><td>Polynomial</td><td class="fml-code" style="padding:4px 8px">k(x,y) = (⟨x,y⟩+1)ᵖ</td><td>Relations polynomiales</td><td>C, p</td></tr>
+      <tr><td style="color:var(--cyan)"><strong>RBF Gaussien ★</strong></td><td class="fml-code" style="padding:4px 8px">k(x,y) = exp(-‖x-y‖²/2σ²)</td><td>Le plus utilisé (non-linéaire)</td><td>C, σ/γ</td></tr>
+      <tr><td>Laplace RBF</td><td class="fml-code" style="padding:4px 8px">k(x,y) = exp(-‖x-y‖)</td><td>Similaire Gaussien</td><td>C</td></tr>
+      <tr><td>Tanh</td><td class="fml-code" style="padding:4px 8px">k(x,y) = tanh(A+B⟨x,y⟩)</td><td>Type réseau neuronal</td><td>A, B</td></tr>
+    </table>
+    <div class="warn">L'idée du "kernel trick" : calculer k(x,y)=⟨φ(x),φ(y)⟩ SANS calculer φ explicitement → espace de dimension infinie possible (RBF).</div>
+  </div>
+
+  <h3 class="sh3 fade-in">🎛️ Effet des Hyperparamètres</h3>
+  <div class="g2 fade-in">
+    <div class="card"><h4>Effet de C</h4>
+      <table class="tbl"><tr><th>C petit</th><th>C grand</th></tr>
+      <tr><td>Marge large</td><td>Marge étroite</td></tr>
+      <tr><td>Tolérant aux erreurs</td><td>Cherche à classer parfaitement</td></tr>
+      <tr><td>Risque underfitting</td><td>Risque overfitting</td></tr></table>
+    </div>
+    <div class="card"><h4>Effet de γ (gamma) — noyau RBF</h4>
+      <table class="tbl"><tr><th>γ petit</th><th>γ grand</th></tr>
+      <tr><td>Frontière lisse</td><td>Frontière très ondulée</td></tr>
+      <tr><td>Influence globale</td><td>Influence locale forte</td></tr>
+      <tr><td>Modèle simple</td><td>Risque overfitting</td></tr></table>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🏆 SVM Multi-classes</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-cyan"><h4>Un-contre-Un (OvO)</h4><p>N(N-1)/2 classifieurs binaires (un par paire de classes). Décision par <strong style="color:var(--cyan)">vote majoritaire</strong>.<br>Pour N=4 → 6 classifieurs.</p></div>
+    <div class="card glow-orange"><h4>Un-contre-Tous (OvA)</h4><p>N classifieurs (classe k vs toutes les autres). Décision par <strong style="color:var(--orange)">maximum de la fonction de décision</strong>.<br>Pour N=4 → 4 classifieurs.</p></div>
+  </div>
+
+  <h3 class="sh3 fade-in">🐍 Code Python SVM (à connaître pour le TP)</h3>
+  <div class="py-block fade-in">
+    <div class="py-header">SVM_classification.py</div>
+    <div class="py-content">
+<span class="kw">from</span> sklearn.svm <span class="kw">import</span> SVC
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split, cross_val_score
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score, confusion_matrix, classification_report
+<span class="kw">from</span> sklearn <span class="kw">import</span> datasets
+
+<span class="cm"># 1. Charger les données</span>
+iris = datasets.load_iris()
+X, y = iris.data, iris.target
+
+<span class="cm"># 2. Split train/test</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nb">0.3</span>, random_state=<span class="nb">42</span>)
+
+<span class="cm"># 3. Normalisation (IMPORTANT pour SVM !)</span>
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="cm"># 4. Modèle SVM avec noyau RBF</span>
+model = SVC(kernel=<span class="st">'rbf'</span>, C=<span class="nb">1.0</span>, gamma=<span class="st">'scale'</span>)
+model.fit(X_train, y_train)
+
+<span class="cm"># 5. Évaluation</span>
+y_pred = model.predict(X_test)
+<span class="fn">print</span>(<span class="st">"Accuracy :"</span>, accuracy_score(y_test, y_pred))
+<span class="fn">print</span>(confusion_matrix(y_test, y_pred))
+<span class="fn">print</span>(classification_report(y_test, y_pred))
+
+<span class="cm"># 6. Comparer différents kernels</span>
+<span class="kw">for</span> kernel <span class="kw">in</span> [<span class="st">'linear'</span>, <span class="st">'poly'</span>, <span class="st">'rbf'</span>, <span class="st">'sigmoid'</span>]:
+    m = SVC(kernel=kernel).fit(X_train, y_train)
+    acc = accuracy_score(y_test, m.predict(X_test))
+    <span class="fn">print</span>(<span class="fn">f</span><span class="st">"{kernel}: {acc:.4f}"</span>)
+
+<span class="cm"># 7. Cross-validation</span>
+scores = cross_val_score(SVC(kernel=<span class="st">'rbf'</span>), X, y, cv=<span class="nb">5</span>)
+<span class="fn">print</span>(<span class="st">"CV mean:"</span>, scores.mean())
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHAPITRE 4 MLP ════════════════════════════════════════ -->
+<section id="ch4">
+  <div class="sh fade-in">
+    <div class="sh-tag green">CHAPITRE 4 · RÉSEAUX DE NEURONES MLP</div>
+    <h2>Multi-Layer Perceptron & Rétropropagation</h2>
+    <p>Architecture, fonctions d'activation, backpropagation, overfitting/underfitting, régularisation.</p>
+  </div>
+
+  <h3 class="sh3 fade-in">🏗️ Architecture MLP</h3>
+  <div class="card fade-in glow-green">
+    <div class="g2">
+      <div>
+        <div class="hl green"><strong>Neurone artificiel :</strong> output = activation(Σwᵢxᵢ + bias)<br>Le poids w contrôle la pente. Le biais b décale la fonction.</div>
+        <div class="hl green"><strong>Couche d'entrée</strong> → couches cachées → <strong>couche de sortie</strong><br>Réseau devient "profond" avec ≥ 2 couches cachées.</div>
+        <div class="warn">Sans fonctions d'activation non-linéaires, la composition de couches linéaires reste linéaire → inutile d'empiler des couches !</div>
+      </div>
+      <div>
+        <h4>Représentation matricielle</h4>
+        <div class="fml-code">Entrée : X = [x₁, x₂, ..., xₙ]ᵀ
+Sortie neurone j :
+  vⱼ = Σᵢ wⱼᵢ · yᵢ  (somme pondérée)
+  yⱼ = φ(vⱼ)         (activation)
+
+MLP 3 couches : y = φ₃(W₃·φ₂(W₂·φ₁(W₁x+b₁)+b₂)+b₃)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">⚡ Fonctions d'Activation — Comparatif Complet</h3>
+  <div class="g2 fade-in">
+    <table class="tbl">
+      <tr><th>Fonction</th><th>Formule</th><th>Plage</th><th>Avantages</th><th>Inconvénients</th></tr>
+      <tr><td><strong>Sigmoïde</strong></td><td class="fml-code" style="padding:3px 8px">1/(1+e⁻ˣ)</td><td>(0,1)</td><td>Probabilités, lisse, différentiable</td><td>Vanishing gradient, non centré en 0</td></tr>
+      <tr><td><strong>Tanh</strong></td><td class="fml-code" style="padding:3px 8px">(eˣ-e⁻ˣ)/(eˣ+e⁻ˣ)</td><td>(-1,1)</td><td>Centré en 0, gradients plus forts</td><td>Vanishing gradient</td></tr>
+      <tr><td><strong style="color:var(--cyan)">ReLU ★</strong></td><td class="fml-code" style="padding:3px 8px">max(0,x)</td><td>[0,+∞)</td><td>Simple, rapide, pas de saturation+</td><td>Dying ReLU (x&lt;0 → gradient=0)</td></tr>
+      <tr><td><strong>Leaky ReLU</strong></td><td class="fml-code" style="padding:3px 8px">max(αx,x) α≈0.01</td><td>(-∞,+∞)</td><td>Résout dying ReLU</td><td>α hyperparamètre supplémentaire</td></tr>
+      <tr><td><strong>Softmax</strong></td><td class="fml-code" style="padding:3px 8px">eˣⁱ/Σeˣʲ</td><td>(0,1) Σ=1</td><td>Multi-classes, probabilités</td><td>Couche de sortie seulement</td></tr>
+    </table>
+  </div>
+  <div class="hl amber fade-in"><strong>Règle pratique :</strong> Couches cachées → <strong>ReLU / Leaky ReLU</strong>. Sortie binaire → <strong>Sigmoïde</strong>. Sortie multi-classes → <strong>Softmax</strong>.</div>
+
+  <h3 class="sh3 fade-in">🔄 Algorithme de Rétropropagation</h3>
+  <div class="card fade-in glow-violet">
+    <div class="g2">
+      <div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Initialisation</div><div class="step-desc">Poids aléatoires ∈ [-0.5, 0.5]. Normaliser les données.</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Propagation avant</div><div class="step-desc">Calculer les sorties couche par couche de l'entrée vers la sortie.</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Calcul de l'erreur</div><div class="step-desc">eⱼ(n) = dⱼ(n) - yⱼ(n) pour chaque neurone de sortie</div></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Rétropropagation</div><div class="step-desc">Propager l'erreur de la sortie vers l'entrée. Calculer δ pour chaque neurone.</div></div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Mise à jour des poids</div><div class="step-desc">Δwⱼᵢ = η·δⱼ·yᵢ. Répéter jusqu'à EQM &lt; seuil.</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="fml-code"><span class="c"># Règle Delta</span>
+Erreur    : eⱼ(n) = dⱼ(n) - yⱼ(n)
+
+δⱼ sortie : eⱼ·yⱼ·(1-yⱼ)
+
+δⱼ caché  : yⱼ·(1-yⱼ)·Σₖ δₖ·wₖⱼ
+
+Δwⱼᵢ = η · δⱼ · yᵢ
+
+<span class="c"># Règle Delta Généralisée (momentum)</span>
+Δwⱼᵢ(n) = η·δⱼ·yᵢ + μ·Δwⱼᵢ(n-1)
+ η ∈ (0,1) = learning rate
+ μ ∈ (0,1) = momentum (inertie)</div>
+        <div class="hl violet"><strong>Momentum μ :</strong> améliore la convergence, évite les minima locaux. Représente une inertie dans le changement de poids.</div>
+        <div class="hl red"><strong>Vanishing Gradient :</strong> sigmoïde/tanh saturent → gradient ≈ 0 → couches profondes n'apprennent plus. Fix : <strong>ReLU</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🎯 Overfitting / Underfitting & Solutions</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-orange">
+      <h4>❌ Underfitting (sous-apprentissage)</h4>
+      <p>Modèle trop simple. Erreur train ET test grandes.</p>
+      <p style="margin-top:8px"><strong>Solutions :</strong></p>
+      <ul><li>Plus de neurones</li><li>Plus d'epochs</li><li>Nouvelles features</li><li>Architecture plus profonde</li></ul>
+    </div>
+    <div class="card glow-red" style="--red:#ff4757">
+      <h4>❌ Overfitting (surapprentissage)</h4>
+      <p>Modèle mémorise. Erreur train ≈ 0% mais erreur test grande.</p>
+      <p style="margin-top:8px"><strong>Solutions :</strong></p>
+      <ul><li>Dropout (désactive aléatoirement des neurones)</li><li>L1/L2 Régularisation</li><li>Early Stopping</li><li>Data Augmentation</li><li>Plus de données</li></ul>
+    </div>
+  </div>
+  <div class="g2 fade-in" style="margin-top:14px">
+    <div class="hl orange"><strong>L1 (Lasso) :</strong> pénalité = Σ|wᵢ|. Met des poids exactement à 0 → sélection de features. Robuste aux outliers.</div>
+    <div class="hl violet"><strong>L2 (Ridge) :</strong> pénalité = Σwᵢ². Réduit les poids près de 0 mais jamais exactement. Sensible aux outliers.</div>
+  </div>
+
+  <h3 class="sh3 fade-in">🐍 Code Python MLP (Keras)</h3>
+  <div class="py-block fade-in">
+    <div class="py-header">mlp_keras.py</div>
+    <div class="py-content">
+<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers, models
+<span class="kw">from</span> sklearn <span class="kw">import</span> datasets
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># 1. Charger Iris</span>
+iris = datasets.load_iris()
+X, y = iris.data, tf.keras.utils.to_categorical(iris.target, <span class="nb">3</span>)
+
+<span class="cm"># 2. Normalisation + split</span>
+X = StandardScaler().fit_transform(X)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nb">0.2</span>)
+
+<span class="cm"># 3. Architecture MLP</span>
+model = models.Sequential([
+    layers.Dense(<span class="nb">16</span>, activation=<span class="st">'relu'</span>, input_shape=(<span class="nb">4</span>,)),
+    layers.Dense(<span class="nb">16</span>, activation=<span class="st">'relu'</span>),
+    layers.Dense(<span class="nb">3</span>, activation=<span class="st">'softmax'</span>)   <span class="cm"># 3 classes</span>
+])
+
+<span class="cm"># 4. Compilation</span>
+model.compile(optimizer=<span class="st">'adam'</span>,
+              loss=<span class="st">'categorical_crossentropy'</span>,
+              metrics=[<span class="st">'accuracy'</span>])
+
+<span class="cm"># 5. Entraînement</span>
+history = model.fit(X_train, y_train,
+                    epochs=<span class="nb">100</span>, batch_size=<span class="nb">16</span>,
+                    validation_split=<span class="nb">0.2</span>, verbose=<span class="nb">0</span>)
+
+<span class="cm"># 6. Évaluation</span>
+loss, acc = model.evaluate(X_test, y_test)
+<span class="fn">print</span>(<span class="fn">f</span><span class="st">"Test Accuracy: {acc:.4f}"</span>)
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHAPITRE 5 CNN ════════════════════════════════════════ -->
+<section id="ch5">
+  <div class="sh fade-in">
+    <div class="sh-tag amber">CHAPITRE 5 · CNN</div>
+    <h2>Convolutional Neural Networks</h2>
+    <p>Architecture : Convolution → ReLU → Pooling → FC → Softmax. Révolution en vision par ordinateur depuis AlexNet 2012.</p>
+  </div>
+
+  <h3 class="sh3 fade-in">🏗️ Architecture CNN</h3>
+  <div class="hl amber fade-in"><strong>Règle d'or :</strong> ReLU DOIT être appliquée après CHAQUE convolution. Pooling est optionnel. Plus de couches = réseau plus "profond" = Deep Learning.</div>
+  <div class="g3 fade-in">
+    <div class="card glow-cyan">
+      <div class="card-icon">🔲</div>
+      <h4>a) Convolution</h4>
+      <p>Un filtre (kernel) glisse sur l'image. Calcule un produit scalaire local. <strong>Les filtres sont appris</strong> automatiquement pendant l'entraînement.</p>
+      <div class="fml-code">W_out = (W_in - F + 2P)/S + 1
+F=taille filtre, P=padding, S=stride
+Params = F×F×D_in×K + K (biais)</div>
+      <div class="hl"><strong>Paramètres classiques :</strong><br>F=3, P=1, S=1 → same size<br>F=5, P=2, S=1 → same size</div>
+    </div>
+    <div class="card glow-violet">
+      <div class="card-icon">⬇️</div>
+      <h4>b) Max Pooling</h4>
+      <p>Sous-échantillonnage. Prend la valeur maximale d'une région. Réduit W et H, préserve la profondeur D.</p>
+      <div class="fml-code">W_p = (W - F)/S + 1
+Classique: F=2, S=2
+→ divise W et H par 2
+→ élimine 75% des pixels</div>
+      <div class="hl violet"><strong>Attention :</strong> le pooling ne change JAMAIS le nombre de canaux D.</div>
+    </div>
+    <div class="card glow-green">
+      <div class="card-icon">🔗</div>
+      <h4>c) Fully Connected + Softmax</h4>
+      <p>Flatten → couches FC → Softmax. Transforme les features en probabilités par classe.</p>
+      <div class="hl green">Ex : [0.9, 0.1] → 90% chat, 10% chien. La classe avec la plus haute probabilité est la prédiction.</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📏 Calcul Dimensions CNN — Exercice Type Examen</h3>
+  <div class="card fade-in">
+    <p style="color:var(--muted2);margin-bottom:12px"><strong>Exemple :</strong> Input 32×32×3, Conv K=64 F=3 S=1 P=1 → MaxPool F=2 S=2</p>
+    <div class="fml-code">Conv  : W_out = (32-3+2×1)/1 + 1 = 32  → 32×32×64
+Pool  : W_out = (32-2)/2 + 1   = 16  → 16×16×64
+Conv2 : (16-3+2×1)/1 + 1       = 16  → 16×16×128
+Pool2 : (16-2)/2 + 1           = 8   → 8×8×128
+Flatten                             → 8×8×128 = 8192 valeurs
+FC(256)  : 8192×256 + 256           = 2 097 408 paramètres</div>
+  </div>
+
+  <h3 class="sh3 fade-in">🏆 Architectures Célèbres</h3>
+  <div class="timeline fade-in">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">1989</div><div class="tl-title">LeNet-5</div><div class="tl-desc">1er CNN pratique. Chiffres manuscrits (MNIST). Yann LeCun.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2012</div><div class="tl-title">AlexNet ★ Révolution</div><div class="tl-desc">ImageNet. ReLU + Dropout + GPU. Erreur top-5 : 15.3% (vs 26% avant). Krizhevsky, Sutskever, Hinton.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2014</div><div class="tl-title">VGG-16</div><div class="tl-desc">16 couches. Filtres 3×3 uniquement. Very Deep Convolutional Networks.</div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2015</div><div class="tl-title">ResNet</div><div class="tl-desc">Connexions résiduelles (skip connections) → réseaux de 50-152+ couches possibles.</div></div>
+  </div>
+
+  <h3 class="sh3 fade-in">🛡️ Techniques Anti-Overfitting CNN</h3>
+  <div class="g3 fade-in">
+    <div class="card"><h4>Data Augmentation</h4><p>Rotation, flip, zoom, recadrage. Augmente artificiellement la taille du dataset.</p></div>
+    <div class="card"><h4>Dropout</h4><p>Désactive aléatoirement des neurones (taux ≈ 0.5). Réduit les interactions nœud-à-nœud.</p></div>
+    <div class="card"><h4>Transfer Learning</h4><p>Réutiliser AlexNet/VGG/ResNet pré-entraîné sur ImageNet. Affiner avec ses propres données.</p></div>
+    <div class="card"><h4>K-fold Cross-validation</h4><p>Diviser en k groupes. Entraîner k fois, chaque fois un groupe différent sert de test.</p></div>
+    <div class="card"><h4>Batch Normalization</h4><p>Normalise les activations de chaque couche. Accélère l'apprentissage, réduit la sensibilité au learning rate.</p></div>
+    <div class="card"><h4>Early Stopping</h4><p>Arrêter quand l'erreur de validation commence à augmenter. Évite de mémoriser.</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHAPITRE 6 RNN ════════════════════════════════════════ -->
+<section id="ch6">
+  <div class="sh fade-in">
+    <div class="sh-tag">CHAPITRE 6 · RNN / LSTM / HOPFIELD / KOHONEN</div>
+    <h2>Réseaux Récurrents et Apprentissage Non-Supervisé</h2>
+    <p>Pour les données séquentielles et temporelles. Les MLP/CNN supposent des données indépendantes — les RNN ont une mémoire.</p>
+  </div>
+
+  <div class="g2 fade-in">
+    <div class="card glow-cyan">
+      <h4>🌀 Réseau de Hopfield (1982)</h4>
+      <div class="hl"><strong>John Hopfield</strong>. Réseau récurrent entièrement connecté. Poids symétriques. Neurones binaires (-1/+1).</div>
+      <p>Basé sur une <strong style="color:var(--cyan)">fonction d'énergie</strong>. Converge vers un minimum d'énergie.</p>
+      <div class="hl"><strong>CAM (Content-Addressable Memory) :</strong> récupère un pattern stocké à partir d'une version bruitée/incomplète → comme une mémoire humaine associative.</div>
+      <p>Différent des réseaux supervisés : pas de "target", pas d'erreur. Le système "évolue" vers un état stable.</p>
+    </div>
+    <div class="card glow-orange">
+      <h4>🔄 Réseau d'Elman (1990)</h4>
+      <div class="hl orange"><strong>Jeffrey Elman</strong>. Premier RNN entraîné par backpropagation.</div>
+      <p>Ajoute une <strong style="color:var(--orange)">couche de contexte</strong> qui sauvegarde hₜ₋₁ et le réinjecte comme entrée au temps t.</p>
+      <p>Innovation : représentation <strong>implicite du temps</strong> (vs approche explicite = vecteur temporel).</p>
+      <div class="hl red"><strong>Limite :</strong> souffre du vanishing gradient. Ne gère pas bien les longues dépendances.</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">⭐ LSTM — Long Short-Term Memory (1997)</h3>
+  <div class="card fade-in glow-green">
+    <div class="hl green"><strong>Hochreiter & Schmidhuber (1997).</strong> Résout le vanishing gradient grâce à la <strong>cell state</strong> (mémoire longue durée) et 3 portes.</div>
+    <div class="g3" style="margin-top:16px">
+      <div class="card" style="background:rgba(0,200,150,.05)">
+        <h4 style="color:var(--green)">🗑️ Forget Gate (fₜ)</h4>
+        <div class="fml-code">fₜ = σ(Wf·[hₜ₋₁,xₜ]+bf)
+∈ (0,1)
+≈0 → oublier cₜ₋₁
+≈1 → conserver cₜ₋₁</div>
+        <p>"Quel info de ma mémoire passée est encore utile ?"</p>
+      </div>
+      <div class="card" style="background:rgba(56,189,248,.05)">
+        <h4 style="color:var(--sky)">➕ Input Gate (iₜ)</h4>
+        <div class="fml-code">iₜ = σ(Wi·[hₜ₋₁,xₜ]+bi)
+c̃ₜ = tanh(Wc·[hₜ₋₁,xₜ]+bc)
+cₜ = fₜ⊙cₜ₋₁ + iₜ⊙c̃ₜ</div>
+        <p>"Quelle nouvelle info ajouter à ma mémoire ?"</p>
+      </div>
+      <div class="card" style="background:rgba(124,58,237,.05)">
+        <h4 style="color:#a78bfa">📤 Output Gate (oₜ)</h4>
+        <div class="fml-code">oₜ = σ(Wo·[hₜ₋₁,xₜ]+bo)
+hₜ = oₜ⊙tanh(cₜ)</div>
+        <p>"Que dois-je sortir maintenant ?"</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:16px">Applications LSTM : NLP, traduction automatique, génération de texte, reconnaissance vocale, prévision séries temporelles, génération musicale.</div>
+  </div>
+
+  <h3 class="sh3 fade-in">🗺️ Réseau de Kohonen (SOM)</h3>
+  <div class="card fade-in glow-violet">
+    <div class="g2">
+      <div>
+        <div class="hl violet"><strong>Auto-Organisation Non Supervisée.</strong> Mappe des données haute dimension vers une grille 2D en préservant la topologie.</div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Initialiser poids aléatoirement</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Pour chaque entrée x</div><div class="step-desc">Trouver le <strong>BMU</strong> (Best Matching Unit) = neurone dont le vecteur de poids est le plus proche de x</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Mise à jour BMU + voisins</div><div class="step-desc">Déplacer les poids vers x. Les voisins du BMU sont aussi mis à jour (moins fortement).</div></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Répéter + réduire lr et voisinage</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="fml-code">BMU = argmin‖x - wⱼ‖
+
+Mise à jour :
+wⱼ(t+1) = wⱼ(t) + η(t)·h(j,BMU,t)·(x-wⱼ(t))
+η(t) = learning rate décroissant
+h    = fonction de voisinage</div>
+        <div class="hl violet">Applications : segmentation clients, visualisation de données haute dimension, détection d'anomalies, analyse de séquences.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ KOHONEN SECTION ════════════════════════════════════════ -->
+<section id="kohonen">
+  <div class="sh fade-in">
+    <div class="sh-tag violet">CHAPITRE 6 · RÉSEAU DE KOHONEN — EXERCICE COMPLET</div>
+    <h2>Kohonen SOM — Calcul Numérique Détaillé</h2>
+    <p>Notions théoriques approfondies + exercice numérique corrigé issu du cours Prof. Chelali</p>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 Théorie Fondamentale — Ce que tu DOIS savoir</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-violet">
+      <div class="card-icon">🗺️</div>
+      <h4>Qu'est-ce que le Réseau de Kohonen ?</h4>
+      <p>Le réseau de Kohonen (Self-Organizing Map, SOM) est un réseau de neurones <strong style="color:#a78bfa">non supervisé</strong> inventé par <strong style="color:#a78bfa">Teuvo Kohonen</strong> en 1982. Il se compose de deux couches :</p>
+      <ul>
+        <li><strong style="color:#a78bfa">Couche d'entrée :</strong> N neurones d'entrée (une par feature)</li>
+        <li><strong style="color:#a78bfa">Couche de sortie :</strong> grille 2D de M neurones compétitifs (clusters)</li>
+      </ul>
+      <div class="hl violet">Chaque neurone de sortie possède un <strong>vecteur de poids w</strong> de dimension N (même dimension que l'entrée). C'est ce vecteur qui évolue pendant l'apprentissage.</div>
+    </div>
+    <div class="card glow-cyan">
+      <div class="card-icon">⚙️</div>
+      <h4>Règle de mise à jour — La formule clé</h4>
+      <div class="fml-code">w_c(t+1) = w_c(t) + η(t) · h(c, BMU, t) · (x - w_c(t))
+
+où :
+· w_c = vecteur de poids du neurone c
+· η(t) = learning rate (décroissant avec t)
+· h(c,BMU,t) = fonction de voisinage
+· x = vecteur d'entrée courant
+· BMU = Best Matching Unit (neurone gagnant)</div>
+      <div class="hl">La fonction de voisinage h est souvent Gaussienne ou chapeau mexicain. Elle vaut <strong>1 pour le BMU</strong> et <strong>0&lt;h&lt;1 pour les voisins</strong>.</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🏆 Les 4 Étapes de l'Algorithme SOM</h3>
+  <div class="steps fade-in">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Initialisation des poids</div>
+        <div class="step-desc">Chaque neurone de sortie j reçoit un vecteur de poids <strong>w_j</strong> aléatoire (ou tiré des données). Ce vecteur a la même dimension que les vecteurs d'entrée.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Trouver le BMU (Compétition)</div>
+        <div class="step-desc">Pour chaque entrée x, calculer la <strong>distance euclidienne</strong> entre x et chaque vecteur de poids w_j. Le neurone avec la distance minimale = BMU (gagnant).<br>
+        <span class="fml-code" style="display:inline-block;margin-top:6px">D(j) = ‖x - w_j‖² = Σᵢ(xᵢ - w_ji)²    BMU = argmin_j D(j)</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Mise à jour des poids (Coopération)</div>
+        <div class="step-desc">Mettre à jour le BMU ET ses voisins selon la règle de Kohonen. Plus un neurone est proche du BMU dans la grille, plus il est mis à jour fortement. Voisins lointains = très peu mis à jour.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Répéter avec décroissance</div>
+        <div class="step-desc">η(t) et le rayon de voisinage diminuent progressivement. Au départ : large exploration (big neighborhood). À la fin : affinement local (small neighborhood).</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🔑 Points Critiques — Différence avec les autres réseaux</h3>
+  <div class="g3 fade-in">
+    <div class="card">
+      <h4>❓ Pourquoi non supervisé ?</h4>
+      <p>Il n'y a pas de sortie désirée (target). On ne dit pas au réseau « cette entrée appartient à la classe X ». Le réseau <strong>découvre seul</strong> la structure des données en organisant les neurones.</p>
+    </div>
+    <div class="card">
+      <h4>🗺️ Préservation de la topologie</h4>
+      <p>C'est la propriété UNIQUE du SOM. Des données similaires dans ℝᴺ seront représentées par des <strong>neurones voisins</strong> sur la carte 2D. La topologie de l'espace d'entrée est préservée.</p>
+    </div>
+    <div class="card">
+      <h4>⚡ Pas de backpropagation !</h4>
+      <p>Le SOM n'utilise <strong>pas</strong> la rétropropagation. L'apprentissage est basé sur la <strong>compétition + coopération</strong> (Winner-Take-All modifié). Pas de fonction de coût à minimiser par gradient.</p>
+    </div>
+  </div>
+
+  <div class="warn fade-in"><strong>À retenir pour l'examen :</strong> Le SOM est non supervisé, préserve la topologie, utilise la distance euclidienne pour trouver le BMU, met à jour le gagnant ET ses voisins. La mise à jour rapproche le poids du neurone vers le vecteur d'entrée.</div>
+
+  <h3 class="sh3 fade-in">📝 Exercice Numérique — Corrigé Complet (issu du cours)</h3>
+  <div class="exo fade-in">
+    <div class="exo-hd">
+      <span class="exo-num">EXERCICE KOHONEN</span>
+      <span class="exo-ttl">Réseau de Kohonen — 2 clusters, 5 entrées, η=0.25</span>
+      <span class="exo-type">🗺️ SOM Calcul</span>
+    </div>
+    <div class="exo-body">
+      <p><strong>Données du problème :</strong></p>
+      <div class="hl violet">Réseau de Kohonen avec <strong>2 unités cluster</strong> (Y₁ et Y₂) et <strong>5 unités d'entrée</strong> (X₁ à X₅).</div>
+      <div class="g2" style="margin:16px 0">
+        <div>
+          <p><strong>Vecteur d'entrée :</strong></p>
+          <div class="fml-code">x = [ 0  0.5  1  0.5  0 ]</div>
+          <p style="margin-top:12px"><strong>Vecteur de poids w₁ (cluster Y₁) :</strong></p>
+          <div class="fml-code">w₁ = [ 1    ]   ← w₁₁
+     [ 0.9 ]   ← w₂₁
+     [ 0.7 ]   ← w₃₁
+     [ 0.5 ]   ← w₄₁
+     [ 0.3 ]   ← w₅₁</div>
+        </div>
+        <div>
+          <p><strong>Vecteur de poids w₂ (cluster Y₂) :</strong></p>
+          <div class="fml-code">w₂ = [ 0.3 ]   ← w₁₂
+     [ 0.5 ]   ← w₂₂
+     [ 0.7 ]   ← w₃₂
+     [ 0.9 ]   ← w₄₂
+     [ 1   ]   ← w₅₂</div>
+          <p style="margin-top:12px"><strong>Taux d'apprentissage :</strong></p>
+          <div class="fml-code">η = α = 0.25</div>
+        </div>
+      </div>
+
+      <button class="sol-btn" onclick="toggleSol('kohonen-full')">🔓 Solution Complète Étape par Étape</button>
+      <div class="sol-panel" id="kohonen-full">
+
+        <strong style="font-size:14px;color:#a78bfa">📍 ÉTAPE 1 : Calculer la distance euclidienne D(j) pour chaque cluster</strong><br><br>
+
+        <strong>Formule :</strong> D(j) = Σᵢ₌₁⁵ (wᵢⱼ − xᵢ)²<br><br>
+
+        <strong>🔵 Distance pour le cluster 1 (Y₁) :</strong><br>
+        D(1) = (w₁₁−x₁)² + (w₂₁−x₂)² + (w₃₁−x₃)² + (w₄₁−x₄)² + (w₅₁−x₅)²<br>
+        D(1) = (1−0)² + (0.9−0.5)² + (0.7−1)² + (0.5−0.5)² + (0.3−0)²<br>
+        D(1) = (1)² + (0.4)² + (−0.3)² + (0)² + (0.3)²<br>
+        D(1) = 1 + 0.16 + 0.09 + 0 + 0.09<br>
+        <strong style="color:#00c896">D(1) = 1.34</strong><br><br>
+
+        <strong>🟠 Distance pour le cluster 2 (Y₂) :</strong><br>
+        D(2) = (w₁₂−x₁)² + (w₂₂−x₂)² + (w₃₂−x₃)² + (w₄₂−x₄)² + (w₅₂−x₅)²<br>
+        D(2) = (0.3−0)² + (0.5−0.5)² + (0.7−1)² + (0.9−0.5)² + (1−0)²<br>
+        D(2) = (0.3)² + (0)² + (−0.3)² + (0.4)² + (1)²<br>
+        D(2) = 0.09 + 0 + 0.09 + 0.16 + 1<br>
+        <strong style="color:#00c896">D(2) = 1.34</strong><br><br>
+
+        <div class="warn">D(1) = D(2) = 1.34 ! Les deux distances sont égales. Dans ce cas, on choisit le cluster avec le plus petit indice → <strong>BMU = Y₁ (j=1)</strong> est le gagnant.</div><br>
+
+        <strong style="font-size:14px;color:#a78bfa">📍 ÉTAPE 2 : Mise à jour des poids du cluster gagnant (Y₁)</strong><br><br>
+
+        <strong>Formule :</strong> wᵢ₁(new) = wᵢ₁(old) + α × (xᵢ − wᵢ₁(old))<br><br>
+        Avec α = 0.25 et j=1 (BMU), i ∈ {1,2,3,4,5} :<br><br>
+
+        <strong>w₁₁(new)</strong> = 1 + 0.25×(0 − 1) = 1 + 0.25×(−1) = 1 − 0.25 = <strong style="color:#00e5ff">0.75</strong><br>
+        <strong>w₂₁(new)</strong> = 0.9 + 0.25×(0.5 − 0.9) = 0.9 + 0.25×(−0.4) = 0.9 − 0.1 = <strong style="color:#00e5ff">0.8</strong><br>
+        <strong>w₃₁(new)</strong> = 0.7 + 0.25×(1 − 0.7) = 0.7 + 0.25×(0.3) = 0.7 + 0.075 = <strong style="color:#00e5ff">0.775</strong><br>
+        <strong>w₄₁(new)</strong> = 0.5 + 0.25×(0.5 − 0.5) = 0.5 + 0.25×(0) = <strong style="color:#00e5ff">0.5</strong><br>
+        <strong>w₅₁(new)</strong> = 0.3 + 0.25×(0 − 0.3) = 0.3 + 0.25×(−0.3) = 0.3 − 0.075 = <strong style="color:#00e5ff">0.225</strong><br><br>
+
+        <strong style="font-size:14px;color:#a78bfa">📍 RÉSULTAT : Nouvelle matrice de poids</strong><br><br>
+        <div class="fml-code">       Y₁ (mis à jour)    Y₂ (inchangé)
+w₁  :  0.75               0.3
+w₂  :  0.8                0.5
+w₃  :  0.775              0.7
+w₄  :  0.5                0.9
+w₅  :  0.225              1</div><br>
+
+        <strong style="color:#ffd32a">💡 Interprétation :</strong><br>
+        Le vecteur de poids de Y₁ s'est rapproché du vecteur d'entrée x = [0, 0.5, 1, 0.5, 0].<br>
+        Si on présente à nouveau ce vecteur d'entrée, Y₁ gagnera avec une distance beaucoup plus petite.<br>
+        Y₂ reste inchangé car il n'est pas le gagnant (et dans cet exemple simplifié, pas de voisinage à mettre à jour).
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🎓 Applications Réelles du SOM — À connaître pour l'examen</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-violet">
+      <h4>📊 Visualisation de données haute dimension</h4>
+      <p>Projeter des données en 100D vers une grille 2D tout en préservant les relations de similarité. Utilisé en bioinformatique (expression des gènes), finance, et analyse de données clients.</p>
+    </div>
+    <div class="card glow-orange">
+      <h4>🔍 Détection d'anomalies</h4>
+      <p>Un vecteur d'entrée qui ne s'associe à aucun neurone clairement (distance BMU très élevée) = anomalie potentielle. Utilisé en cybersécurité et détection de fraude.</p>
+    </div>
+    <div class="card glow-green">
+      <h4>🎙️ Quantification vectorielle (Parole/Image)</h4>
+      <p>Le SOM réalise une quantification vectorielle : les vecteurs de poids deviennent des <strong>prototypes</strong> représentatifs des données. Application en compression et codage de la parole.</p>
+    </div>
+    <div class="card glow-cyan">
+      <h4>🧬 Segmentation client / marché</h4>
+      <p>Découvrir des groupes naturels de clients sans étiquettes. Chaque neurone de la carte = un profil type de client. La carte 2D permet une visualisation intuitive des segments.</p>
+    </div>
+  </div>
+</section>
+<!-- ════════════════════════════════════════ TPs ════════════════════════════════════════ -->
+<section id="tp">
+  <div class="sh fade-in">
+    <div class="sh-tag orange">TRAVAUX PRATIQUES</div>
+    <h2>Résumé & Points Clés des TPs</h2>
+    <p>Ce qui peut tomber à l'examen basé sur les TPs 1 à 4 de Prof. Chelali</p>
+  </div>
+
+  <!-- TP1 -->
+  <div class="tp-card fade-in">
+    <div class="tp-header" onclick="toggleTP('tp1')">
+      <span class="tp-num">TP N°1</span>
+      <span class="tp-title">KNN Classification & Régression — Dataset Iris</span>
+      <span class="tp-toggle" id="tp1-tog">▶</span>
+    </div>
+    <div class="tp-body" id="tp1">
+      <div class="g2">
+        <div>
+          <h3 class="sh3" style="margin-top:0">📊 Dataset Iris</h3>
+          <div class="hl"><strong>Ronald Fisher (1936).</strong> 150 fleurs, 3 espèces (50 chaque) : Setosa, Versicolor, Virginica. 4 features : sepal length/width, petal length/width.</div>
+          <div class="hl orange"><strong>Important :</strong> Setosa est linéairement séparable des deux autres. Versicolor et Virginica se chevauchent partiellement.</div>
+          <h3 class="sh3">🔬 EDA (Exploration)</h3>
+          <ul>
+            <li>Scatter plots, pair plots, heatmaps de corrélation</li>
+            <li>Statistiques : mean, median, std, min, max</li>
+            <li>Détecter outliers, normaliser si nécessaire</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sh3" style="margin-top:0">📐 Régression Linéaire vs Logistique</h3>
+          <div class="hl green"><strong>Régression Linéaire :</strong> prédire une valeur continue. y = β₀ + β₁x. Métriques : MSE, R².</div>
+          <div class="hl violet"><strong>Régression Logistique :</strong> classification. Utilise la fonction sigmoïde (binaire) ou softmax (multi-classes). Métriques : Accuracy, Confusion Matrix, F1-Score.</div>
+          <div class="warn"><strong>Attention :</strong> la régression logistique est un classifieur, pas un régresseur continu !</div>
+        </div>
+      </div>
+      <h3 class="sh3">🐍 Code Python KNN</h3>
+      <div class="py-block">
+        <div class="py-header">tp1_knn.py</div>
+        <div class="py-content">
+<span class="kw">from</span> sklearn.datasets <span class="kw">import</span> load_iris
+<span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score, confusion_matrix
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Charger et préparer</span>
+iris = load_iris()
+X, y = iris.data, iris.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nb">0.3</span>, random_state=<span class="nb">42</span>)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="cm"># KNN avec K=5</span>
+knn = KNeighborsClassifier(n_neighbors=<span class="nb">5</span>)
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+<span class="fn">print</span>(<span class="st">"Accuracy K=5:"</span>, accuracy_score(y_test, y_pred))
+
+<span class="cm"># Trouver le meilleur K</span>
+accuracies = []
+<span class="kw">for</span> k <span class="kw">in</span> range(<span class="nb">1</span>, <span class="nb">21</span>):
+    m = KNeighborsClassifier(n_neighbors=k).fit(X_train, y_train)
+    accuracies.append(accuracy_score(y_test, m.predict(X_test)))
+
+best_k = np.argmax(accuracies) + <span class="nb">1</span>
+<span class="fn">print</span>(<span class="fn">f</span><span class="st">"Meilleur K = {best_k}, Accuracy = {max(accuracies):.4f}"</span>)
+
+<span class="cm"># Régression linéaire</span>
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_squared_error, r2_score
+
+X_reg = iris.data[:, <span class="nb">0</span>].reshape(-<span class="nb">1</span>, <span class="nb">1</span>)  <span class="cm"># sepal length</span>
+y_reg = iris.data[:, <span class="nb">2</span>]               <span class="cm"># petal length</span>
+X_tr, X_te, y_tr, y_te = train_test_split(X_reg, y_reg, test_size=<span class="nb">0.3</span>)
+reg = LinearRegression().fit(X_tr, y_tr)
+y_pred_r = reg.predict(X_te)
+<span class="fn">print</span>(<span class="st">"MSE:"</span>, mean_squared_error(y_te, y_pred_r))
+<span class="fn">print</span>(<span class="st">"R²:"</span>, r2_score(y_te, y_pred_r))
+        </div>
+      </div>
+      <div class="info"><strong>Discussion clé :</strong> La normalisation est ESSENTIELLE pour KNN car KNN est basé sur des distances. Sans normalisation, les features avec de grandes valeurs dominent. R² proche de 1 = bon modèle de régression.</div>
+    </div>
+  </div>
+
+  <!-- TP2 -->
+  <div class="tp-card fade-in">
+    <div class="tp-header" onclick="toggleTP('tp2')">
+      <span class="tp-num">TP N°2</span>
+      <span class="tp-title">SVM — Classification Supervisée avec Scikit-learn</span>
+      <span class="tp-toggle" id="tp2-tog">▶</span>
+    </div>
+    <div class="tp-body" id="tp2">
+      <div class="g2">
+        <div>
+          <h3 class="sh3" style="margin-top:0">🎯 Objectifs du TP</h3>
+          <ul>
+            <li>Implémenter un SVM avec Python (scikit-learn)</li>
+            <li>Visualiser les résultats et frontières de décision</li>
+            <li>Comparer différents kernels (linear, poly, rbf, sigmoid)</li>
+            <li>Optimiser C et gamma par cross-validation</li>
+            <li>Afficher la confusion matrix</li>
+          </ul>
+          <div class="hl amber" style="margin-top:12px"><strong>Points à retenir :</strong> Toujours normaliser avant SVM. Le kernel RBF est généralement le meilleur point de départ. Cross-validation = meilleure estimation de la performance.</div>
+        </div>
+        <div>
+          <h3 class="sh3" style="margin-top:0">🔬 Cross-Validation</h3>
+          <div class="fml-code">from sklearn.model_selection import GridSearchCV
+
+param_grid = {
+  'C': [0.1, 1, 10, 100],
+  'gamma': ['scale', 'auto', 0.1, 0.01],
+  'kernel': ['rbf', 'linear']
+}
+grid = GridSearchCV(SVC(), param_grid, cv=5)
+grid.fit(X_train, y_train)
+print("Best params:", grid.best_params_)
+print("Best score:", grid.best_score_)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TP3 -->
+  <div class="tp-card fade-in">
+    <div class="tp-header" onclick="toggleTP('tp3')">
+      <span class="tp-num">TP N°3</span>
+      <span class="tp-title">MLP pour Classification — Iris + COVID-19</span>
+      <span class="tp-toggle" id="tp3-tog">▶</span>
+    </div>
+    <div class="tp-body" id="tp3">
+      <div class="g2">
+        <div>
+          <h3 class="sh3" style="margin-top:0">🔬 Pipeline complet</h3>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Data Exploration (EDA)</div><div class="step-desc">Histogrammes, boxplots, scatter plots par couleur de classe</div></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Préparation</div><div class="step-desc">Normaliser (StandardScaler), one-hot encoding, split 80/20</div></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Architecture MLP</div><div class="step-desc">Input(4) → Dense(16,ReLU) → Dense(16,ReLU) → Dense(3,Softmax)</div></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Entraînement</div><div class="step-desc">Adam optimizer, categorical_crossentropy, 100 epochs, batch 16</div></div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Évaluation</div><div class="step-desc">Confusion matrix, learning curves, amélioration avec L2 + early stopping</div></div></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="sh3" style="margin-top:0">⚕️ COVID-19 Image Dataset</h3>
+          <div class="hl orange"><strong>Dataset :</strong> kaggle.com/datasets/pranavraikokte/covid19-image-dataset<br>Classes : COVID / Normal / Viral Pneumonia</div>
+          <div class="warn"><strong>Pour le TP :</strong> appliquer le MLP et discuter les résultats. Comparer avec CNN (TP4) pour voir l'importance de l'architecture adaptée aux images.</div>
+          <h3 class="sh3">📊 Métriques à calculer</h3>
+          <div class="fml-code">from sklearn.metrics import (
+  accuracy_score,
+  confusion_matrix,
+  classification_report,  # P, R, F1 par classe
+  f1_score
+)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TP4 -->
+  <div class="tp-card fade-in">
+    <div class="tp-header" onclick="toggleTP('tp4')">
+      <span class="tp-num">TP N°4</span>
+      <span class="tp-title">CNN — Détection COVID-19 par Radiographies Thoraciques</span>
+      <span class="tp-toggle" id="tp4-tog">▶</span>
+    </div>
+    <div class="tp-body" id="tp4">
+      <div class="g2">
+        <div>
+          <h3 class="sh3" style="margin-top:0">🏥 Contexte Médical</h3>
+          <div class="hl red"><strong>Recall pour COVID est CRITIQUE :</strong> rater un cas COVID (FN) peut être fatal. On préfère quelques fausses alarmes (FP, patient sain classé COVID) à des cas manqués.</div>
+          <div class="hl orange"><strong>Batch Size :</strong> contrôle combien d'images sont traitées avant chaque mise à jour des poids. Petit batch → updates fréquentes mais bruyantes. Grand batch → updates stables mais moins fréquentes.</div>
+        </div>
+        <div>
+          <h3 class="sh3" style="margin-top:0">🏗️ Architecture CNN</h3>
+          <div class="fml-code">Input(224×224×3)
+→ Conv2D(32, 3×3) + ReLU
+→ MaxPool(2×2)
+→ Conv2D(64, 3×3) + ReLU
+→ MaxPool(2×2)
+→ Conv2D(128, 3×3) + ReLU
+→ MaxPool(2×2)
+→ Flatten
+→ Dense(256) + ReLU + Dropout(0.5)
+→ Dense(3, Softmax)  # COVID/Normal/Pneumonia</div>
+        </div>
+      </div>
+      <h3 class="sh3">🐍 Code CNN Keras (TP4)</h3>
+      <div class="py-block">
+        <div class="py-header">tp4_cnn_covid.py</div>
+        <div class="py-content">
+<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers, models
+<span class="kw">from</span> tensorflow.keras.preprocessing.image <span class="kw">import</span> ImageDataGenerator
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix
+
+<span class="cm"># 1. Data augmentation + chargement</span>
+train_gen = ImageDataGenerator(
+    rescale=<span class="nb">1./255</span>,
+    rotation_range=<span class="nb">15</span>,
+    horizontal_flip=<span class="nb">True</span>,
+    zoom_range=<span class="nb">0.1</span>,
+    validation_split=<span class="nb">0.2</span>
+)
+
+<span class="cm"># 2. Architecture CNN</span>
+model = models.Sequential([
+    layers.Conv2D(<span class="nb">32</span>, (<span class="nb">3</span>,<span class="nb">3</span>), activation=<span class="st">'relu'</span>, input_shape=(<span class="nb">224</span>,<span class="nb">224</span>,<span class="nb">3</span>)),
+    layers.MaxPooling2D((<span class="nb">2</span>,<span class="nb">2</span>)),
+    layers.Conv2D(<span class="nb">64</span>, (<span class="nb">3</span>,<span class="nb">3</span>), activation=<span class="st">'relu'</span>),
+    layers.MaxPooling2D((<span class="nb">2</span>,<span class="nb">2</span>)),
+    layers.Conv2D(<span class="nb">128</span>, (<span class="nb">3</span>,<span class="nb">3</span>), activation=<span class="st">'relu'</span>),
+    layers.MaxPooling2D((<span class="nb">2</span>,<span class="nb">2</span>)),
+    layers.Flatten(),
+    layers.Dense(<span class="nb">256</span>, activation=<span class="st">'relu'</span>),
+    layers.Dropout(<span class="nb">0.5</span>),
+    layers.Dense(<span class="nb">3</span>, activation=<span class="st">'softmax'</span>)
+])
+
+<span class="cm"># 3. Compilation</span>
+model.compile(optimizer=<span class="st">'adam'</span>,
+              loss=<span class="st">'categorical_crossentropy'</span>,
+              metrics=[<span class="st">'accuracy'</span>,
+                       tf.keras.metrics.Precision(),
+                       tf.keras.metrics.Recall()])
+
+<span class="cm"># 4. Early stopping</span>
+es = tf.keras.callbacks.EarlyStopping(
+    monitor=<span class="st">'val_loss'</span>, patience=<span class="nb">5</span>, restore_best_weights=<span class="nb">True</span>
+)
+<span class="cm"># 5. Entraîner</span>
+history = model.fit(train_data, validation_data=val_data,
+                    epochs=<span class="nb">30</span>, batch_size=<span class="nb">32</span>, callbacks=[es])
+        </div>
+      </div>
+      <div class="info"><strong>Data augmentation :</strong> augmente artificiellement le dataset en appliquant des transformations. Particulièrement utile en médical où les données sont rares et coûteuses à obtenir.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ENRICHISSEMENT TPs - NOTIONS FONDAMENTALES ══════ -->
+<section id="tp-notions">
+  <div class="sh fade-in">
+    <div class="sh-tag amber">TPs — NOTIONS ESSENTIELLES À MAÎTRISER</div>
+    <h2>Ce que tu dois comprendre (pas juste le code)</h2>
+    <p>Les concepts fondamentaux derrière chaque TP — les questions d'examen visent la compréhension, pas la mémorisation du code.</p>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 TP1 — Notions Fondamentales KNN & Régression</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-cyan">
+      <h4>🔵 Pourquoi K=1 est dangereux ?</h4>
+      <p>Avec K=1, le classifieur <strong>"mémorise"</strong> les données d'entraînement. Il classifie parfaitement chaque point d'entraînement (distance = 0 vers lui-même), mais généralise très mal sur de nouvelles données. C'est du <strong>surapprentissage pur</strong>.</p>
+      <div class="hl">Frontière de décision avec K=1 → très irrégulière, suit chaque point.<br>Frontière avec K grand → lisse, linéarisée, peut manquer des structures fines.</div>
+      <div class="warn">Le choix optimal de K se fait par <strong>cross-validation</strong>. En pratique, K=5 ou K=7 (impairs pour éviter les ex-æquo) est un bon point de départ.</div>
+    </div>
+    <div class="card glow-orange">
+      <h4>📐 Différence MSE vs R²</h4>
+      <p><strong>MSE (Mean Squared Error)</strong> = mesure l'erreur en <em>unités au carré</em>. Pénalise fortement les grandes erreurs. Dépend de l'échelle des données.</p>
+      <div class="fml-code">MSE = (1/n)·Σᵢ(yᵢ − ŷᵢ)²
+RMSE = √MSE  ← même unité que y</div>
+      <p style="margin-top:10px"><strong>R² (Coefficient de détermination)</strong> = proportion de variance expliquée. Indépendant de l'échelle. Valeurs :</p>
+      <ul>
+        <li>R² = 1.0 → prédictions parfaites</li>
+        <li>R² = 0.0 → équivalent à prédire la moyenne</li>
+        <li>R² &lt; 0 → pire que de prédire la moyenne !</li>
+      </ul>
+    </div>
+  </div>
+  <div class="g2 fade-in" style="margin-top:14px">
+    <div class="card">
+      <h4>⚠️ Data Leakage — Piège classique</h4>
+      <p>Si tu fais <code>scaler.fit_transform(X)</code> sur tout le dataset AVANT le split, le StandardScaler a "vu" les données de test pendant l'entraînement. C'est une <strong>fuite d'information</strong> (data leakage) qui gonfle artificiellement les performances.</p>
+      <div class="hl red"><strong>Règle d'or :</strong> fit UNIQUEMENT sur X_train. Transformer X_test avec le scaler entraîné sur X_train.</div>
+    </div>
+    <div class="card">
+      <h4>🎯 Régression Logistique ≠ Régression !</h4>
+      <p>Malgré son nom, la régression logistique est un <strong>classifieur</strong>. Elle prédit des probabilités d'appartenance à une classe en appliquant la fonction sigmoïde.</p>
+      <ul>
+        <li>Sortie binaire (1 classe) → sigmoïde → 1 neurone sortie</li>
+        <li>Multi-classes (N classes) → softmax → N neurones sortie</li>
+        <li>Loss function → cross-entropie (binary ou categorical)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 TP2 — Notions Fondamentales SVM</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-violet">
+      <h4>💡 Pourquoi les Vecteurs de Support ?</h4>
+      <p>Seuls les points <strong>les plus proches de la frontière</strong> (sur H₁ ou H₂) déterminent l'hyperplan optimal. Si on retire un point qui n'est pas VS, l'hyperplan ne change pas. C'est pourquoi le SVM est <strong>robuste au bruit</strong> loin de la frontière.</p>
+      <div class="hl violet">Les VS satisfont yᵢ(⟨w,xᵢ⟩+b) = 1. Les points bien classés loin de la frontière satisfont yᵢ(⟨w,xᵢ⟩+b) &gt; 1 et n'influencent pas l'hyperplan.</div>
+    </div>
+    <div class="card glow-orange">
+      <h4>⚖️ Le compromis Biais-Variance dans SVM</h4>
+      <table class="tbl">
+        <tr><th>Paramètre</th><th>Valeur faible</th><th>Valeur forte</th></tr>
+        <tr><td><strong>C</strong></td><td>Grand biais, faible variance → underfitting</td><td>Faible biais, grand variance → overfitting</td></tr>
+        <tr><td><strong>γ (RBF)</strong></td><td>Frontière lisse, influence globale</td><td>Frontière complexe, influence locale</td></tr>
+      </table>
+      <div class="hl orange">La combinaison C grand + γ grand → chaque point est mémorisé → overfitting sévère. La GridSearchCV trouve le compromis optimal.</div>
+    </div>
+  </div>
+  <div class="card fade-in">
+    <h4>🔬 Pourquoi normaliser avant SVM ?</h4>
+    <p>Le SVM maximise la marge 2/‖w‖ en minimisant ‖w‖². La solution dépend des produits scalaires ⟨xᵢ,xⱼ⟩. Si une feature varie de 0 à 1000 et une autre de 0 à 1, la première dominera complètement les distances → le SVM ignorera la deuxième feature. Après normalisation, toutes les features ont une importance équivalente.</p>
+    <div class="hl"><strong>Exemple Iris :</strong> sepal_length ∈ [4.3, 7.9] (en cm) vs petal_length ∈ [1.0, 6.9]. Sans normalisation, les deux features ont des échelles similaires par chance. Mais avec d'autres datasets (salaire vs âge), la normalisation est critique.</div>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 TP3 — Notions Fondamentales MLP</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-green">
+      <h4>🏗️ Pourquoi plusieurs couches cachées ?</h4>
+      <p>Une seule couche cachée peut théoriquement approcher n'importe quelle fonction (théorème d'approximation universel), mais nécessiterait un nombre astronomique de neurones. Plusieurs couches apprennent des <strong>représentations hiérarchiques</strong> :</p>
+      <ul>
+        <li>Couche 1 → détecte des patterns simples (lignes, courbes)</li>
+        <li>Couche 2 → combine en patterns complexes (formes, textures)</li>
+        <li>Couche 3 → combine en concepts abstraits (objets, classes)</li>
+      </ul>
+    </div>
+    <div class="card glow-cyan">
+      <h4>📊 One-Hot Encoding — Pourquoi ?</h4>
+      <p>Pour les labels de classification (0, 1, 2 pour Iris), si on les donne tels quels, le réseau pense qu'il y a un ordre (2 > 1 > 0). Ce n'est pas le cas pour des classes.</p>
+      <div class="fml-code">setosa     : [1, 0, 0]
+versicolor : [0, 1, 0]
+virginica  : [0, 0, 1]</div>
+      <div class="hl green">Avec one-hot + softmax, la sortie est un vecteur de probabilités. La classe prédite = argmax de ce vecteur.</div>
+    </div>
+  </div>
+  <div class="g2 fade-in" style="margin-top:14px">
+    <div class="card">
+      <h4>📈 Analyser les courbes d'apprentissage</h4>
+      <div class="fml-code">Scénario 1 — NORMAL :
+  train_loss ↓, val_loss ↓ (en parallèle)
+  → le modèle apprend bien
+
+Scénario 2 — OVERFITTING :
+  train_loss ↓↓, val_loss ↓ puis ↑
+  → mémorisation, early stopping !
+
+Scénario 3 — UNDERFITTING :
+  train_loss et val_loss restent hauts
+  → architecture trop simple</div>
+    </div>
+    <div class="card">
+      <h4>⚡ Adam vs SGD — Quel optimiseur choisir ?</h4>
+      <p><strong>SGD (Stochastic Gradient Descent) :</strong> classique, parfois oscille. Nécessite un tuning manuel du learning rate.</p>
+      <p style="margin-top:8px"><strong>Adam (Adaptive Moment Estimation) :</strong> adapte le learning rate pour chaque paramètre. Converge plus vite, moins sensible au choix du lr initial. <strong>Recommandé par défaut.</strong></p>
+      <div class="hl amber">Pour Iris : Adam lr=0.001, 100 epochs, batch=16 → souvent &gt;97% accuracy.</div>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">📌 TP4 — Notions Fondamentales CNN</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-orange">
+      <h4>🖼️ Pourquoi le CNN est meilleur que le MLP pour les images ?</h4>
+      <p>Un MLP reçoit une image 224×224×3 = <strong>150 528 pixels</strong> en entrée aplatie. La 1ère couche FC(256) aurait 150 528 × 256 + 256 = <strong>38 535 424 paramètres</strong> → énorme, risque d'overfitting.</p>
+      <div class="hl orange">Le CNN exploite la <strong>localité</strong> (pixels voisins sont corrélés) et le <strong>partage de paramètres</strong> (le même filtre détecte une ligne horizontale partout dans l'image). Un filtre 3×3 sur 32 canaux = seulement 3×3×3×32+32 = <strong>896 paramètres</strong>.</div>
+    </div>
+    <div class="card glow-violet">
+      <h4>🎨 Que détectent les couches CNN ?</h4>
+      <ul>
+        <li><strong style="color:#a78bfa">1ère couche Conv :</strong> Bords, contours, lignes (filtres de Gabor)</li>
+        <li><strong style="color:#a78bfa">2ème couche Conv :</strong> Angles, courbes, textures simples</li>
+        <li><strong style="color:#a78bfa">3ème couche Conv :</strong> Formes complexes, parties d'objets</li>
+        <li><strong style="color:#a78bfa">Couches profondes :</strong> Concepts abstraits (yeux, roues, poumons...)</li>
+      </ul>
+      <div class="hl violet">C'est pourquoi le Transfer Learning fonctionne : les premières couches d'AlexNet/ResNet détectent des features génériques utiles pour <em>toutes</em> les tâches visuelles.</div>
+    </div>
+  </div>
+  <div class="g3 fade-in" style="margin-top:14px">
+    <div class="card">
+      <h4>🔁 Qu'est-ce que le Transfer Learning ?</h4>
+      <p>Prendre un réseau pré-entraîné (ex: VGG16 sur ImageNet avec 1.2M images), <strong>congeler les premières couches</strong> (features génériques), et entraîner seulement les dernières couches sur votre dataset. Idéal quand votre dataset est petit (&lt; 10 000 images).</p>
+    </div>
+    <div class="card">
+      <h4>🛡️ Rôle du Dropout</h4>
+      <p>Pendant l'entraînement, chaque neurone a une probabilité p d'être <strong>temporairement désactivé</strong>. Cela empêche les neurones de co-dépendre → le réseau apprend des représentations plus robustes et distribuées. Au test : tous les neurones actifs, poids ×(1-p) ou ×p selon l'implémentation.</p>
+    </div>
+    <div class="card">
+      <h4>📦 Pourquoi Batch Normalization ?</h4>
+      <p>Normalise les activations de chaque mini-batch (μ=0, σ=1) avant l'activation. Réduit la sensibilité à l'initialisation des poids, permet d'utiliser des learning rates plus grands, réduit l'overfitting. Utilisé dans ResNet, VGG, etc.</p>
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">🆚 Comparatif Complet des Méthodes — Table de référence examen</h3>
+  <div class="card fade-in">
+    <table class="tbl">
+      <tr>
+        <th>Méthode</th>
+        <th>Type</th>
+        <th>Pour quelles données ?</th>
+        <th>Avantages clés</th>
+        <th>Limites</th>
+        <th>Hyperparamètres</th>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--cyan)">KNN</strong></td>
+        <td>Supervisé</td>
+        <td>Tout type, petite base</td>
+        <td>Simple, pas d'entraînement, frontières non-linéaires</td>
+        <td>Lent à la prédiction, sensible à l'échelle et aux outliers</td>
+        <td>K, distance</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--orange)">SVM</strong></td>
+        <td>Supervisé</td>
+        <td>Petite/moyenne base, haute dimension</td>
+        <td>Marge max, kernel trick, bonne généralisation</td>
+        <td>Lent sur grande base, sensible à l'échelle</td>
+        <td>C, γ, kernel</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--green)">MLP</strong></td>
+        <td>Supervisé</td>
+        <td>Données tabulaires structurées</td>
+        <td>Flexible, universel, facile à implémenter</td>
+        <td>Beaucoup de hyperparamètres, overfit sur petite base</td>
+        <td>nb_layers, nb_neurons, lr, epochs</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--amber)">CNN</strong></td>
+        <td>Supervisé</td>
+        <td>Images, séquences locales</td>
+        <td>State-of-art images, partage params, translation invariance</td>
+        <td>Besoin de beaucoup de données et de GPU</td>
+        <td>nb_filters, kernel_size, pooling, dropout</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--sky)">RNN/LSTM</strong></td>
+        <td>Supervisé</td>
+        <td>Séquences temporelles, texte</td>
+        <td>Mémoire longue durée (LSTM), modélise les dépendances temporelles</td>
+        <td>Lent à entraîner, vanishing gradient (RNN simple)</td>
+        <td>hidden_size, num_layers, dropout</td>
+      </tr>
+      <tr>
+        <td><strong style="color:#a78bfa">Kohonen SOM</strong></td>
+        <td>Non supervisé</td>
+        <td>Clustering, visualisation</td>
+        <td>Préserve topologie, visualisation 2D, pas de labels</td>
+        <td>Taille grille à choisir, résultat dépend init</td>
+        <td>grid_size, η, voisinage</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--green)">Logistic Reg.</strong></td>
+        <td>Supervisé</td>
+        <td>Classification linéaire</td>
+        <td>Simple, rapide, interprétable, probabilités calibrées</td>
+        <td>Limité aux frontières linéaires</td>
+        <td>C (régularisation), solver</td>
+      </tr>
+    </table>
+  </div>
+</section>
+<!-- ════════════════════════════════════════ QCM 1 ════════════════════════════════════════ -->
+<section id="qcm1">
+  <div class="sh fade-in">
+    <div class="sh-tag">QCM SÉRIE 1 · COURS</div>
+    <h2>QCM Niveau Difficile — Théorie</h2>
+    <p>Clique sur une réponse pour vérifier. Une explication apparaît après chaque choix.</p>
+  </div>
+
+  <div class="score-bar-wrap fade-in" id="score1-wrap">
+    <div class="score-label">Score QCM 1</div>
+    <div class="score-val" id="s1-val">0/0</div>
+    <div class="score-prog"><div class="score-fill" id="s1-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="q1" class="qblock fade-in">
+    <div class="qn">Q01 · Chapitre 1 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans la CAH (Classification Ascendante Hiérarchique), qu'est-ce qu'un dendrogramme et quelle information encode la hauteur de ses nœuds ?</div>
+    <button class="opt" onclick="ans('q1','A',false)">A. Graphe orienté des connexions neuronales, la hauteur = nombre de neurones.</button>
+    <button class="opt" onclick="ans('q1','B',true)">B. Arbre binaire hiérarchique des fusions successives. La hauteur d'un nœud = distance entre les clusters fusionnés à cette étape.</button>
+    <button class="opt" onclick="ans('q1','C',false)">C. Histogramme des distances intra-cluster, utilisé pour déterminer K.</button>
+    <button class="opt" onclick="ans('q1','D',false)">D. Matrice de dissimilarité entre tous les éléments du dataset.</button>
+    <div class="expl" id="expl-q1">✅ <strong>B.</strong> Le dendrogramme est la représentation visuelle de la CAH. Les feuilles = éléments individuels. Les nœuds internes = clusters créés par fusion. La hauteur encode la distance de fusion → couper le dendrogramme à une certaine hauteur donne k clusters. En MATLAB : pdist → linkage → dendrogram.</div>
+  </div>
+
+  <div id="q2" class="qblock fade-in">
+    <div class="qn">Q02 · Chapitre 2 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Quelle est la différence fondamentale entre Eigenfaces (ACP) et Fisherfaces (LDA) pour la reconnaissance faciale ?</div>
+    <button class="opt" onclick="ans('q2','A',false)">A. Les Eigenfaces utilisent des noyaux non-linéaires, les Fisherfaces sont linéaires.</button>
+    <button class="opt" onclick="ans('q2','B',false)">B. Les Eigenfaces sont supervisées, les Fisherfaces non supervisées.</button>
+    <button class="opt" onclick="ans('q2','C',true)">C. Les Eigenfaces maximisent la variance totale (représentation), les Fisherfaces maximisent le rapport variabilité interclasse/intraclasse (discrimination).</button>
+    <button class="opt" onclick="ans('q2','D',false)">D. Les deux sont équivalents pour grandes bases de données.</button>
+    <div class="expl" id="expl-q2">✅ <strong>C.</strong> ACP/Eigenfaces = compression optimale, code l'info globale sans distinction inter/intra. LDA/Fisherfaces = maximise séparation entre classes, robuste à l'illumination. Règle : petite base → ACP peut dépasser LDA. Grande base → LDA meilleure.</div>
+  </div>
+
+  <div id="q3" class="qblock fade-in">
+    <div class="qn">Q03 · Chapitre 3 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans un SVM à marge souple, un exemple xᵢ a εᵢ > 1. Que signifie cet exemple par rapport à la frontière de décision ?</div>
+    <button class="opt" onclick="ans('q3','A',false)">A. L'exemple est bien classé et se trouve sur un hyperplan canonique.</button>
+    <button class="opt" onclick="ans('q3','B',false)">B. L'exemple est bien classé et n'est pas un vecteur de support.</button>
+    <button class="opt" onclick="ans('q3','C',true)">C. L'exemple est mal classé (de l'autre côté de l'hyperplan de décision).</button>
+    <button class="opt" onclick="ans('q3','D',false)">D. L'exemple est exactement sur l'hyperplan optimal H.</button>
+    <div class="expl" id="expl-q3">✅ <strong>C.</strong> Les 3 cas SVM soft margin : εᵢ=0 → bien classé, pas VS. 0&lt;εᵢ≤1 → bien classé, sur hyperplan canonique (VS borné). εᵢ&gt;1 → <strong>mal classé</strong>, de l'autre côté de H. La contrainte devient yᵢ(⟨w,xᵢ⟩+b) ≥ 1-εᵢ &lt; 0 → mauvaise classification.</div>
+  </div>
+
+  <div id="q4" class="qblock fade-in">
+    <div class="qn">Q04 · Chapitre 4 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans l'algorithme de rétropropagation MLP, le gradient local δⱼ pour une couche cachée est :</div>
+    <button class="opt" onclick="ans('q4','A',false)">A. δⱼ = eⱼ(n)·yⱼ(n)·(1-yⱼ(n))</button>
+    <button class="opt" onclick="ans('q4','B',true)">B. δⱼ = yⱼ(n)·(1-yⱼ(n))·Σₖ δₖ(n)·wₖⱼ(n)</button>
+    <button class="opt" onclick="ans('q4','C',false)">C. δⱼ = -∂E(n)/∂wⱼᵢ directement</button>
+    <button class="opt" onclick="ans('q4','D',false)">D. δⱼ = yⱼ(n)·(1-yⱼ(n))·eⱼ(n)</button>
+    <div class="expl" id="expl-q4">✅ <strong>B.</strong> Pour la couche de SORTIE : δⱼ = eⱼ·yⱼ·(1-yⱼ) [réponse A]. Pour une couche CACHÉE : l'erreur locale n'est pas observable → on propage les δₖ de la couche suivante pondérés par wₖⱼ. f'(vⱼ) = yⱼ·(1-yⱼ) pour la sigmoïde.</div>
+  </div>
+
+  <div id="q5" class="qblock fade-in">
+    <div class="qn">Q05 · Chapitre 5 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Une image 64×64×1 passe par Conv(K=32, F=3, S=1, P=1) puis MaxPool(F=2, S=2) puis Conv(K=64, F=3, S=1, P=0). Quelle est la taille finale ?</div>
+    <button class="opt" onclick="ans('q5','A',false)">A. 32×32×64</button>
+    <button class="opt" onclick="ans('q5','B',false)">B. 30×30×64</button>
+    <button class="opt" onclick="ans('q5','C',true)">C. 30×30×64</button>
+    <button class="opt" onclick="ans('q5','D',false)">D. 14×14×64</button>
+    <div class="expl" id="expl-q5">✅ <strong>C.</strong> Étape 1 Conv P=1: (64-3+2)/1+1=64 → 64×64×32. Étape 2 MaxPool: (64-2)/2+1=32 → 32×32×32. Étape 3 Conv P=0: (32-3+0)/1+1=30 → <strong>30×30×64</strong>. Sans padding, la convolution réduit les dimensions de F-1 = 2 pixels de chaque côté.</div>
+  </div>
+
+  <div id="q6" class="qblock fade-in">
+    <div class="qn">Q06 · Chapitre 6 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans un LSTM, que se passe-t-il lorsque la forget gate fₜ ≈ 0 ?</div>
+    <button class="opt" onclick="ans('q6','A',false)">A. Le réseau oublie l'entrée courante xₜ.</button>
+    <button class="opt" onclick="ans('q6','B',false)">B. Le hidden state hₜ est mis à zéro.</button>
+    <button class="opt" onclick="ans('q6','C',true)">C. La cell state cₜ efface (oublie) l'information stockée dans cₜ₋₁ : cₜ ≈ iₜ⊙c̃ₜ.</button>
+    <button class="opt" onclick="ans('q6','D',false)">D. L'output gate est désactivée.</button>
+    <div class="expl" id="expl-q6">✅ <strong>C.</strong> cₜ = fₜ⊙cₜ₋₁ + iₜ⊙c̃ₜ. Quand fₜ≈0, le terme fₜ⊙cₜ₋₁≈0 → la mémoire longue terme cₜ₋₁ est complètement effacée. Seule la nouvelle information iₜ⊙c̃ₜ reste. Ex: changer de type de sport dans une séquence → oublier "soccer", mémoriser "basketball".</div>
+  </div>
+
+  <div id="q7" class="qblock fade-in">
+    <div class="qn">Q07 · Métriques <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Un modèle donne TP=80, FP=20, FN=40, TN=160. Quel est le F1-Score ?</div>
+    <button class="opt" onclick="ans('q7','A',false)">A. 0.800</button>
+    <button class="opt" onclick="ans('q7','B',true)">B. ≈ 0.727</button>
+    <button class="opt" onclick="ans('q7','C',false)">C. 0.888</button>
+    <button class="opt" onclick="ans('q7','D',false)">D. 0.667</button>
+    <div class="expl" id="expl-q7">✅ <strong>B.</strong> Precision = 80/(80+20) = 0.8. Recall = 80/(80+40) = 80/120 = 0.667. F1 = 2×(0.8×0.667)/(0.8+0.667) = 2×0.533/1.467 ≈ 0.727. Accuracy = (80+160)/300 = 0.8. Note : Accuracy et F1 peuvent différer — F1 est plus juste pour les classes déséquilibrées.</div>
+  </div>
+
+  <div id="q8" class="qblock fade-in">
+    <div class="qn">Q08 · Chapitre 4 <span class="diff-m">⬤ Moyen</span></div>
+    <div class="qtext">Quel problème résout le paramètre momentum μ dans la règle delta généralisée ?</div>
+    <button class="opt" onclick="ans('q8','A',false)">A. Il normalise les données d'entrée avant l'apprentissage.</button>
+    <button class="opt" onclick="ans('q8','B',true)">B. Il améliore la vitesse de convergence et évite les minima locaux en ajoutant une inertie basée sur le changement de poids précédent.</button>
+    <button class="opt" onclick="ans('q8','C',false)">C. Il réduit le nombre de paramètres du réseau.</button>
+    <button class="opt" onclick="ans('q8','D',false)">D. Il initialise les poids à des valeurs optimales.</button>
+    <div class="expl" id="expl-q8">✅ <strong>B.</strong> Δwⱼᵢ(n) = η·δⱼ·yᵢ + μ·Δwⱼᵢ(n-1). Le terme μ·Δwⱼᵢ(n-1) représente une inertie : si le poids continue dans la même direction, il continue. Cela accélère la convergence (grands pas dans les directions constantes) et aide à échapper aux minima locaux.</div>
+  </div>
+
+  <div id="q9" class="qblock fade-in">
+    <div class="qn">Q09 · Chapitre 3 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Pourquoi le "kernel trick" est-il fondamental dans les SVM non-linéaires ?</div>
+    <button class="opt" onclick="ans('q9','A',false)">A. Il réduit le nombre de vecteurs de support nécessaires.</button>
+    <button class="opt" onclick="ans('q9','B',false)">B. Il accélère l'algorithme d'optimisation quadratique.</button>
+    <button class="opt" onclick="ans('q9','C',true)">C. Il permet de calculer des produits scalaires dans un espace de haute dimension SANS calculer explicitement la transformation φ(x), rendant possible les espaces de dimension infinie.</button>
+    <button class="opt" onclick="ans('q9','D',false)">D. Il normalise les données automatiquement.</button>
+    <div class="expl" id="expl-q9">✅ <strong>C.</strong> La formulation duale du SVM n'utilise que des produits scalaires ⟨xᵢ,xⱼ⟩. Le kernel trick remplace ⟨xᵢ,xⱼ⟩ par k(xᵢ,xⱼ) = ⟨φ(xᵢ),φ(xⱼ)⟩ sans jamais calculer φ. Pour le noyau RBF Gaussien, l'espace φ a une dimension INFINIE → séparabilité garantie pour données suffisamment différentes.</div>
+  </div>
+
+  <div id="q10" class="qblock fade-in">
+    <div class="qn">Q10 · Chapitre 6 <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Quelle est la propriété fondamentale du réseau de Kohonen (SOM) qui le distingue des autres méthodes de clustering ?</div>
+    <button class="opt" onclick="ans('q10','A',false)">A. Il utilise des vecteurs de support comme le SVM.</button>
+    <button class="opt" onclick="ans('q10','B',false)">B. Il nécessite que le nombre de clusters K soit connu à l'avance.</button>
+    <button class="opt" onclick="ans('q10','C',true)">C. Il préserve la topologie : les données similaires sont mappées sur des neurones voisins dans la grille 2D, permettant la visualisation de structures haute dimension.</button>
+    <button class="opt" onclick="ans('q10','D',false)">D. Il apprend uniquement avec des données étiquetées (supervisé).</button>
+    <div class="expl" id="expl-q10">✅ <strong>C.</strong> Le SOM (Self-Organizing Map) est non supervisé. Sa propriété unique est la <strong>préservation de la topologie</strong> : des données proches dans l'espace d'entrée → voisines sur la grille 2D. Cela permet de visualiser des espaces haute dimension. Utile pour segmentation, détection d'anomalies, clustering sans étiquettes.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ QCM 2 ════════════════════════════════════════ -->
+<section id="qcm2">
+  <div class="sh fade-in">
+    <div class="sh-tag orange">QCM SÉRIE 2 · TPs & PRATIQUE</div>
+    <h2>QCM — Pratique Python & Applications</h2>
+    <p>Questions sur les TPs, le code Python et les applications (format possible en anglais)</p>
+  </div>
+
+  <div id="q11" class="qblock fade-in">
+    <div class="qn">Q11 · TP1 KNN <span class="diff-h">⬤ Hard</span></div>
+    <div class="qtext">In scikit-learn, why MUST you use StandardScaler BEFORE applying KNN, and what is the correct way to apply it?</div>
+    <button class="opt" onclick="ans('q11','A',false)">A. To convert data to integers. Apply scaler.fit_transform() on both train and test sets.</button>
+    <button class="opt" onclick="ans('q11','B',true)">B. KNN is distance-based, so features with large values dominate. Fit on train only: scaler.fit_transform(X_train), then scaler.transform(X_test).</button>
+    <button class="opt" onclick="ans('q11','C',false)">C. It is optional for KNN. Apply scaler.fit(X_test) after fitting on training data.</button>
+    <button class="opt" onclick="ans('q11','D',false)">D. To encode categorical variables. Apply scaler.fit_transform() on the entire dataset before splitting.</button>
+    <div class="expl" id="expl-q11">✅ <strong>B.</strong> CRITICAL: fit ONLY on training data (to avoid data leakage from test set). Then transform both. If you fit on test set too, you "cheat" by using information from unseen data. KNN uses distances → feature with sepal_length in cm (range 4-8) would dominate over feature in mm without normalization.</div>
+  </div>
+
+  <div id="q12" class="qblock fade-in">
+    <div class="qn">Q12 · TP1 Régression <span class="diff-m">⬤ Moyen</span></div>
+    <div class="qtext">Pour la régression linéaire, un R² = 0.95 signifie :</div>
+    <button class="opt" onclick="ans('q12','A',false)">A. Le modèle fait 95% de bonnes prédictions.</button>
+    <button class="opt" onclick="ans('q12','B',true)">B. 95% de la variance de la variable cible est expliquée par le modèle. Plus proche de 1 = meilleur modèle.</button>
+    <button class="opt" onclick="ans('q12','C',false)">C. L'erreur moyenne absolue est de 0.95.</button>
+    <button class="opt" onclick="ans('q12','D',false)">D. Le modèle overfit sur les données d'entraînement.</button>
+    <div class="expl" id="expl-q12">✅ <strong>B.</strong> R² (coefficient de détermination) = 1 - SS_res/SS_tot. R²=1 → prédictions parfaites. R²=0 → modèle équivalent à la moyenne. R²&lt;0 → modèle pire que la moyenne. MSE (Mean Squared Error) mesure l'erreur en unités au carré.</div>
+  </div>
+
+  <div id="q13" class="qblock fade-in">
+    <div class="qn">Q13 · TP2 SVM <span class="diff-h">⬤ Hard</span></div>
+    <div class="qtext">Dans le TP SVM, on compare les kernels 'linear', 'poly', 'rbf', 'sigmoid' sur Iris. Dans quel ordre typique se trouvent leurs performances ?</div>
+    <button class="opt" onclick="ans('q13','A',false)">A. sigmoid > linear > poly > rbf</button>
+    <button class="opt" onclick="ans('q13','B',true)">B. rbf ≈ linear > poly > sigmoid (en général sur Iris avec normalisation)</button>
+    <button class="opt" onclick="ans('q13','C',false)">C. poly > sigmoid > rbf > linear</button>
+    <button class="opt" onclick="ans('q13','D',false)">D. Tous ont exactement la même performance sur Iris.</button>
+    <div class="expl" id="expl-q13">✅ <strong>B.</strong> Sur Iris (normalisé), le noyau RBF obtient généralement 100% sur l'ensemble de test (même taille) et le linear est très proche car Setosa est linéairement séparable. Le sigmoid peut donner de mauvais résultats selon les paramètres. La cross-validation (GridSearchCV) est le bon outil pour optimiser C et gamma.</div>
+  </div>
+
+  <div id="q14" class="qblock fade-in">
+    <div class="qn">Q14 · TP3 MLP <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans le TP MLP avec Keras, quelle loss function utilise-t-on pour la classification multi-classes Iris (3 classes) et pourquoi ?</div>
+    <button class="opt" onclick="ans('q14','A',false)">A. binary_crossentropy, car les neurones de sortie utilisent sigmoïde.</button>
+    <button class="opt" onclick="ans('q14','B',false)">B. mean_squared_error, car c'est le critère standard.</button>
+    <button class="opt" onclick="ans('q14','C',true)">C. categorical_crossentropy avec labels one-hot encodés + softmax. Ou sparse_categorical_crossentropy avec labels entiers.</button>
+    <button class="opt" onclick="ans('q14','D',false)">D. hinge, comme pour SVM.</button>
+    <div class="expl" id="expl-q14">✅ <strong>C.</strong> Pour multi-classes : sortie = Dense(3, activation='softmax'). Si labels = one-hot ([0,1,0]) → loss = 'categorical_crossentropy'. Si labels = entiers (0,1,2) → loss = 'sparse_categorical_crossentropy'. binary_crossentropy est pour la classification binaire (1 neurone sortie + sigmoïde).</div>
+  </div>
+
+  <div id="q15" class="qblock fade-in">
+    <div class="qn">Q15 · TP4 CNN <span class="diff-h">⬤ Hard</span></div>
+    <div class="qtext">In the COVID-19 detection CNN lab, why is Recall (Sensitivity) for the COVID class the most critical metric?</div>
+    <button class="opt" onclick="ans('q15','A',false)">A. Because Precision is always higher than Recall for medical datasets.</button>
+    <button class="opt" onclick="ans('q15','B',false)">B. Because Recall is easier to compute than F1-Score.</button>
+    <button class="opt" onclick="ans('q15','C',true)">C. Because a False Negative (COVID patient classified as Healthy) is potentially fatal — we must minimize missed detections even at the cost of more false alarms (FP).</button>
+    <button class="opt" onclick="ans('q15','D',false)">D. Because the dataset is always balanced between COVID and Normal classes.</button>
+    <div class="expl" id="expl-q15">✅ <strong>C.</strong> Recall = TP/(TP+FN). FN = rater un vrai cas COVID = patient infecté non traité → peut mourir ou contaminer d'autres. FP = patient sain classé COVID = examen supplémentaire → moins grave. En médical : on préfère maximiser le Recall (Sensibilité) quitte à accepter plus de FP (perdre en Précision).</div>
+  </div>
+
+  <div id="q16" class="qblock fade-in">
+    <div class="qn">Q16 · TP4 CNN <span class="diff-m">⬤ Moyen</span></div>
+    <div class="qtext">Dans le TP CNN, quel est le rôle du batch_size dans l'entraînement ?</div>
+    <button class="opt" onclick="ans('q16','A',false)">A. Il détermine le nombre total d'epochs d'entraînement.</button>
+    <button class="opt" onclick="ans('q16','B',true)">B. Il contrôle combien d'images sont traitées avant chaque mise à jour des poids. Petit batch → updates fréquentes mais bruyantes. Grand batch → mises à jour stables mais moins fréquentes.</button>
+    <button class="opt" onclick="ans('q16','C',false)">C. Il détermine le nombre de couches du réseau.</button>
+    <button class="opt" onclick="ans('q16','D',false)">D. Il définit la taille de l'image d'entrée.</button>
+    <div class="expl" id="expl-q16">✅ <strong>B.</strong> batch_size=32 = 32 images traitées → 1 mise à jour des poids. Avec 1000 images, 1 epoch = 1000/32 ≈ 31 mises à jour. Petit batch (8-16) → descente stochastique bruyante mais escapes local minima. Grand batch (128-256) → descente plus stable mais risque de converger vers minima plats.</div>
+  </div>
+
+  <div id="q17" class="qblock fade-in">
+    <div class="qn">Q17 · Général <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Quelle est la différence entre une Loss Function et une Cost Function ?</div>
+    <button class="opt" onclick="ans('q17','A',false)">A. Ce sont des synonymes identiques en Machine Learning.</button>
+    <button class="opt" onclick="ans('q17','B',true)">B. La Loss Function mesure l'erreur sur UN seul exemple. La Cost Function est la moyenne (ou somme) de la loss sur TOUT le dataset.</button>
+    <button class="opt" onclick="ans('q17','C',false)">C. La Loss Function est pour la régression, la Cost Function pour la classification.</button>
+    <button class="opt" onclick="ans('q17','D',false)">D. La Cost Function est uniquement utilisée en SVM.</button>
+    <div class="expl" id="expl-q17">✅ <strong>B.</strong> Loss(ŷ⁽ⁱ⁾, y⁽ⁱ⁾) = erreur sur UN exemple. J(w) = (1/m)·Σᵢ L(ŷ⁽ⁱ⁾, y⁽ⁱ⁾) = moyenne sur m exemples = Cost Function. On minimise la Cost Function (globale) pendant l'entraînement. En pratique, souvent utilisés comme synonymes dans la littérature.</div>
+  </div>
+
+  <div id="q18" class="qblock fade-in">
+    <div class="qn">Q18 · Python/TP <span class="diff-m">⬤ Moyen</span></div>
+    <div class="qtext">Dans le code MATLAB KNN de Prof. Chelali : fitcknn(X,y,'NumNeighbors',5,'Standardize',1) — que fait l'option 'Standardize',1 ?</div>
+    <button class="opt" onclick="ans('q18','A',false)">A. Normalise les labels y entre 0 et 1.</button>
+    <button class="opt" onclick="ans('q18','B',true)">B. Standardise automatiquement les features X (soustrait la moyenne, divise par l'écart-type) avant de calculer les distances.</button>
+    <button class="opt" onclick="ans('q18','C',false)">C. Utilise la distance de Mahalanobis au lieu de la distance euclidienne.</button>
+    <button class="opt" onclick="ans('q18','D',false)">D. Applique une validation croisée avec 5 folds.</button>
+    <div class="expl" id="expl-q18">✅ <strong>B.</strong> 'Standardize',1 est équivalent à StandardScaler de scikit-learn dans MATLAB. Essentiel car KNN est basé sur des distances → features à grande échelle domineraient. C'est l'équivalent MATLAB de scaler = StandardScaler(); X = scaler.fit_transform(X) en Python.</div>
+  </div>
+
+  <div id="q19" class="qblock fade-in">
+    <div class="qn">Q19 · Deep Learning <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans le TP CNN COVID, on utilise ImageDataGenerator avec rotation_range=15. À quoi sert cette augmentation et quel problème résout-elle ?</div>
+    <button class="opt" onclick="ans('q19','A',false)">A. Elle augmente la résolution des images à 15 mégapixels.</button>
+    <button class="opt" onclick="ans('q19','B',false)">B. Elle sélectionne 15% des meilleures images du dataset.</button>
+    <button class="opt" onclick="ans('q19','C',true)">C. Elle génère artificiellement des variantes des images (rotations jusqu'à 15°) pour augmenter la taille effective du dataset et réduire l'overfitting, surtout critique en médical où les données sont rares.</button>
+    <button class="opt" onclick="ans('q19','D',false)">D. Elle effectue une normalisation en divisant les pixels par 15.</button>
+    <div class="expl" id="expl-q19">✅ <strong>C.</strong> La data augmentation crée des versions transformées des images existantes (rotation, flip, zoom, recadrage...). Le CNN voit ainsi plus de variations sans collecter de nouvelles données. En médical, les données radiologiques sont rares et coûteuses → augmentation essentielle. Résout l'overfitting sur petit dataset.</div>
+  </div>
+
+  <div id="q20" class="qblock fade-in">
+    <div class="qn">Q20 · Comparaison <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans le TP3, on compare MLP vs SVM vs Logistic Regression sur Iris. Dans quel cas SVM est-il PRÉFÉRABLE au MLP ?</div>
+    <button class="opt" onclick="ans('q20','A',false)">A. Quand le dataset a plus de 1 million d'exemples.</button>
+    <button class="opt" onclick="ans('q20','B',false)">B. Quand on a besoin d'un réseau avec plus de couches cachées.</button>
+    <button class="opt" onclick="ans('q20','C',true)">C. Quand le dataset est petit, que les frontières sont relativement simples, et qu'on veut un modèle plus interprétable avec moins de paramètres à tuner.</button>
+    <button class="opt" onclick="ans('q20','D',false)">D. Quand les données sont séquentielles (texte, parole).</button>
+    <div class="expl" id="expl-q20">✅ <strong>C.</strong> SVM > MLP quand : (1) petit dataset (SVM converge avec peu d'exemples), (2) frontières pas trop complexes, (3) interpretabilité souhaitée (vecteurs de support), (4) moins de hyperparamètres (C, gamma vs nb couches, nb neurones, lr, epochs). MLP > SVM pour : (1) grands datasets, (2) données images/séquences, (3) frontières très complexes.</div>
+  </div>
+
+  <div id="q21" class="qblock fade-in">
+    <div class="qn">Q21 · Kohonen SOM <span class="diff-h">⬤ Difficile</span></div>
+    <div class="qtext">Dans le réseau de Kohonen, deux clusters ont la même distance euclidienne au vecteur d'entrée (D(1) = D(2) = 1.34). Que fait-on, et que se passe-t-il lors de la mise à jour ?</div>
+    <button class="opt" onclick="ans('q21','A',false)">A. On met à jour les deux clusters simultanément avec le même η.</button>
+    <button class="opt" onclick="ans('q21','B',false)">B. On abandonne cet exemple d'entraînement, il est ambigu.</button>
+    <button class="opt" onclick="ans('q21','C',true)">C. On choisit le cluster avec le plus petit indice comme BMU. Seul ce cluster (et ses voisins topologiques) est mis à jour : w_BMU(new) = w_BMU(old) + η·(x − w_BMU(old)).</button>
+    <button class="opt" onclick="ans('q21','D',false)">D. On augmente η puis on recalcule les distances.</button>
+    <div class="expl" id="expl-q21">✅ <strong>C.</strong> Quand D(1)=D(2), on choisit le gagnant par convention (plus petit indice ou aléatoirement). La règle de mise à jour : w_j(new) = w_j(old) + η·(x − w_j(old)). Le vecteur de poids se <strong>rapproche</strong> du vecteur d'entrée. Dans l'exercice du cours : w₁₁ = 1 + 0.25×(0−1) = 0.75, w₂₁ = 0.9 + 0.25×(0.5−0.9) = 0.8, etc. Y₂ reste inchangé.</div>
+  </div>
+
+  <div id="q22" class="qblock fade-in">
+    <div class="qn">Q22 · Kohonen vs K-means <span class="diff-m">⬤ Moyen</span></div>
+    <div class="qtext">Quelle est la différence principale entre le réseau de Kohonen (SOM) et l'algorithme K-means ?</div>
+    <button class="opt" onclick="ans('q22','A',false)">A. K-means est supervisé, le SOM est non supervisé.</button>
+    <button class="opt" onclick="ans('q22','B',false)">B. Le SOM n'a pas besoin de choisir K à l'avance.</button>
+    <button class="opt" onclick="ans('q22','C',true)">C. Le SOM préserve la topologie de l'espace d'entrée (données similaires → neurones voisins sur la grille). K-means crée des clusters sans contrainte de voisinage spatial.</button>
+    <button class="opt" onclick="ans('q22','D',false)">D. Le SOM utilise la backpropagation, K-means non.</button>
+    <div class="expl" id="expl-q22">✅ <strong>C.</strong> Les deux sont non supervisés et nécessitent de choisir le nombre de clusters. La différence fondamentale : le SOM organise les clusters dans une grille 2D et préserve la topologie → permet la <strong>visualisation</strong> des données haute dimension. K-means crée des clusters sans relation spatiale entre eux. Le SOM met à jour le BMU ET ses voisins (coopération), K-means met à jour seulement le centroïde gagnant.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ EXERCICES ════════════════════════════════════════ -->
+<section id="exos">
+  <div class="sh fade-in">
+    <div class="sh-tag amber">EXERCICES CORRIGÉS</div>
+    <h2>8 Exercices — Calcul, Analyse, Code (+ Kohonen)</h2>
+    <p>Variété maximale pour couvrir tous les types de questions possibles.</p>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 01</span><span class="exo-ttl">Calcul KNN Numérique</span><span class="exo-type">📊 Calcul</span></div>
+    <div class="exo-body">
+      <p>Prototypes 2D : A₁=(1,2)/ClasseA, A₂=(3,4)/ClasseA, B₁=(6,1)/ClasseB, B₂=(7,3)/ClasseB, B₃=(5,5)/ClasseB. Vecteur inconnu X=(4,3).</p>
+      <ol>
+        <li>Calculer D(X,Pᵢ) euclidienne pour chaque prototype.</li>
+        <li>Classe de X avec K=1 ?</li>
+        <li>Classe de X avec K=3 ? Justifier par vote.</li>
+        <li>Si on utilisait la distance City Block, recalculer D(X,A₂) et D(X,B₁).</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s1')">🔓 Solution</button>
+      <div class="sol-panel" id="s1">
+        <strong>1. Distances euclidiennes :</strong><br>
+        D(X,A₁) = √((4-1)²+(3-2)²) = √(9+1) = √10 ≈ 3.16<br>
+        D(X,A₂) = √((4-3)²+(3-4)²) = √(1+1) = √2 ≈ 1.41<br>
+        D(X,B₁) = √((4-6)²+(3-1)²) = √(4+4) = √8 ≈ 2.83<br>
+        D(X,B₂) = √((4-7)²+(3-3)²) = √9 = 3.00<br>
+        D(X,B₃) = √((4-5)²+(3-5)²) = √(1+4) = √5 ≈ 2.24<br><br>
+        <strong>2. K=1 :</strong> Plus proche = A₂ (1.41, ClasseA) → X ∈ <strong>ClasseA</strong><br><br>
+        <strong>3. K=3 :</strong> Top 3 : A₂(1.41,A), B₃(2.24,B), B₁(2.83,B) → Vote : A=1, B=2 → X ∈ <strong>ClasseB</strong><br><br>
+        <strong>4. City Block :</strong> D(X,A₂) = |4-3|+|3-4| = 1+1 = <strong>2</strong>. D(X,B₁) = |4-6|+|3-1| = 2+2 = <strong>4</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 02</span><span class="exo-ttl">Décision Bayésienne + Confusion Matrix</span><span class="exo-type">📐 Probabilités & Métriques</span></div>
+    <div class="exo-body">
+      <p>Classes w1 (COVID+) et w2 (Sain). P(w1)=0.3, P(w2)=0.7. Pour observation x=7 : P(x/w1)=0.6, P(x/w2)=0.2.</p>
+      <p style="margin-top:8px">Résultats sur 500 patients : TP=120, FP=30, FN=40, TN=310.</p>
+      <ol>
+        <li>Appliquer la règle Bayésienne. Classer x=7.</li>
+        <li>Calculer Accuracy, Precision, Recall, F1-Score.</li>
+        <li>Dans ce contexte médical, quelle métrique maximiser et pourquoi ?</li>
+        <li>Que vaut P(x=7) (probabilité totale) ?</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s2')">🔓 Solution</button>
+      <div class="sol-panel" id="s2">
+        <strong>1. Bayésien :</strong><br>
+        P(x/w1)×P(w1) = 0.6×0.3 = <strong>0.18</strong><br>
+        P(x/w2)×P(w2) = 0.2×0.7 = <strong>0.14</strong><br>
+        0.18 &gt; 0.14 → Décision : <strong>w1 (COVID+)</strong><br><br>
+        <strong>4. P(x=7)</strong> = 0.18 + 0.14 = <strong>0.32</strong><br>
+        P(w1/x) = 0.18/0.32 ≈ 0.5625, P(w2/x) ≈ 0.4375<br><br>
+        <strong>2. Métriques (sur 500 patients) :</strong><br>
+        Accuracy = (120+310)/500 = 430/500 = <strong>0.86</strong><br>
+        Precision = 120/(120+30) = 120/150 = <strong>0.80</strong><br>
+        Recall = 120/(120+40) = 120/160 = <strong>0.75</strong><br>
+        F1 = 2×(0.80×0.75)/(0.80+0.75) = 2×0.60/1.55 ≈ <strong>0.774</strong><br><br>
+        <strong>3.</strong> Maximiser le <strong>Recall (Sensibilité)</strong>. FN = patient COVID non détecté = peut contaminer d'autres, risque de décès. On préfère quelques FP (examens supplémentaires inutiles) à des FN (décès).
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 03</span><span class="exo-ttl">Calcul Dimensions CNN</span><span class="exo-type">🖼 Deep Learning</span></div>
+    <div class="exo-body">
+      <p>Un CNN reçoit des images 128×128×3 (couleur). Architecture :</p>
+      <ol>
+        <li>Conv1 : K=32 filtres, F=5, S=1, P=2 → calculer taille de sortie.</li>
+        <li>MaxPool1 : F=2, S=2 → calculer taille de sortie.</li>
+        <li>Conv2 : K=64 filtres, F=3, S=1, P=1 → calculer taille de sortie.</li>
+        <li>MaxPool2 : F=2, S=2 → calculer taille de sortie.</li>
+        <li>Flatten → calculer le nombre de valeurs.</li>
+        <li>FC1(512) → combien de paramètres (poids + biais) dans cette couche ?</li>
+        <li>Pourquoi ajouter Dropout(0.5) après FC1 ?</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s3')">🔓 Solution</button>
+      <div class="sol-panel" id="s3">
+        <strong>1. Conv1 :</strong> W = (128-5+2×2)/1+1 = 128. Sortie : <strong>128×128×32</strong><br>
+        <strong>2. MaxPool1 :</strong> W = (128-2)/2+1 = 64. Sortie : <strong>64×64×32</strong><br>
+        <strong>3. Conv2 :</strong> W = (64-3+2×1)/1+1 = 64. Sortie : <strong>64×64×64</strong><br>
+        <strong>4. MaxPool2 :</strong> W = (64-2)/2+1 = 32. Sortie : <strong>32×32×64</strong><br>
+        <strong>5. Flatten :</strong> 32×32×64 = <strong>65 536 valeurs</strong><br>
+        <strong>6. FC1(512) :</strong> 65536×512 + 512 (biais) = <strong>33 554 944 paramètres</strong><br>
+        <strong>7. Dropout(0.5) :</strong> Désactive aléatoirement 50% des neurones → évite que les neurones co-adaptent, réduit l'overfitting, améliore la généralisation.
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 04</span><span class="exo-ttl">Backpropagation Manuel</span><span class="exo-type">🔄 MLP Calcul</span></div>
+    <div class="exo-body">
+      <p>MLP : 1 entrée (x=2), 1 neurone caché (sigmoïde, w₁=0.3, b₁=0), 1 neurone sortie (sigmoïde, w₂=0.6, b₂=0). Sortie désirée d=1. η=0.5.</p>
+      <ol>
+        <li>Calculer la sortie h du neurone caché.</li>
+        <li>Calculer la sortie y du réseau.</li>
+        <li>Calculer l'erreur e = d - y.</li>
+        <li>Calculer δ₂ (gradient local couche sortie).</li>
+        <li>Calculer Δw₂ = η·δ₂·h et nouveau w₂.</li>
+        <li>Calculer δ₁ (gradient local couche cachée).</li>
+        <li>Calculer Δw₁ = η·δ₁·x et nouveau w₁.</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s4')">🔓 Solution</button>
+      <div class="sol-panel" id="s4">
+        <strong>1.</strong> h = σ(0.3×2) = σ(0.6) = 1/(1+e⁻⁰·⁶) = 1/(1+0.5488) ≈ <strong>0.6457</strong><br>
+        <strong>2.</strong> y = σ(0.6×0.6457) = σ(0.3874) = 1/(1+e⁻⁰·³⁸⁷⁴) ≈ <strong>0.5957</strong><br>
+        <strong>3.</strong> e = 1 - 0.5957 = <strong>0.4043</strong><br>
+        <strong>4.</strong> δ₂ = e × y × (1-y) = 0.4043 × 0.5957 × 0.4043 ≈ <strong>0.0974</strong><br>
+        <strong>5.</strong> Δw₂ = 0.5 × 0.0974 × 0.6457 ≈ 0.0314 → w₂_new = 0.6 + 0.0314 = <strong>0.6314</strong><br>
+        <strong>6.</strong> δ₁ = h×(1-h) × δ₂×w₂ = 0.6457×0.3543 × 0.0974×0.6 = 0.2287 × 0.0584 ≈ <strong>0.01336</strong><br>
+        <strong>7.</strong> Δw₁ = 0.5 × 0.01336 × 2 = 0.01336 → w₁_new = 0.3 + 0.01336 ≈ <strong>0.3134</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 05</span><span class="exo-ttl">SVM — Marge et Vecteurs de Support</span><span class="exo-type">⚡ SVM</span></div>
+    <div class="exo-body">
+      <p>Données 1D : Classe +1 : x={1, 2}. Classe -1 : x={5, 6}. Hyperplan 1D : w·x + b = 0.</p>
+      <ol>
+        <li>Identifier les vecteurs de support potentiels (points les plus proches de la frontière).</li>
+        <li>L'hyperplan optimal est à mi-distance entre les deux classes. Trouver w et b.</li>
+        <li>Calculer la marge.</li>
+        <li>Vérifier que les contraintes yᵢ(w·xᵢ + b) ≥ 1 sont satisfaites pour tous les points.</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s5')">🔓 Solution</button>
+      <div class="sol-panel" id="s5">
+        <strong>1. Vecteurs de support :</strong> Points les plus proches = x=2 (classe +1) et x=5 (classe -1).<br><br>
+        <strong>2. Hyperplan optimal :</strong> Se trouve à mi-distance entre 2 et 5 → x* = 3.5. Donc w·3.5 + b = 0.<br>
+        H₁ (classe +1) : w·2 + b = +1. H₂ (classe -1) : w·5 + b = -1.<br>
+        De H₁ - H₂ : w·(2-5) = 2 → -3w = 2 → <strong>w = -2/3</strong>.<br>
+        De H₁ : -2/3×2 + b = 1 → b = 1 + 4/3 = <strong>7/3</strong>.<br><br>
+        <strong>3. Marge :</strong> 2/‖w‖ = 2/(2/3) = <strong>3</strong>.<br><br>
+        <strong>4. Vérification :</strong><br>
+        x=1(+1): +1×(-2/3×1 + 7/3) = +1×5/3 = 5/3 &gt; 1 ✓<br>
+        x=2(+1): +1×(-4/3 + 7/3) = 3/3 = 1 ≥ 1 ✓ (VS)<br>
+        x=5(-1): -1×(-10/3 + 7/3) = -1×(-1) = 1 ≥ 1 ✓ (VS)<br>
+        x=6(-1): -1×(-12/3 + 7/3) = -1×(-5/3) = 5/3 &gt; 1 ✓
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 06</span><span class="exo-ttl">Question de Synthèse — Pipeline Complet</span><span class="exo-type">💭 Analyse</span></div>
+    <div class="exo-body">
+      <ol>
+        <li>Décrire le pipeline complet d'un système de reconnaissance faciale basé sur CNN, de l'image brute à la décision finale.</li>
+        <li>Comparer CNN vs MLP vs SVM pour la classification d'images médicales. Quand utiliser chaque méthode ?</li>
+        <li>Expliquer pourquoi la normalisation est essentielle pour KNN et SVM mais moins critique pour les arbres de décision.</li>
+        <li>Dans un système de détection de fraude bancaire avec 99% de transactions légitimes et 1% fraude : quelle métrique optimiser et pourquoi ? Que vaut l'Accuracy d'un classifieur "tout légitime" ?</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s6')">🔓 Solution guidée</button>
+      <div class="sol-panel" id="s6">
+        <strong>1. Pipeline CNN facial :</strong> Acquisition image RGB → Prétraitement (resize 224×224, normalisation pixel/255) → Data Augmentation (train) → CNN : Conv+ReLU+Pool ×N → Flatten → FC → Softmax → argmax → classe prédite. Entraînement : backpropagation, Adam, categorical_crossentropy.<br><br>
+        <strong>2. Comparaison :</strong> CNN → images/séquences, grande base, frontières complexes, state-of-art. MLP → données tabulaires structurées, architecture flexible. SVM → petite/moyenne base, théorie solide, moins de hyperparamètres. En médical avec peu de données → Transfer Learning + CNN pré-entraîné.<br><br>
+        <strong>3.</strong> KNN et SVM sont basés sur des distances/produits scalaires → les features à grande échelle dominent. Arbres de décision → comparaisons seuil par seuil → pas affectés par l'échelle.<br><br>
+        <strong>4.</strong> Classifieur "tout légitime" : Accuracy = 99% (mais détecte 0% de fraude !). Métrique à maximiser : <strong>Recall pour fraude</strong> (FN = fraude non détectée = perte financière). Utiliser F1-Score ou AUC-ROC. L'accuracy est trompeuse sur datasets déséquilibrés.
+      </div>
+    </div>
+  </div>
+
+  <div class="exo fade-in">
+    <div class="exo-hd"><span class="exo-num">EXO 07</span><span class="exo-ttl">Moments Géométriques & Descripteurs</span><span class="exo-type">📐 Descripteurs</span></div>
+    <div class="exo-body">
+      <p>Soit une image binaire 3×3 :</p>
+      <div class="code" style="text-align:center">f(i,j) :  0 1 0
+          1 1 1
+          0 1 0
+(indexé i=0,1,2 lignes ; j=0,1,2 colonnes)</div>
+      <ol>
+        <li>Calculer m₀₀ (aire), m₁₀ et m₀₁ (moments d'ordre 1).</li>
+        <li>Calculer le centre de masse (x̄, ȳ).</li>
+        <li>Si périmètre P=8 et aire A=5, calculer la compacité.</li>
+        <li>Expliquer pourquoi les moments sont utilisés comme descripteurs de formes.</li>
+      </ol>
+      <button class="sol-btn" onclick="toggleSol('s7')">🔓 Solution</button>
+      <div class="sol-panel" id="s7">
+        <strong>1.</strong> m₀₀ = Σᵢ Σⱼ f(i,j) = 0+1+0+1+1+1+0+1+0 = <strong>5</strong> (aire)<br>
+        m₁₀ = Σᵢ Σⱼ i·f(i,j) = 0·0+0·1+0·0+1·1+1·1+1·1+2·0+2·1+2·0 = 0+0+0+1+1+1+0+2+0 = <strong>5</strong><br>
+        m₀₁ = Σᵢ Σⱼ j·f(i,j) = 0·0+1·1+2·0+0·1+1·1+2·1+0·0+1·1+2·0 = 0+1+0+0+1+2+0+1+0 = <strong>5</strong><br><br>
+        <strong>2. Centre de masse :</strong> x̄ = m₁₀/m₀₀ = 5/5 = <strong>1</strong>. ȳ = m₀₁/m₀₀ = 5/5 = <strong>1</strong>. (Centre de l'image ✓ — symétrie en croix)<br><br>
+        <strong>3. Compacité :</strong> P²/A = 8²/5 = 64/5 = <strong>12.8</strong><br><br>
+        <strong>4.</strong> Les moments capturent l'organisation géométrique intérieure des points d'une surface. Les moments centraux (centrés sur le barycentre) sont invariants par translation. Les moments normalisés sont invariants par scale. Les moments de Hu sont invariants par rotation/translation/scale → descripteurs robustes.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ CHEATSHEET ════════════════════════════════════════ -->
+<section id="cheatsheet">
+  <div class="sh fade-in">
+    <div class="sh-tag green">AIDE-MÉMOIRE</div>
+    <h2>Formules Clés + Cheatsheet Python</h2>
+    <p>Tout ce qu'il faut avoir en tête pour l'examen — condensé maximum.</p>
+  </div>
+
+  <div class="fml-grid fade-in">
+    <div class="fml"><h4>📏 Distances</h4><div class="fml-code">Euclidienne: √Σ(x₁ₖ-x₂ₖ)²
+City Block : Σ|x₁ₖ-x₂ₖ|
+Tchebycheff: max|x₁ₖ-x₂ₖ|
+Mahalanobis: √((x-μ)ᵀΣ⁻¹(x-μ))</div></div>
+
+    <div class="fml"><h4>🎲 Bayes</h4><div class="fml-code">P(wᵢ/x) = P(x/wᵢ)·P(wᵢ) / P(x)
+P(x) = Σⱼ P(x/wⱼ)·P(wⱼ)
+Décide wᵢ si P(x/wᵢ)·P(wᵢ) est max</div></div>
+
+    <div class="fml"><h4>📊 Confusion Matrix</h4><div class="fml-code">Accuracy  = (TP+TN)/(TP+TN+FP+FN)
+Precision = TP/(TP+FP)
+Recall    = TP/(TP+FN)
+F1 Score  = 2·P·R/(P+R)
+Spécific. = TN/(TN+FP)</div></div>
+
+    <div class="fml"><h4>⚡ SVM</h4><div class="fml-code">Marge = 2/‖w‖  →  min ½‖w‖²
+Soft: min ½‖w‖²+C·Σεᵢ
+Décision: sign(Σaᵢyᵢk(x,xᵢ)+b)
+RBF: k(x,y)=exp(-‖x-y‖²/2σ²)</div></div>
+
+    <div class="fml"><h4>🔄 Backprop</h4><div class="fml-code">eⱼ = dⱼ - yⱼ
+δⱼ sortie = eⱼ·yⱼ·(1-yⱼ)
+δⱼ caché  = yⱼ·(1-yⱼ)·Σₖδₖwₖⱼ
+Δwⱼᵢ = η·δⱼ·yᵢ + μ·Δwⱼᵢ(n-1)</div></div>
+
+    <div class="fml"><h4>🖼 CNN Dimensions</h4><div class="fml-code">Conv : W_out=(W-F+2P)/S+1
+Pool : W_out=(W-F)/S+1
+Params conv = F²·D_in·K + K
+Params FC   = N_in·N_out + N_out</div></div>
+
+    <div class="fml"><h4>🔁 LSTM</h4><div class="fml-code">fₜ = σ(Wf·[hₜ₋₁,xₜ]+bf) forget
+iₜ = σ(Wi·[hₜ₋₁,xₜ]+bi) input
+cₜ = fₜ⊙cₜ₋₁ + iₜ⊙c̃ₜ  cell
+oₜ = σ(Wo·[hₜ₋₁,xₜ]+bo) output
+hₜ = oₜ⊙tanh(cₜ)         hidden</div></div>
+
+    <div class="fml"><h4>📐 Descripteurs</h4><div class="fml-code">Élongation  = L_grand/L_petit
+Compacité   = P²/A
+m_pq = ΣᵢΣⱼ xᵢᵖ·yⱼq·f(i,j)
+σ'(x) = σ(x)·(1-σ(x))
+tanh'(x) = 1 - tanh²(x)</div></div>
+
+    <div class="fml"><h4>📈 Régression</h4><div class="fml-code">Linéaire : y = β₀ + β₁x
+MSE = (1/n)Σ(yᵢ-ŷᵢ)²
+R² = 1 - SS_res/SS_tot
+Logistique : P(y=1) = σ(w·x+b)</div></div>
+
+    <div class="fml"><h4>🎯 Activation</h4><div class="fml-code">Sigmoïde : 1/(1+e⁻ˣ) → (0,1)
+Tanh     : (eˣ-e⁻ˣ)/(eˣ+e⁻ˣ) → (-1,1)
+ReLU     : max(0,x) → [0,∞)
+Leaky    : max(αx,x)
+Softmax  : eˣⁱ/Σeˣʲ → [0,1] Σ=1</div></div>
+
+    <div class="fml"><h4>📦 Régularisation</h4><div class="fml-code">L1 (Lasso) : J + λΣ|wᵢ|
+L2 (Ridge) : J + λΣwᵢ²
+Dropout    : désactive p% neurones
+Early Stop : stop si val_loss↑</div></div>
+
+    <div class="fml"><h4>🗺️ Kohonen (SOM)</h4><div class="fml-code">BMU = argmin‖x - wⱼ‖
+Δwⱼ = η·h(j,BMU)·(x-wⱼ)
+h = fonction de voisinage
+η(t) → 0 avec le temps</div></div>
+  </div>
+
+  <h3 class="sh3 fade-in">🐍 Scikit-Learn Cheatsheet Rapide</h3>
+  <div class="py-block fade-in">
+    <div class="py-header">sklearn_cheatsheet.py</div>
+    <div class="py-content">
+<span class="cm"># ═══ IMPORTS ESSENTIELS ═══</span>
+<span class="kw">from</span> sklearn.datasets <span class="kw">import</span> load_iris, make_circles
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split, cross_val_score, GridSearchCV
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, MinMaxScaler
+<span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier
+<span class="kw">from</span> sklearn.svm <span class="kw">import</span> SVC
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression, LogisticRegression
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (accuracy_score, confusion_matrix, 
+    classification_report, mean_squared_error, r2_score, f1_score)
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+<span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> PCA
+<span class="kw">from</span> sklearn.discriminant_analysis <span class="kw">import</span> LinearDiscriminantAnalysis
+
+<span class="cm"># ═══ PIPELINE TYPE ═══</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="nb">0.3</span>)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)   <span class="cm"># fit ONLY on train</span>
+X_test  = scaler.transform(X_test)         <span class="cm"># transform test</span>
+
+<span class="cm"># ═══ MODÈLES ═══</span>
+knn   = KNeighborsClassifier(n_neighbors=<span class="nb">5</span>)
+svm   = SVC(kernel=<span class="st">'rbf'</span>, C=<span class="nb">1.0</span>, gamma=<span class="st">'scale'</span>)
+lr    = LogisticRegression(max_iter=<span class="nb">200</span>)
+linreg = LinearRegression()
+pca   = PCA(n_components=<span class="nb">2</span>)
+lda   = LinearDiscriminantAnalysis()
+
+<span class="cm"># ═══ ÉVALUATION ═══</span>
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+<span class="fn">print</span>(accuracy_score(y_test, y_pred))
+<span class="fn">print</span>(classification_report(y_test, y_pred))
+<span class="fn">print</span>(confusion_matrix(y_test, y_pred))
+
+<span class="cm"># ═══ CROSS-VALIDATION ═══</span>
+scores = cross_val_score(svm, X, y, cv=<span class="nb">5</span>, scoring=<span class="st">'accuracy'</span>)
+<span class="fn">print</span>(<span class="fn">f</span><span class="st">"CV: {scores.mean():.3f} ± {scores.std():.3f}"</span>)
+
+<span class="cm"># ═══ GRID SEARCH ═══</span>
+params = {<span class="st">'C'</span>: [<span class="nb">0.1</span>,<span class="nb">1</span>,<span class="nb">10</span>], <span class="st">'gamma'</span>: [<span class="st">'scale'</span>,<span class="nb">0.1</span>,<span class="nb">0.01</span>]}
+gs = GridSearchCV(SVC(kernel=<span class="st">'rbf'</span>), params, cv=<span class="nb">5</span>)
+gs.fit(X_train, y_train)
+<span class="fn">print</span>(gs.best_params_, gs.best_score_)
+
+<span class="cm"># ═══ RÉGRESSION ═══</span>
+linreg.fit(X_train, y_train)
+y_pred_r = linreg.predict(X_test)
+<span class="fn">print</span>(<span class="st">"MSE:"</span>, mean_squared_error(y_test, y_pred_r))
+<span class="fn">print</span>(<span class="st">"R²: "</span>, r2_score(y_test, y_pred_r))
+    </div>
+  </div>
+
+  <h3 class="sh3 fade-in">⚠️ Pièges & Erreurs Classiques</h3>
+  <div class="g2 fade-in">
+    <div class="card glow-cyan">
+      <h4>❌ Ne jamais faire</h4>
+      <ul>
+        <li>Fit StandardScaler sur le test set</li>
+        <li>Utiliser sigmoïde en couche cachée profonde (vanishing gradient)</li>
+        <li>Confondre FP (Type I) et FN (Type II)</li>
+        <li>Oublier le padding → les dimensions rétrécissent à chaque Conv</li>
+        <li>Penser que haute Accuracy = bon modèle sur classes déséquilibrées</li>
+      </ul>
+    </div>
+    <div class="card glow-orange">
+      <h4>✅ Toujours vérifier</h4>
+      <ul>
+        <li>Normaliser AVANT KNN et SVM</li>
+        <li>Utiliser ReLU en couches cachées</li>
+        <li>One-hot ou sparse selon la loss function Keras</li>
+        <li>P = D_in × F² × K paramètres par couche Conv</li>
+        <li>Le pooling ne change PAS la profondeur D</li>
+        <li>LDA &gt; ACP pour grande base; ACP peut &gt; LDA pour petite base</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:40px 24px;border-top:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:11px">
+  IA·USTHB · Master 1 ST · Prof. Fatma Zohra Chelali · Révision Complète 2024–2025<br>
+  <span style="color:var(--cyan)">bonne chance ! 💪</span>
+</footer>
+
+<script>
+// Back to top button
+window.addEventListener('scroll', () => {
+  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 500);
+
+  // Reading progress
+  const s = document.documentElement;
+  const prog = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+  document.getElementById('reading-progress').style.width = prog + '%';
+
+  // Active nav
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav a');
+  let cur = '';
+  sections.forEach(sc => { if (window.scrollY >= sc.offsetTop - 120) cur = sc.id; });
+  links.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+  });
+});
+
+// Intersection observer for fade-in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// QCM state
+const qState = {};
+function ans(qid, opt, correct) {
+  if (qState[qid]) return;
+  qState[qid] = { correct };
+  const q = document.getElementById(qid);
+  q.querySelectorAll('.opt').forEach(b => {
+    const letter = b.textContent[0];
+    if (letter === opt) b.classList.add(correct ? 'correct' : 'wrong');
+    if (!correct) {
+      const fn = b.getAttribute('onclick');
+      if (fn && fn.includes('true')) b.classList.add('reveal');
+    }
+  });
+  const expl = document.getElementById('expl-' + qid);
+  if (expl) expl.classList.add('show');
+  updateScore();
+}
+function updateScore() {
+  const total = Object.keys(qState).length;
+  const good = Object.values(qState).filter(x => x.correct).length;
+  const wrap = document.getElementById('score1-wrap');
+  if (wrap) wrap.style.display = total ? 'flex' : 'none';
+  const val = document.getElementById('s1-val');
+  if (val) val.textContent = good + '/' + total;
+  const pct = total ? good / total * 100 : 0;
+  const fill = document.getElementById('s1-fill');
+  if (fill) {
+    fill.style.width = pct + '%';
+    fill.style.background = pct >= 70 ? 'linear-gradient(90deg,var(--green),var(--cyan))' : pct >= 40 ? 'linear-gradient(90deg,var(--amber),var(--orange))' : 'linear-gradient(90deg,var(--red),var(--orange))';
+  }
+}
+
+// TP toggles
+function toggleTP(id) {
+  const body = document.getElementById(id);
+  const tog = document.getElementById(id + '-tog');
+  const show = body.classList.toggle('show');
+  tog.textContent = show ? '▼' : '▶';
+  tog.classList.toggle('open', show);
+}
+
+// Exercice solutions
+function toggleSol(id) {
+  const p = document.getElementById(id);
+  const btn = p.previousElementSibling;
+  const show = p.classList.toggle('show');
+  btn.textContent = show ? '🔒 Masquer' : '🔓 Solution';
+}
+
+// Search functionality
+let searchHL = [];
+function doSearch(q) {
+  // Remove previous highlights
+  document.querySelectorAll('.highlight-search').forEach(el => {
+    el.outerHTML = el.textContent;
+  });
+  searchHL = [];
+  const count = document.getElementById('search-count');
+  if (!q || q.length < 2) { count.textContent = ''; return; }
+  
+  // Collect all text nodes in main
+  const main = document.querySelector('main');
+  if (!main) return;
+  const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi');
+  
+  // Simple approach: search in text content of paragraph elements
+  let found = 0;
+  let firstEl = null;
+  const searchable = main.querySelectorAll('p, li, h3, h4, .hl, .step-desc, .step-title, .fml-code, td, .exo-body');
+  searchable.forEach(el => {
+    const text = el.innerHTML;
+    const newText = text.replace(regex, m => {
+      found++;
+      return `<mark class="highlight-search">${m}</mark>`;
+    });
+    if (newText !== text) {
+      el.innerHTML = newText;
+      if (!firstEl) firstEl = el;
+    }
+  });
+  
+  count.textContent = found ? found + ' résultat(s)' : 'Aucun résultat';
+  if (firstEl) firstEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>

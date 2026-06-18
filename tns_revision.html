@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Révision Complète TNS – M1 ST</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #fdf6ff;
+    --pink: #e91e8c;
+    --pink-light: #fce4f3;
+    --purple: #7b2d8b;
+    --purple-light: #f0e6f6;
+    --blue: #1565c0;
+    --blue-light: #e3f0ff;
+    --green: #2e7d32;
+    --green-light: #e8f5e9;
+    --orange: #e65100;
+    --orange-light: #fff3e0;
+    --yellow: #f9a825;
+    --yellow-light: #fffde7;
+    --red: #c62828;
+    --red-light: #ffebee;
+    --teal: #00695c;
+    --teal-light: #e0f2f1;
+    --gray: #455a64;
+    --card-bg: #ffffff;
+    --border: #e0d0f0;
+    --code-bg: #f5f0ff;
+    --shadow: 0 2px 8px rgba(120,60,180,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: #222;
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+
+  .page {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 18px 16px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--purple);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .header h2 {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .header .subtitle {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--pink);
+    margin-top: 2px;
+  }
+  .header .tagline {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 6px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 10px 12px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--border);
+  }
+
+  .card-title {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 7px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-blue  { border-color: #90caf9; background: #f0f7ff; }
+  .card-blue .card-title { color: var(--blue); border-color: var(--blue); }
+
+  .card-pink  { border-color: #f48fb1; background: var(--pink-light); }
+  .card-pink .card-title { color: var(--pink); border-color: var(--pink); }
+
+  .card-purple { border-color: #ce93d8; background: var(--purple-light); }
+  .card-purple .card-title { color: var(--purple); border-color: var(--purple); }
+
+  .card-green { border-color: #a5d6a7; background: var(--green-light); }
+  .card-green .card-title { color: var(--green); border-color: var(--green); }
+
+  .card-orange { border-color: #ffcc80; background: var(--orange-light); }
+  .card-orange .card-title { color: var(--orange); border-color: var(--orange); }
+
+  .card-yellow { border-color: #fff176; background: var(--yellow-light); }
+  .card-yellow .card-title { color: #b07800; border-color: #b07800; }
+
+  .card-teal { border-color: #80cbc4; background: var(--teal-light); }
+  .card-teal .card-title { color: var(--teal); border-color: var(--teal); }
+
+  .card-red { border-color: #ef9a9a; background: var(--red-light); }
+  .card-red .card-title { color: var(--red); border-color: var(--red); }
+
+  /* ── CODE BLOCKS ── */
+  code, .code {
+    font-family: 'Fira Code', monospace;
+    font-size: 10.5px;
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 1px 4px;
+  }
+  pre, .pre {
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    background: var(--code-bg);
+    border-radius: 6px;
+    padding: 7px 9px;
+    margin: 5px 0;
+    white-space: pre;
+    line-height: 1.6;
+    border-left: 3px solid var(--purple);
+    overflow-x: auto;
+  }
+
+  /* ── TAGS & LABELS ── */
+  .tag {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 1px 8px;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .tag-pink { background: var(--pink); color: white; }
+  .tag-blue { background: var(--blue); color: white; }
+  .tag-green { background: var(--green); color: white; }
+  .tag-orange { background: var(--orange); color: white; }
+  .tag-purple { background: var(--purple); color: white; }
+
+  /* ── MINI SECTION TITLES ── */
+  .sec {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--purple);
+    margin: 7px 0 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .sec::before { content: '▸'; font-size: 9px; }
+
+  /* ── BULLETS ── */
+  ul.dot { list-style: none; padding: 0; }
+  ul.dot li { padding-left: 13px; position: relative; margin-bottom: 2px; }
+  ul.dot li::before { content: '•'; position: absolute; left: 2px; color: var(--pink); font-weight: 900; }
+
+  ul.star { list-style: none; padding: 0; }
+  ul.star li { padding-left: 15px; position: relative; margin-bottom: 2px; }
+  ul.star li::before { content: '★'; position: absolute; left: 0; color: var(--yellow); font-size: 9px; top: 1px; }
+
+  ul.check { list-style: none; padding: 0; }
+  ul.check li { padding-left: 16px; position: relative; margin-bottom: 2px; }
+  ul.check li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 900; }
+
+  ul.num { padding-left: 18px; margin-bottom: 3px; }
+  ul.num li { margin-bottom: 2px; }
+
+  /* ── ALERTS ── */
+  .alert {
+    border-radius: 7px;
+    padding: 5px 9px;
+    margin: 5px 0;
+    font-size: 10.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  .alert-warn { background: #fff8e1; border-left: 3px solid var(--yellow); color: #7a5700; }
+  .alert-info { background: #e3f2fd; border-left: 3px solid var(--blue); color: var(--blue); }
+  .alert-danger { background: var(--red-light); border-left: 3px solid var(--red); color: var(--red); }
+  .alert-success { background: var(--green-light); border-left: 3px solid var(--green); color: var(--green); }
+
+  /* ── FORMULA ── */
+  .formula {
+    background: #f3e5f5;
+    border: 1.5px solid #ce93d8;
+    border-radius: 7px;
+    padding: 5px 10px;
+    margin: 4px 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 10.5px;
+    text-align: center;
+    color: var(--purple);
+    font-weight: 600;
+  }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 5px 0;
+  }
+  th {
+    background: var(--purple);
+    color: white;
+    padding: 3px 6px;
+    text-align: left;
+    font-weight: 700;
+  }
+  td {
+    padding: 2px 6px;
+    border-bottom: 1px solid #e0d0f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #faf5ff; }
+
+  /* ── STEP CIRCLES ── */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-bottom: 4px;
+  }
+  .step-num {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: linear-gradient(135deg, #fff9c4, #fff3e0);
+    border: 2px solid var(--yellow);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin: 5px 0;
+  }
+  .highlight-pink {
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+    border: 2px solid var(--pink);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin: 5px 0;
+  }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1.5px dashed #d0b0e8; margin: 8px 0; }
+
+  /* ── MAIN LAYOUT ── */
+  .top-row { display: grid; grid-template-columns: 220px 1fr 220px; gap: 10px; margin-bottom: 10px; }
+  .main-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .full-row { margin-top: 10px; }
+
+  .span2 { grid-column: span 2; }
+
+  .sub-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 6px; }
+  .sub-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 6px; }
+
+  /* ── GRAPH placeholder ── */
+  .graph-area {
+    background: #f8f0ff;
+    border: 1.5px dashed #ce93d8;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--purple);
+    margin: 5px 0;
+  }
+
+  /* ── POLE-ZERO ── */
+  .pz-box {
+    background: #fff;
+    border: 1.5px solid #ce93d8;
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .inline-code { font-family: 'Fira Code', monospace; font-size: 10.5px; background: #f0e6ff; border-radius: 3px; padding: 0 3px; color: var(--purple); font-weight: 500; }
+
+  .comment { color: #888; font-style: italic; }
+  .kw { color: var(--blue); font-weight: 700; }
+  .fn { color: var(--green); }
+  .str { color: var(--orange); }
+
+  .badge {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    border-radius: 20px;
+    padding: 0px 7px;
+    font-size: 9px;
+    font-weight: 800;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .arrow { color: var(--pink); font-weight: 700; }
+
+  p { margin-bottom: 3px; }
+
+  .toc-item { display: flex; align-items: baseline; gap: 4px; margin-bottom: 1px; font-size: 10.5px; }
+  .toc-num { font-weight: 800; color: var(--purple); min-width: 16px; }
+  .toc-dot { flex: 1; border-bottom: 1px dotted #ccc; }
+
+  .two-col { columns: 2; column-gap: 10px; }
+
+  .mini-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin: 5px 0 2px;
+  }
+
+  .recette-box {
+    background: #fff;
+    border: 2px solid var(--pink);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin: 5px 0;
+  }
+  .recette-title {
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--pink);
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .gold { color: #c8970a; }
+  .star-icon { color: var(--yellow); }
+
+  ol.steps-list { padding-left: 18px; margin: 4px 0; }
+  ol.steps-list li { margin-bottom: 2px; font-size: 10.5px; }
+
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <div class="header">
+    <div style="font-size:13px;font-weight:700;color:var(--purple);letter-spacing:2px;text-transform:uppercase;">✦ RÉVISION COMPLÈTE ✦</div>
+    <h1>TRAITEMENT NUMÉRIQUE DU SIGNAL (TNS)</h1>
+    <div class="subtitle">M1 ST – TPs 1 à 4</div>
+    <div class="tagline">On transforme un signal (souvent audio) en représentation fréquentielle, on conçoit un filtre, on le teste et on écoute le résultat !</div>
+  </div>
+
+  <!-- ══════════════════ TOP ROW: TOC | IMPORTS | RAPPEL RAPIDE ══════════════════ -->
+  <div class="top-row">
+
+    <!-- TABLE DES MATIÈRES -->
+    <div class="card card-purple">
+      <div class="card-title">📋 Table des Matières</div>
+      <div class="toc-item"><span class="toc-num">1.</span> Bibliothèques &amp; imports</div>
+      <div class="toc-item"><span class="toc-num">2.</span> Fonctions communes</div>
+      <div class="toc-item"><span class="toc-num">3.</span> TP1 – TFD et filtrage</div>
+      <div class="toc-item"><span class="toc-num">4.</span> TP2 – Filtres RIF (fenêtres)</div>
+      <div class="toc-item"><span class="toc-num">5.</span> TP3 – Filtres RII (bilinéaire)</div>
+      <div class="toc-item"><span class="toc-num">6.</span> TP4 – Filtrage multicadence</div>
+      <div class="toc-item"><span class="toc-num">7.</span> Que fait ce code ?</div>
+      <div class="toc-item"><span class="toc-num">8.</span> Comment écrire le code ?</div>
+      <div class="toc-item"><span class="toc-num">9.</span> <strong>FICHE ULTRA-CONDENSÉE ☆</strong></div>
+    </div>
+
+    <!-- 1. BIBLIOTHÈQUES & IMPORTS -->
+    <div class="card card-blue">
+      <div class="card-title">1. Bibliothèques &amp; Imports ☆</div>
+      <pre><span class="kw">import</span> numpy <span class="kw">as</span> np        <span class="comment"># calcul numérique</span>
+<span class="kw">import</span> scipy.signal <span class="kw">as</span> sp   <span class="comment"># filtres, conception</span>
+<span class="kw">import</span> scipy.io.wavfile <span class="kw">as</span> wav <span class="comment"># lecture/écriture wav</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt <span class="comment"># tracés</span>
+<span class="kw">import</span> sounddevice <span class="kw">as</span> snd   <span class="comment"># écoute audio</span>
+<span class="kw">import</span> time                  <span class="comment"># pauses</span>
+<span class="kw">from</span> plot_zplane <span class="kw">import</span> zplane <span class="comment"># pôles / zéros (TP1)</span></pre>
+      <div class="alert alert-danger">⚠️ <strong>PRIORITAIRE</strong> — Ces lignes sont dans les 4 TPs. Les connaître par cœur !</div>
+    </div>
+
+    <!-- RAPPEL RAPIDE -->
+    <div class="card card-orange">
+      <div class="card-title">⚡ Rappel Rapide</div>
+      <ul class="dot">
+        <li><strong>f<sub>e</sub></strong> : fréquence d'échantillonnage (Hz)</li>
+        <li><strong>T<sub>e</sub> = 1/f<sub>e</sub></strong> : période d'échantillonnage</li>
+        <li><strong>N</strong> : nombre d'échantillons</li>
+        <li><strong>TFD</strong> : Transformée de Fourier Discrète</li>
+        <li><strong>RIF</strong> : Réponse Impulsionnelle Finie (a = 1)</li>
+        <li><strong>RII</strong> : Réponse Impulsionnelle Infinie (a ≠ 1)</li>
+        <li>|pôle| &lt; 1 <span style="color:var(--green)">→ filtre RII stable ✔</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════ MAIN BODY ROW 1 ══════════════════ -->
+  <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:10px;">
+
+    <!-- 3. TP1 -->
+    <div class="card card-green">
+      <div class="card-title">3. TP1 – TFD et Filtrage de Base</div>
+      <p style="font-size:10px;color:var(--gray);margin-bottom:5px;"><em>Objectif : analyser le signal, concevoir un filtre (PB ou PH), étudier ses réponses.</em></p>
+      <div class="sec">Étapes clés :</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div>Lire et écouter le signal</div></div>
+        <div class="step"><div class="step-num">2</div><div>Tracer signal temporel + spectre (dB)</div></div>
+        <div class="step"><div class="step-num">3</div><div>Définir filtre (b, a)</div></div>
+        <div class="step"><div class="step-num">4</div><div>Tracer pôles/zéros (zplane)</div></div>
+        <div class="step"><div class="step-num">5</div><div>Réponse impulsionnelle h[n]</div></div>
+        <div class="step"><div class="step-num">6</div><div>Réponse fréquentielle H(f)</div></div>
+        <div class="step"><div class="step-num">7</div><div>Filtrer le signal et écouter</div></div>
+      </div>
+      <div class="sub-grid-2" style="margin-top:8px;">
+        <div style="background:#e8f5e9;border-radius:8px;padding:6px;border:1.5px solid #a5d6a7;">
+          <div style="font-size:9.5px;font-weight:800;color:var(--green);text-align:center;margin-bottom:3px;">Passe-bas (PB)</div>
+          <div class="formula" style="font-size:9.5px;">H(z) = (z² + 2z + 1) / (z² − √2/2·z + 1/2)</div>
+          <pre style="font-size:9px;padding:4px 6px;">b = [1, 2, 1]
+a = [1, -0.5√2, 0.5]</pre>
+        </div>
+        <div style="background:#fce4ec;border-radius:8px;padding:6px;border:1.5px solid #f48fb1;">
+          <div style="font-size:9.5px;font-weight:800;color:var(--pink);text-align:center;margin-bottom:3px;">Passe-haut (PH)</div>
+          <div class="formula" style="font-size:9.5px;">H(z) = (z² − 2z + 1) / (z² − √2/2·z + 1/2)</div>
+          <pre style="font-size:9px;padding:4px 6px;">b = [1, -2, 1]
+a = [1, -0.5√2, 0.5]</pre>
+        </div>
+      </div>
+      <div style="background:#fff8e1;border-radius:7px;padding:6px 8px;margin-top:6px;border:1.5px solid var(--yellow);">
+        <strong>Différence :</strong> signe du coefficient central de b (+2 pour PB, −2 pour PH)
+      </div>
+      <div class="highlight-pink" style="margin-top:6px;">
+        <strong>À SAVOIR / EXAMEN</strong>
+        <ul class="dot" style="margin-top:3px;">
+          <li>Identifier PB ou PH d'après b et a</li>
+          <li>Expliquer la stabilité : |pôle| &lt; 1</li>
+          <li>Expliquer fftshift</li>
+          <li>Interpréter un spectre en dB</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2. FONCTIONS COMMUNES -->
+    <div class="card card-blue">
+      <div class="card-title">2. Fonctions Communes à tous les TPs</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;">
+
+        <!-- 2.1 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.1 Lecture audio</div>
+          <pre style="font-size:9px;">fe, x = wav.read(
+  'fichier.wav')</pre>
+          <ul class="dot" style="font-size:9.5px;">
+            <li><strong>fe</strong> : fréquence d'échantillonnage (Hz)</li>
+            <li><strong>x</strong> : signal (tableau numpy)</li>
+            <li><strong>x.dtype</strong> : type (uint8, int16…)</li>
+            <li><strong>len(x)</strong> : nombre d'échantillons N</li>
+          </ul>
+          <div class="alert alert-warn" style="font-size:9px;">⚠️ wav.read retourne (fe, x)</div>
+        </div>
+
+        <!-- 2.2 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.2 Écoute audio</div>
+          <pre style="font-size:9px;">snd.play(x, fe)
+time.sleep(3)
+snd.wait()</pre>
+          <div class="alert alert-warn" style="font-size:9px;">⚠️ Toujours mettre time.sleep() entre deux écoutes !</div>
+        </div>
+
+        <!-- 2.3 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.3 Vecteur temps</div>
+          <pre style="font-size:9px;">Te = 1/fe
+N = len(x)
+t = np.arange(N) * Te
+t = [0, Te, 2Te, ..., (N-1)Te]</pre>
+        </div>
+
+        <!-- 2.4 -->
+        <div style="background:#f3e5f5;border-radius:8px;padding:7px;border:1px solid #ce93d8;grid-column:span 3;">
+          <div class="mini-title" style="color:var(--purple);">2.4 TFD et spectre <span class="badge">PRIORITAIRE</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+            <div>
+              <pre style="font-size:9px;">NF = N
+TFx = np.fft.fft(x, NF) / N
+TFx = np.fft.fftshift(TFx)
+TFxm = np.abs(TFx)
+TFxdB = 20 * np.log10(TFxm)
+f = np.arange(-NF/2, NF/2) * fe / NF</pre>
+            </div>
+            <div>
+              <ul class="dot" style="font-size:9.5px;">
+                <li>÷ N : normalise (amplitude correcte)</li>
+                <li>fft → TFD complexe</li>
+                <li>fftshift → centre entre -fe/2 et +fe/2</li>
+                <li>abs → amplitude</li>
+                <li>20log10 → passage en dB</li>
+                <li>f : axe des fréquences centré</li>
+              </ul>
+            </div>
+            <div>
+              <div style="background:white;border-radius:6px;padding:6px;border:1px solid #ce93d8;">
+                <div style="font-size:9px;font-weight:700;text-align:center;color:var(--purple);margin-bottom:3px;">Amplitude (dB)</div>
+                <svg viewBox="0 0 140 70" width="100%" height="60">
+                  <line x1="10" y1="55" x2="130" y2="55" stroke="#555" stroke-width="1.2"/>
+                  <line x1="70" y1="5" x2="70" y2="60" stroke="#555" stroke-width="1.2"/>
+                  <polyline points="10,55 35,55 40,20 50,10 60,15 70,18 80,15 90,10 100,20 105,55 130,55" fill="none" stroke="#e91e8c" stroke-width="2"/>
+                  <text x="5" y="59" font-size="7" fill="#555">-fe/2</text>
+                  <text x="65" y="67" font-size="7" fill="#555">0</text>
+                  <text x="110" y="59" font-size="7" fill="#555">+fe/2</text>
+                  <text x="120" y="62" font-size="7" fill="#555">f (Hz)</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.5 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.5 Tracer une figure</div>
+          <pre style="font-size:9px;">plt.figure(1)
+plt.subplot(211)  <span class="comment"># 2 lignes,1col,1er graphe</span>
+plt.plot(t, x)    <span class="comment"># signal temporel</span>
+plt.stem(t, h)    <span class="comment"># bâtons (impulsion)</span>
+plt.title('Signal original')
+plt.xlabel('Temps')
+plt.ylabel('Amplitude')
+plt.grid(); plt.tight_layout(); plt.show()
+<span class="comment"># subplot(abc): a=lignes, b=colonnes,
+# c=numéro (à partir de 1)</span></pre>
+        </div>
+
+        <!-- 2.6 -->
+        <div style="background:#e8f5e9;border-radius:8px;padding:7px;border:1px solid #a5d6a7;">
+          <div class="mini-title" style="color:var(--green);">2.6 Formatage audio (normalisation)</div>
+          <pre style="font-size:9px;"><span class="comment"># x en uint8 [0..255]</span>
+n8 = 2**8
+yf = np.uint8((y-min(y))*(n8-1) / (max(y)-min(y)))
+
+<span class="comment"># x en int16 [-32768..32767]</span>
+n16 = 2**16
+yf = np.int16((y-min(y))*(n16-1) / (max(y)-min(y)) - n16//2)
+
+<span class="comment"># x en int8 [-128..127]</span>
+yf = np.int8(y / max(abs(y)) * 127)</pre>
+          <div style="background:#b2dfdb;border-radius:5px;padding:4px 6px;font-size:9px;margin-top:3px;color:#004d40;">
+            ↩ Ramène le signal dans la plage attendue par le lecteur audio !
+          </div>
+        </div>
+
+        <!-- 2.7 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.7 Filtrage</div>
+          <pre style="font-size:9px;">y = sp.filtfilt(b, a, x)
+<span class="comment"># b : numérateur H(z)
+# a : dénominateur H(z)
+# x : entrée
+# y : sortie filtrée</span></pre>
+          <div class="alert alert-info" style="font-size:9px;">RIF → a = 1 (pas de feedback)</div>
+        </div>
+
+        <!-- 2.8 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.8 Réponse impulsionnelle</div>
+          <pre style="font-size:9px;">Lh = 50
+Dirac = np.zeros(Lh)
+Dirac[0] = 1
+h = sp.filtfilt(b, a, Dirac)</pre>
+          <div style="font-size:9px;color:var(--gray);margin-top:3px;">Dirac = δ[n] = 1 en n=0, 0 ailleurs</div>
+        </div>
+
+        <!-- 2.9 -->
+        <div style="background:#f0f7ff;border-radius:8px;padding:7px;border:1px solid #90caf9;">
+          <div class="mini-title">2.9 Réponse fréquentielle</div>
+          <pre style="font-size:9px;">L = 256
+freq, Hf = sp.freqz(b, a, L, fs=fe)
+|Hf| = np.abs(Hf)
+|Hf|dB = 20*np.log10(np.abs(Hf)+5e-10)
+<span class="comment"># freq : de 0 à fe/2 (Hz)</span></pre>
+        </div>
+
+        <!-- 2.10 -->
+        <div style="background:#f3e5f5;border-radius:8px;padding:7px;border:1px solid #ce93d8;">
+          <div class="mini-title" style="color:var(--purple);">2.10 Pôles et zéros</div>
+          <pre style="font-size:9px;">z, p = zplane(b, a)
+poles = np.roots(a)
+print(np.abs(poles))</pre>
+          <div style="font-size:9px;color:var(--red);margin-top:3px;">⚠️ tous doivent être &lt; 1</div>
+          <div style="display:flex;justify-content:center;margin-top:4px;">
+            <svg viewBox="0 0 90 70" width="90" height="70">
+              <circle cx="45" cy="35" r="25" fill="none" stroke="#ce93d8" stroke-width="1.2"/>
+              <line x1="10" y1="35" x2="80" y2="35" stroke="#888" stroke-width="0.8"/>
+              <line x1="45" y1="5" x2="45" y2="65" stroke="#888" stroke-width="0.8"/>
+              <text x="75" y="39" font-size="7" fill="#555">Re</text>
+              <text x="47" y="10" font-size="7" fill="#555">Im</text>
+              <text x="28" y="25" font-size="9" fill="var(--blue)" font-weight="bold">×</text>
+              <text x="55" y="48" font-size="9" fill="var(--blue)" font-weight="bold">×</text>
+              <circle cx="35" cy="42" r="4" fill="none" stroke="var(--pink)" stroke-width="1.5"/>
+              <circle cx="58" cy="28" r="4" fill="none" stroke="var(--pink)" stroke-width="1.5"/>
+              <text x="5" y="62" font-size="6.5" fill="var(--blue)">× pôles</text>
+              <text x="45" y="62" font-size="6.5" fill="var(--pink)">○ zéros</text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FILTRAGE MULTICADENCE sidebar col 3 preview -->
+    <div class="card card-teal">
+      <div class="card-title">6. TP4 – Filtrage Multicadence</div>
+
+      <div style="background:#e0f7fa;border-radius:7px;padding:6px;margin-bottom:6px;border:1px solid #80cbc4;">
+        <div style="font-size:10px;font-weight:800;color:var(--teal);margin-bottom:3px;">6.1 Décimation (sous-échantillonnage)</div>
+        <pre style="font-size:9px;">Sans filtre : x_d2 = x[::D]   (D = 2)
+x_d2 = sp.decimate(x, D)
+sp.decimate → filtre anti-repliement
+puis décimation : fe_c = fe/(2D)</pre>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px;font-size:9px;">
+          <div style="background:white;border-radius:4px;padding:3px 5px;border:1px solid #80cbc4;">
+            <strong>Écoute :</strong><br>
+            <code style="font-size:8.5px;">snd.play(x_d2, fe)</code><br>
+            → son accéléré !<br>
+            <code style="font-size:8.5px;">snd.play(x_d2, fe/D)</code><br>
+            → son normal
+          </div>
+          <div style="background:white;border-radius:4px;padding:3px 5px;border:1px solid #80cbc4;">
+            <strong>Sans filtre :</strong><br>
+            <code style="font-size:8.5px;">snd.play(x_dz, fe)</code><br>
+            → son accéléré !<br>
+            <code style="font-size:8.5px;">snd.play(x_dz, fe/D)</code><br>
+            → son normal
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#e0f7fa;border-radius:7px;padding:6px;margin-bottom:6px;border:1px solid #80cbc4;">
+        <div style="font-size:10px;font-weight:800;color:var(--teal);margin-bottom:3px;">6.2 Interpolation (sur-échantillonnage)</div>
+        <pre style="font-size:9px;">Sans filtre :
+  x_up = np.zeros(len(x)*D)
+  x_up[::D] = x
+Avec filtre : x_up_f = sp.resample(x, len(x)*D)
+              sp.resample → rééchantillonnage
+                            avec filtrage (FFT)</pre>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px;font-size:9px;">
+          <div style="background:white;border-radius:4px;padding:3px 5px;border:1px solid #80cbc4;">
+            <strong>Écoute :</strong><br>
+            <code style="font-size:8.5px;">snd.play(x_up, fe)</code><br>
+            → son ralenti !<br>
+            <code style="font-size:8.5px;">snd.play(x_up_f, fe*D)</code><br>
+            → son normal
+          </div>
+          <div style="background:white;border-radius:4px;padding:3px 5px;border:1px solid #80cbc4;">
+            <strong>Sans filtre :</strong><br>
+            <code style="font-size:8.5px;">snd.play(x_up, fe)</code><br>
+            → son ralenti !<br>
+            <code style="font-size:8.5px;">snd.play(x_up_f, fe*D)</code><br>
+            → son normal
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#b2ebf2;border-radius:7px;padding:6px;border:1px solid #80cbc4;">
+        <div style="font-size:10px;font-weight:800;color:var(--teal);margin-bottom:3px;">6.3 Changement rationnel (ex : 1.5 × fe)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--teal);">Méthode 1 (directe)</div>
+            <pre style="font-size:8.5px;">x_res = sp.resample(x,
+  int(len(x)*1.5))</pre>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--teal);">Méthode 2 (3/2)</div>
+            <pre style="font-size:8.5px;">x_up3 = sp.resample(x,
+  len(x)*3)
+x_res = x_up3[::2]  # ÷2</pre>
+          </div>
+        </div>
+        <div class="alert alert-warn" style="font-size:9px;margin-top:4px;">⚠️ Règle d'or : TOUJOURS filtrer avant de décimer (sinon repliement) !</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ROW 2: TP2 | TP3 ══════════════════ -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+
+    <!-- 4. TP2 - FILTRES RIF -->
+    <div class="card card-pink">
+      <div class="card-title">4. TP2 – Filtres RIF (Méthode des Fenêtres)</div>
+      <p style="font-size:10px;color:var(--gray);margin-bottom:5px;"><em>Objectif : débruiter avec un filtre RIF passe-bas (fenêtre). Étapes : lire → bruit → signal bruité → filtre RIF → filtrer</em></p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <div>
+          <div class="mini-title">4.1 Génération du bruit</div>
+          <pre style="font-size:9px;">A = 50
+bruit = A*(sin(2π*1500t)+sin(2π*2000t)
+         +sin(2π*3000t))
+<span class="comment"># 3 sinusoïdes : 1500, 2000, 3000 Hz (ampl. = 50)</span></pre>
+        </div>
+        <div>
+          <div class="mini-title">4.2 Ordre du filtre</div>
+          <pre style="font-size:9px;">deltaf = fe / 1000
+Ncoef = int(3.3 / fe / deltaf)  <span class="comment"># Hamming</span>
+if Ncoef % 2 == 0: Ncoef += 1</pre>
+          <div style="font-size:9px;background:#fce4ec;border-radius:5px;padding:3px 6px;border:1px solid #f48fb1;margin-top:3px;">
+            Rendre impair !
+          </div>
+        </div>
+
+        <div style="grid-column:span 2;">
+          <div class="mini-title">4.3 Conception RIF</div>
+          <pre style="font-size:9px;">fc = 1440 Hz
+fe = 1500 Hz
+b = firwin(Ncoef, fc/(fe/2), window='hamming')</pre>
+          <pre style="font-size:9px;">f_c = fc/(fe/2)  <span class="comment"># normalise entre 0 et 1</span>
+b = sp.firwin(Ncoef, f_c, window='hamming')
+<span class="comment"># Appliquer :  a = 1</span></pre>
+        </div>
+      </div>
+
+      <hr>
+      <div class="mini-title" style="color:var(--gray);">Tableau comparatif des fenêtres</div>
+      <table>
+        <thead>
+          <tr><th>Fenêtre</th><th>Au (dB)</th><th>Formule ordre N</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rectangulaire</td><td>21</td><td>1.8 × fe/Δf</td></tr>
+          <tr><td>Bartlett</td><td>25</td><td>2 × fe/Δf</td></tr>
+          <tr><td>Hanning</td><td>44</td><td>6.2 × fe/Δf</td></tr>
+          <tr><td><strong>Hamming ✓</strong></td><td><strong>53</strong></td><td><strong>6.6 × fe/Δf</strong></td></tr>
+          <tr><td>Blackman</td><td>74</td><td>11 × fe/Δf</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-warn" style="margin-top:5px;">
+        <strong>EXAMEN</strong> : calculer Ncoef, choisir fenêtre, écrire firwin, pourquoi fe, fc, Δf, Au ?
+      </div>
+    </div>
+
+    <!-- 5. TP3 - FILTRES RII -->
+    <div class="card card-purple">
+      <div class="card-title">5. TP3 – Filtres RII (Méthode Bilinéaire)</div>
+      <p style="font-size:10px;color:var(--gray);margin-bottom:5px;"><em>Objectif : débruiter avec des filtres RII (Butterworth, Cheby 1/II, Elliptique)</em></p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <div>
+          <div class="mini-title">5.1 Paramètres</div>
+          <pre style="font-size:9px;">fc = 1400 Hz
+delta_f = fe/50
+fp = fc - delta_f/2
+fa = fc + delta_f/2
+Ap = 3 dB (ondulation BP)
+Aa = 50 dB (att. BA)
+fc = (fp + fa) / 2</pre>
+        </div>
+
+        <div>
+          <div class="mini-title">5.2 Instructions (Python)</div>
+          <pre style="font-size:9px;"><span class="comment"># Butterworth :</span>
+N,fc = sp.buttord(fp,fa,Ap,Aa,fs=fe)
+b, a = sp.butter(N,fc,'low',fs=fe)
+<span class="comment"># Chebychev I :</span>
+N,fc = sp.cheb1ord(fp,fa,Ap,Aa,fs=fe)
+b, a = sp.cheby1(N,Ap,fc,'low',fs=fe)
+<span class="comment"># Chebychev II :</span>
+N,fc = sp.cheb2ord(fp,fa,Ap,Aa,fs=fe)
+b, a = sp.cheby2(N,Aa,fc,'low',fs=fe)
+<span class="comment"># Elliptique (Cauer) :</span>
+N,fc = sp.ellipord(N,Aa,fc,'low',fs=fe)
+b, a = sp.ellip(N,Ap,Aa,fc,'low',fs=fe)</pre>
+        </div>
+      </div>
+
+      <div class="mini-title" style="margin-top:6px;">5.3 Comparatif des filtres RII</div>
+      <table>
+        <thead>
+          <tr><th>Filtre</th><th>Ord. BP</th><th>Ond. BA</th><th>Ordre</th><th>Trans.</th><th>Caractéristique</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Butterworth</td><td>Non</td><td>Non</td><td>Élevé</td><td>Douce</td><td>Monotone simple</td></tr>
+          <tr><td>Chébychev I</td><td>Oui</td><td>Non</td><td>Moyen</td><td>Raide</td><td>Ondulation en BP</td></tr>
+          <tr><td>Chébychev II</td><td>Non</td><td>Oui</td><td>Moyen</td><td>Raide</td><td>Ondulation en BA</td></tr>
+          <tr><td>Elliptique</td><td>Oui</td><td>Oui</td><td>Minimal</td><td>Très raide</td><td>Meilleur compromis</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-success" style="margin-top:6px;font-size:9.5px;">
+        ✓ 5.4 Stabilité RII : poles = np.roots(a) → tous les modules &lt; 1 ✓
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ROW 3: CODE + RECETTE + FICHE ULTRA ══════════════════ -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+
+    <!-- 7. QUE FAIT CE CODE ? -->
+    <div class="card card-yellow">
+      <div class="card-title">7. Que fait ce Code ? (Analyse rapide)</div>
+      <ul class="dot" style="font-size:10px;">
+        <li><span class="inline-code">FFT</span> + <span class="inline-code">FFTSHIFT</span> → spectre centré en fréq.</li>
+        <li><span class="inline-code">/N → normalisation (amplitude correcte)</span></li>
+        <li><span class="inline-code">Ncoef calcul</span> → ordre filtre RIF Hamming</li>
+        <li><span class="inline-code">firwin(...)</span> → filtre RIF passe-bas</li>
+        <li><span class="inline-code">sp.zeros(a), x[::D]=x</span> → interpolation sans filtre</li>
+        <li><span class="inline-code">sp.decimate</span> → décimation avec filtre</li>
+        <li><span class="inline-code">buttord(...)</span> → calcule N et fc automatiquement</li>
+        <li><span class="inline-code">sp.applique le filtre (b,a)</span></li>
+        <li><span class="inline-code">lfilter(b, a, x)</span> → filtre le signal</li>
+        <li>normalisation → pour écouter correctement</li>
+      </ul>
+      <hr>
+      <div class="highlight">
+        <strong>Formules utiles</strong>
+        <div class="formula" style="font-size:9.5px;margin-top:4px;">T<sub>e</sub> = 1/f<sub>e</sub></div>
+        <div class="formula" style="font-size:9.5px;">f<sub>c</sub> = f<sub>e</sub> / (f<sub>e</sub>/f<sub>c</sub>)</div>
+        <div class="formula" style="font-size:9.5px;">f<sub>c</sub> = (f<sub>p</sub> + f<sub>a</sub>) / 2</div>
+        <div class="formula" style="font-size:9.5px;">Δf = f<sub>a</sub> − f<sub>c</sub></div>
+      </div>
+      <hr style="margin:6px 0;">
+      <div style="background:#fff9c4;border-radius:7px;padding:6px;border:1.5px solid var(--yellow);">
+        <strong>Mémo Mnémo</strong>
+        <ul class="dot" style="margin-top:3px;font-size:9.5px;">
+          <li>RIF → a = 1 (pas de retour)</li>
+          <li>RII → a ≠ 1 (retour présent)</li>
+          <li>Décimer → ↓ (moins d'éch.)</li>
+          <li>Interpoler → ↑ (plus d'éch.)</li>
+          <li>FFT + fftshift → spectre centré</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 8. COMMENT ÉCRIRE LE CODE ? -->
+    <div class="card card-green">
+      <div class="card-title">8. Comment écrire le Code ? (Recette)</div>
+
+      <div class="recette-box" style="border-color:var(--blue);">
+        <div class="recette-title" style="color:var(--blue);">Recette Spectre</div>
+        <ol class="steps-list">
+          <li>Imports</li>
+          <li>Lecture + écoute audio</li>
+          <li>Vecteur temps</li>
+          <li>Signal temporel + spectre</li>
+          <li>Conception du filtre (b,a)</li>
+          <li>Réponse h[n] et H(f)</li>
+          <li>Filtrage du signal</li>
+          <li>Formatage + écoute</li>
+          <li>plt.show()</li>
+        </ol>
+        <div style="margin-top:5px;">
+          <pre style="font-size:9px;">N = len(s)
+TF = np.fft.fft(s, N)/N
+TF = np.fft.fftshift(TF)
+f = np.arange(-N/2, N/2)*fe/N
+return 20*np.log10(np.abs(TF)+5e-10)</pre>
+        </div>
+      </div>
+
+      <div class="recette-box" style="border-color:var(--purple);margin-top:6px;">
+        <div class="recette-title" style="color:var(--purple);">Recette RII</div>
+        <ul class="dot" style="font-size:9.5px;">
+          <li>Spécifier (fc, fa)</li>
+          <li>Ncoef = int(6.6*fe/Δf)</li>
+          <li>f<sub>cn</sub> = fc/(fe/2)</li>
+          <li>b = firwin(Ncoef, f<sub>cn</sub>, window='hamming')</li>
+        </ul>
+        <div class="mini-title" style="color:var(--purple);margin-top:5px;">Recette RIF</div>
+        <ul class="dot" style="font-size:9.5px;">
+          <li>Spécifier (fc, fa)</li>
+          <li>Ncoef = int(6.6*fe/Δf)</li>
+          <li>f<sub>cn</sub> = fc/(fe/2)</li>
+          <li>N,fc = sp.buttord(fp,fa,3,50,fs=fe)</li>
+          <li>b,a = butter(N,fc,'low',fs=fe)</li>
+          <li>y = filtfilt(b, a, x)</li>
+        </ul>
+        <div class="mini-title" style="color:var(--teal);margin-top:5px;">Décimation</div>
+        <pre style="font-size:9px;">y_up = sp.decimate(x, D)
+snd.play(y_up, fe/D)</pre>
+        <div class="mini-title" style="color:var(--teal);">Interpolation</div>
+        <pre style="font-size:9px;">x_up = np.zeros(len(x)*D)
+x_up[::D] = x
+x_up_f = sp.resample(x, len(x)*D)
+snd.play(x_up_f, fe*D)</pre>
+      </div>
+
+      <div style="margin-top:6px;">
+        <div class="mini-title" style="color:var(--red);">Erreurs fréquentes</div>
+        <ul class="dot" style="font-size:9.5px;">
+          <li>Oublier la TFT</li>
+          <li>Oublier fftshift → spectre décalé</li>
+          <li>Oublier time.sleep() entre 2 écoutes</li>
+          <li>Normalisation int16 : [-32768..32767]</li>
+          <li>Décimer sans filtre → aliasing (repliement)</li>
+          <li>Oublier Fe dans les fonctions de filtrage</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 9. FICHE ULTRA-CONDENSÉE -->
+    <div class="card" style="background:linear-gradient(135deg,#fff9c4,#fce4ec,#e8f5e9);border:2px solid var(--pink);">
+      <div class="card-title" style="color:var(--purple);border-color:var(--purple);">9. ⭐ Fiche Ultra-Condensée (À Retenir)</div>
+      <ul class="dot" style="font-size:10px;">
+        <li><strong>Imports</strong> : numpy, scipy, signal, wavfile, plt, sounddevice, time</li>
+        <li><strong>Lire</strong> : <code>fe, x = wav.read('fichier.wav')</code></li>
+        <li><strong>Spectre</strong> : <code>TF = fftshift(fft(x)/N) → 20log10(TF)</code></li>
+        <li><strong>Écoute</strong> : <code>snd.play(sig, fe) ; time.sleep(3) ; snd.wait()</code></li>
+        <li><strong>Réponses</strong> : <code>h = filtfilt(b, a, Dirac) ; freqz(b,a,L,fs=fe)</code></li>
+        <li><strong>RIF</strong> : <code>N=6.6*fe/Δf ; b = firwin(N, |pôle| &lt; 1) (stable)</code></li>
+        <li><strong>RII</strong> : <code>buttord/butter ; cheb1ord/cheby1 ; cheb2ord/cheby2 ; ellipord/ellip</code></li>
+        <li><strong>Décimation</strong> : <code>decimate(x, D)</code> |pôle| &lt; 1 (stable)</li>
+        <li><strong>Interpolation</strong> : <code>resample(x, N*D)</code> (filtre ↑)</li>
+        <li>Toujours normaliser pour l'écoute (uint8/int16/int8) !</li>
+      </ul>
+      <hr style="margin:7px 0;">
+      <div style="background:white;border-radius:8px;padding:7px;border:1.5px solid var(--pink);">
+        <div style="font-size:10.5px;font-weight:800;color:var(--pink);text-align:center;margin-bottom:4px;">Règle d'Or</div>
+        <div class="formula">filtrer → décimer → vérifier</div>
+        <div style="text-align:center;font-size:9.5px;margin-top:4px;color:var(--gray);">"Un bon traitement commence toujours par un bon spectre"</div>
+      </div>
+      <hr style="margin:7px 0;">
+      <div style="background:#e8f5e9;border-radius:8px;padding:7px;border:1.5px solid #a5d6a7;text-align:center;">
+        <div style="font-size:13px;font-weight:900;color:var(--green);">Bon Courage</div>
+        <div style="font-size:10px;color:var(--gray);">et bonne révision ! 😊</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
